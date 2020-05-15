@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context-3.1.xsd
+                           http://www.springframework.org/schema/mvc
+                           http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!-- 配置自动扫描 -->
+    <context:component-scan base-package="com.wang.project.demo"/>
+
+    <!-- 读取properties文件,配置多个properties配置文件 -->
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" scope="prototype">
+<!--        <property name="location" value="classpath:jdbc.properties"/>-->
+        <property name="locations">
+            <list>
+                <value>classpath:jdbc.properties</value>
+                <value>classpath:application.properties</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- dbcp Datasource -->
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="${driver}" />
+        <property name="url" value="${url}" />
+        <property name="username" value="${username}" />
+        <property name="password" value="${password}" />
+        <!-- 初始化连接大小 -->
+        <property name="initialSize" value="${initialSize}"/>
+        <!-- 连接池最大数量 -->
+        <property name="maxActive" value="${maxActive}"/>
+        <!-- 连接池最大空闲 -->
+        <property name="maxIdle" value="${maxIdle}"/>
+        <!-- 连接池最小空闲 -->
+        <property name="minIdle" value="${minIdle}"/>
+        <!-- 获取连接最大等待时间 -->
+        <property name="maxWait" value="${maxWait}"/>
+        <!-- 设置数据库是否自动提交 true为自动提交事务 false为不提交事务 -->
+        <property name="defaultAutoCommit" value="true"/>
+    </bean>
+
+    <!-- spring和MyBatis完美整合，不需要mybatis的配置映射文件 -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+<!--        <property name="configLocation" value="classpath:mybatis.xml"/>-->
+        <!-- 自动扫描mapping.xml文件 -->
+        <property name="mapperLocations" value="classpath:mapper/*.xml"></property>
+    </bean>
+
+    <!-- 自动扫描和注册Mapper接口 basePackage是用来指定Mapper接口文件所在的基包， 在这个基包或其所有子包下面的Mapper接口都将被搜索到。
+            多个基包之间可以使用逗号或者分号进行分隔 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.wang.project.demo.dao"/>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+    </bean>
+
+<!--    &lt;!&ndash; 配置事务管理器 &ndash;&gt;-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <tx:annotation-driven proxy-target-class="true" transaction-manager="transactionManager"/>
+
+    <bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor"/>
+
+    <!-- 配置jdk中的线程池 -->
+<!--    <bean id="linkQueue" class="java.util.concurrent.LinkedBlockingQueue">-->
+<!--        <constructor-arg name="capacity" value="${thread.pool.linkQueue.size}" type="int"/>-->
+<!--    </bean>-->
+<!--    <bean id="threadPoolExecutor" class="java.util.concurrent.ThreadPoolExecutor">-->
+<!--        <constructor-arg name="corePoolSize" value="${thread.pool.core.size}" type="int"/>-->
+<!--        <constructor-arg name="maximumPoolSize" value="${thread.pool.max.size}" type="int"/>-->
+<!--        &lt;!&ndash; 允许非核心空闲线程存活的最大时间 &ndash;&gt;-->
+<!--        <constructor-arg name="keepAliveTime" value="${thread.pool.keep.alive.time}" type="long"/>-->
+<!--        <constructor-arg name="unit" value="${thread.pool.time.unit}" />-->
+<!--        <constructor-arg name="workQueue" ref="linkQueue"/>-->
+<!--    </bean>-->
+
+</beans>
