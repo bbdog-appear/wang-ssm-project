@@ -1,5 +1,6 @@
 package com.wang.project.demo.test;
 
+import com.wang.project.demo.task.MyTask;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
@@ -9,9 +10,7 @@ import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * @Description TODO
@@ -25,7 +24,16 @@ public class TestBean {
     static Logger logger = LoggerFactory.getLogger(TestBean.class);
 
     public static void main(String[] args) {
-        test2();
+//        test2();
+        System.out.println("now："+new Date());
+        Calendar calendar=Calendar.getInstance();
+        calendar.add(Calendar.SECOND,10);
+        Date date=calendar.getTime();
+        MyTask task = new MyTask();
+        Timer timer = new Timer();
+        //后一个参数是任务的执行时间,timer
+        timer.schedule(task,date);
+        System.out.println("主线程执行完");
     }
 
     public static void test2(){

@@ -2,6 +2,8 @@ package com.wang.project.demo.dao;
 
 import com.wang.project.demo.entity.WcProductEO;
 
+import java.util.List;
+
 public interface WcProductDao {
 
     /**
@@ -21,4 +23,13 @@ public interface WcProductDao {
      * @return void
      **/
     void updateWcProductEOById(WcProductEO wcProductEO);
+
+    /**
+     * @author wangcheng
+     * @Description 查询所有产品列表
+     * @Date 16:40 2020/5/18
+     * @Param []
+     * @return java.util.List<com.wang.project.demo.entity.WcProductEO>
+     **/
+    List<WcProductEO> selectAllWcProductEOs();
 }

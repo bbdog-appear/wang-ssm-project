@@ -1,6 +1,7 @@
 import com.wang.project.demo.config.CreateBeanConfig;
 import com.wang.project.demo.entity.User;
 import com.wang.project.demo.entity.WcProductEO;
+import com.wang.project.demo.service.TestLambdaService;
 import com.wang.project.demo.service.TestService;
 import com.wang.project.demo.service.TestThreadPoolService;
 import com.wang.project.demo.service.WcProductService;
@@ -8,15 +9,12 @@ import com.wang.project.demo.test.Simple;
 import com.wang.project.demo.test.SimpleInner;
 import com.wang.project.demo.test.SimpleInterface;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.session.SqlSessionFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -57,6 +55,20 @@ public class DemoApplicationTest {
     private ThreadPoolTaskExecutor threadPoolTaskExecutor;
     @Autowired
     private TestThreadPoolService testThreadPoolService;
+    @Autowired
+    private TestLambdaService testLambdaService;
+
+    /**
+     * @author wangcheng
+     * @Description 测试jdk8中的lambda表达式（集合）
+     * @Date 17:23 2020/5/18
+     * @Param []
+     * @return void
+     **/
+    @Test
+    public void testLambda(){
+        testLambdaService.testLambda();
+    }
 
     /**
      * @author wangcheng
@@ -67,8 +79,12 @@ public class DemoApplicationTest {
      **/
     @Test
     public void testThreadPool(){
-        List<WcProductEO> wcProductEOs = getWcProductEOs();
-        testThreadPoolService.testTheadPool(wcProductEOs);
+        try {
+            List<WcProductEO> wcProductEOs = getWcProductEOs();
+            testThreadPoolService.testTheadPool(wcProductEOs);
+        }catch (Exception e){
+            log.error("异常",e);
+        }
     }
 
     private List<WcProductEO> getWcProductEOs(){
