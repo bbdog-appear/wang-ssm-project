@@ -1,10 +1,8 @@
+import com.wang.project.demo.biz.TestTheadPoolServiceBiz;
 import com.wang.project.demo.config.CreateBeanConfig;
 import com.wang.project.demo.entity.User;
 import com.wang.project.demo.entity.WcProductEO;
-import com.wang.project.demo.service.TestLambdaService;
-import com.wang.project.demo.service.TestService;
-import com.wang.project.demo.service.TestThreadPoolService;
-import com.wang.project.demo.service.WcProductService;
+import com.wang.project.demo.service.*;
 import com.wang.project.demo.test.Simple;
 import com.wang.project.demo.test.SimpleInner;
 import com.wang.project.demo.test.SimpleInterface;
@@ -16,6 +14,7 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.stereotype.Service;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -24,7 +23,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.Future;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @Description TODO
@@ -37,6 +39,12 @@ import java.util.concurrent.Future;
 @ContextConfiguration(locations = {"classpath:spring-mybatis.xml"})
 @Slf4j
 public class DemoApplicationTest {
+
+    //线程池
+    private ThreadPoolExecutor theadPoolExecutor = new ThreadPoolExecutor(
+            10, 20, 30, TimeUnit.SECONDS,
+            new ArrayBlockingQueue<Runnable>(20), new ThreadPoolExecutor.AbortPolicy());
+
     @Autowired
     private TestService testService;
     @Autowired
@@ -57,6 +65,40 @@ public class DemoApplicationTest {
     private TestThreadPoolService testThreadPoolService;
     @Autowired
     private TestLambdaService testLambdaService;
+    @Autowired
+    private TestTryCatchFinallyService testTryCatchFinallyService;
+    @Autowired
+    private TestLockMechanismService testLockMechanismService;
+
+
+    /**
+     * 测试锁机制
+     *
+     * @param
+     * @return void
+     **/
+    @Test
+    public void testLockMechanism(){
+//        for (int i = 1)
+        theadPoolExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        });
+        testLockMechanismService.testLockMechanism();
+    }
+
+    /**
+     * 测试Try Catch Finally
+     *
+     * @param
+     * @return
+     **/
+    @Test
+    public void testTryCatchFinally(){
+        testTryCatchFinallyService.testTryCatchFinally();
+    }
 
     /**
      * @author wangcheng

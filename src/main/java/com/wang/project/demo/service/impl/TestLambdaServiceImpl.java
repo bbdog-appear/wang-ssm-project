@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -26,14 +28,23 @@ public class TestLambdaServiceImpl implements TestLambdaService {
     public void testLambda() {
         //获取产品列表
         List<WcProductEO> wcProductEOS = wcProductDao.selectAllWcProductEOs();
+
         //过滤出产品名为薯片的产品id
-        List<Long> productIds = wcProductEOS.stream().filter(
-                wcProductEO -> "薯片".equals(wcProductEO.getProductName())).
-                map(WcProductEO::getId).collect(Collectors.toList());
-        //输出产品id字符串
-        productIds.forEach(id -> {
-            String sid = String.valueOf(id);
-            System.out.println(sid);
-        });
+//        List<Long> productIds = wcProductEOS.stream().filter(
+//                wcProductEO -> "薯片".equals(wcProductEO.getProductName())).
+//                map(WcProductEO::getId).collect(Collectors.toList());
+//
+//        //输出产品id字符串
+//        productIds.forEach(id -> {
+//            String sid = String.valueOf(id);
+//            System.out.println(sid);
+//        });
+
+        Map<String, String> collect = wcProductEOS.stream().collect(Collectors.toMap(WcProductEO::getProductCode,
+                WcProductEO::getProductName, (key1, key2) -> key1));
+        for (String key : collect.keySet()) {
+            System.out.println(collect.get(key));
+        }
+
     }
 }
