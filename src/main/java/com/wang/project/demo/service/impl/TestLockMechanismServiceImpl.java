@@ -14,16 +14,26 @@ import java.util.concurrent.locks.ReentrantLock;
  **/
 @Service
 public class TestLockMechanismServiceImpl implements TestLockMechanismService {
+    private ReentrantLock reentrantLock = new ReentrantLock();
+
     @Override
-    public void testLockMechanism() {
-        ReentrantLock reentrantLock = new ReentrantLock();
+    public void testLockMechanism(long threadId) {
+        System.out.println("线程" + threadId + "开始执行，锁对象为：" + reentrantLock);
         reentrantLock.lock();
+        System.out.println("线程" + threadId + "拿到锁，锁对象为：" + reentrantLock);
         try {
-            System.out.println("线程");
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
+            System.out.println("线程" + threadId + "开始休眠");
+//            Thread.sleep(10000);
+            while (true){
+
+            }
+//            System.out.println("线程" + threadId + "结束休眠");
+        } catch (Exception e) {
+            System.out.println("线程" + threadId + "捕捉到异常");
             e.printStackTrace();
         }
-
+        System.out.println("线程" + threadId + "结束执行，锁对象为：" + reentrantLock);
+        reentrantLock.unlock();
+        System.out.println("线程" + threadId + "解锁，锁对象为：" + reentrantLock);
     }
 }

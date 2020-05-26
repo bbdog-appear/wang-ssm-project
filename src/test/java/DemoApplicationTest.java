@@ -79,14 +79,22 @@ public class DemoApplicationTest {
      **/
     @Test
     public void testLockMechanism(){
-//        for (int i = 1)
-        theadPoolExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-
-            }
-        });
-        testLockMechanismService.testLockMechanism();
+        for (int i = 0; i < 10; i++){
+//            try {
+//                Thread.sleep(10000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+            theadPoolExecutor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    testLockMechanismService.testLockMechanism(Thread.currentThread().getId());
+                }
+            });
+        }
+//        for (int i = 0; i < 10; i++){
+//            testLockMechanismService.testLockMechanism(Thread.currentThread().getId());
+//        }
     }
 
     /**

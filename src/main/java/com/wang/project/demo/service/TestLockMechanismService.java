@@ -8,5 +8,5 @@ public interface TestLockMechanismService {
      * @param
      * @return void
      **/
-    void testLockMechanism();
+    void testLockMechanism(long threadId);
 }
