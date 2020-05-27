@@ -72,19 +72,14 @@ public class DemoApplicationTest {
 
 
     /**
-     * 测试锁机制
+     * 模拟10个并发情况下，测试锁机制是否生效
      *
      * @param
      * @return void
      **/
     @Test
-    public void testLockMechanism(){
+    public void testLockMechanism() throws InterruptedException {
         for (int i = 0; i < 10; i++){
-//            try {
-//                Thread.sleep(10000);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
             theadPoolExecutor.execute(new Runnable() {
                 @Override
                 public void run() {
@@ -92,9 +87,8 @@ public class DemoApplicationTest {
                 }
             });
         }
-//        for (int i = 0; i < 10; i++){
-//            testLockMechanismService.testLockMechanism(Thread.currentThread().getId());
-//        }
+        //主线程睡眠10分钟，为了子线程全部执行完再结束虚拟机。
+        Thread.sleep(1000*60*10);
     }
 
     /**
