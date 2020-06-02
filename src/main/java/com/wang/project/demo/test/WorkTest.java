@@ -20,6 +20,38 @@ public class WorkTest {
      * @return void
      **/
     public static void main(String[] args) {
+//        test1();
+        test2();
+    }
+
+    /**
+     * 测试if 和 if else 是否只走其中一个。答：是的
+     *
+     * @param
+     * @return void
+     **/
+    public static void test2(){
+        String i = "nihao";
+        if("haha".equals(i)){
+            System.out.println("第一个if");
+        } else if (i != null) {
+            if("heihei".equals(i)){
+                System.out.println("第一个else if");
+            }
+        } else if ("nihao".equals(i)) {
+            System.out.println("第二个else if");
+        } else {
+            System.out.println("最后一个else");
+        }
+    }
+
+    /**
+     * 测试jdk8新特性中list的操作
+     *
+     * @param
+     * @return void
+     **/
+    public static void test1(){
         //快速创建list
         List<String> list1 = Arrays.asList("10001", "10002", "10005", "10003");
         List<String> list2 = Arrays.asList("10001", "10002", "10005");

@@ -3,13 +3,12 @@ import com.wang.project.demo.config.CreateBeanConfig;
 import com.wang.project.demo.entity.User;
 import com.wang.project.demo.entity.WcProductEO;
 import com.wang.project.demo.service.*;
-import com.wang.project.demo.test.Simple;
-import com.wang.project.demo.test.SimpleInner;
-import com.wang.project.demo.test.SimpleInterface;
+import com.wang.project.demo.test.*;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mybatis.spring.SqlSessionFactoryBean;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -70,6 +69,24 @@ public class DemoApplicationTest {
     @Autowired
     private TestLockMechanismService testLockMechanismService;
 
+    /**
+     * 测试相同属性的两个类的类型转换
+     *
+     * @param
+     * @return void
+     **/
+    @Test
+    public void testTypeConversion(){
+//        AddUserDefine addUserDefine = new AddUserDefine();
+//        ModifyUserDefine modifyUserDefine = new ModifyUserDefine();
+//        BeanUtils.copyProperties(addUserDefine, modifyUserDefine);
+        AddUserDefine addUserDefine = new AddUserDefine();
+        List<ModifyUserDefine> list = new ArrayList<>();
+        addUserDefine.setList(list);
+        if(addUserDefine.getList() != null){
+            System.out.println(addUserDefine.getList());
+        }
+    }
 
     /**
      * 模拟10个并发情况下，测试锁机制是否生效
