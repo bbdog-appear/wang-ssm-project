@@ -45,22 +45,37 @@ public class TestTheadPoolServiceBiz {
      * @return void
      **/
     public void testTheadPool(WcProductEO wcProductEO, int threadNum, CyclicBarrier barrier) {
-        theadPoolExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                long id = Thread.currentThread().getId();
-                String name = Thread.currentThread().getName();
-                Long startTime = System.currentTimeMillis();
-                log.info("线程：线程号\"" + id + "\"，线程名\"" + name + "\"开始跑，开始的毫秒数：" + startTime + "。这是第" + threadNum +"个线程");
-                wcProductDao.insertWcProductEO(wcProductEO);
-                log.info("第" + threadNum +"个线程执行结束，耗时：" + String.valueOf(System.currentTimeMillis() - startTime) + "毫秒");
-                try {
-                    barrier.await();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+//        theadPoolExecutor.execute(new Runnable() {
+//            @Override
+//            public void run() {
+//                long id = Thread.currentThread().getId();
+//                String name = Thread.currentThread().getName();
+//                Long startTime = System.currentTimeMillis();
+//                log.info("线程：线程号\"" + id + "\"，线程名\"" + name + "\"开始跑，开始的毫秒数：" + startTime + "。这是第" + threadNum +"个线程");
+//                wcProductDao.insertWcProductEO(wcProductEO);
+//                log.info("第" + threadNum +"个线程执行结束，耗时：" + String.valueOf(System.currentTimeMillis() - startTime) + "毫秒");
+//                try {
+//                    barrier.await();
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
+        //第二种写法
+        theadPoolExecutor.execute(() -> {
+            long id = Thread.currentThread().getId();
+            String name = Thread.currentThread().getName();
+            Long startTime = System.currentTimeMillis();
+            log.info("线程：线程号\"" + id + "\"，线程名\"" + name + "\"开始跑，开始的毫秒数：" + startTime + "。这是第" + threadNum +"个线程");
+            wcProductDao.insertWcProductEO(wcProductEO);
+            log.info("第" + threadNum +"个线程执行结束，耗时：" + (System.currentTimeMillis() - startTime) + "毫秒");
+            try {
+                barrier.await();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
+
 
     }
 

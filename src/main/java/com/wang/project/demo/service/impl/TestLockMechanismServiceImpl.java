@@ -24,7 +24,7 @@ public class TestLockMechanismServiceImpl implements TestLockMechanismService {
         try {
             System.out.println("线程" + threadId + "开始休眠");
             testReentrantLock(threadId);
-            Thread.sleep(30000);
+            Thread.sleep(3000);
             System.out.println("线程" + threadId + "结束休眠");
         } catch (Exception e) {
             System.out.println("线程" + threadId + "捕捉到异常");

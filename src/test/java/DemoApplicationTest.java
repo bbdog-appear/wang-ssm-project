@@ -22,10 +22,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.Future;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 /**
  * @Description TODO
@@ -68,6 +65,7 @@ public class DemoApplicationTest {
     private TestTryCatchFinallyService testTryCatchFinallyService;
     @Autowired
     private TestLockMechanismService testLockMechanismService;
+
 
     /**
      * 测试相同属性的两个类的类型转换
