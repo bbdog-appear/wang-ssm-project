@@ -18,16 +18,39 @@ public class WorkTest {
             10, 20, 30, TimeUnit.SECONDS,
             new ArrayBlockingQueue<Runnable>(20), new ThreadPoolExecutor.AbortPolicy());
 
-    /**
-     * 测试jdk8新特性中list的操作
-     *
-     * @param args
-     * @return void
-     **/
     public static void main(String[] args) {
 //        test1();
 //        test2();
-        testCallable();
+//        testCallable();
+        testOriginalThread();
+    }
+
+    /**
+     * @Author c_wangcheng-007
+     * @Description 测试原始线程，原始线程执行完之后，就会自动销毁。随之虚拟机结束
+     * 注意，传统的new Thread方式，只支持RunnerAble，没有返回值。用线程池的时候，可以用CallAble
+     * @Date 0:05 2020/6/6/006
+     * @Param []
+     * @return void
+     **/
+    private static void testOriginalThread(){
+        Thread thread = new Thread(() -> {
+            System.out.println("线程内部执行");
+            try {
+                Thread.sleep(3000);
+                System.out.println("线程内部执行完成");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+        thread.start();
+        try {
+            //阻塞，等到子线程执行完毕，再执行主线程。但是这样毫无意义，跟串行调用没区别。
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("主线程开始执行");
     }
 
     /**
@@ -37,13 +60,18 @@ public class WorkTest {
      * 我设置的10，所以第一次创建一个线程，就一直存活在线程池里，
      * 所以jvm判断还有线程存活，就不会退出。如果用Junit测试的话，虚拟机就会退出。》
      *
+     * 记住，在main方法中开线程，虚拟机肯定等到最后一个线程中的任务跑完，再结束的。
+     * 但是如果线程还存在的话，那么虚拟机就不会结束。
+     *
      * @param
      * @return void
      **/
     private static void testCallable() {
         //将一个任务丢进线程池中执行
         Future<String> submit = theadPoolExecutor.submit(() -> {
+            System.out.println("子线程执行");
             Thread.sleep(3000);
+            System.out.println("子线程执行结束");
             return "nihao";
         });
         try {
