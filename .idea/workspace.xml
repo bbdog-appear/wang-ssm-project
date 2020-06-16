@@ -1,36 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="72ca2160-6f52-4583-aed3-2c37a1583df1" name="Default Changelist" comment="wangcheng - 第四次work文件修改测试 - 20200515">
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/wang/project/demo/commons/CostomException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/wang/project/demo/service/TestLambdaService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/wang/project/demo/service/impl/TestLambdaServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/wang/project/demo/task/MyTask.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/mybatisConfig.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logs/ssm.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/ssm.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/wang/project/demo/biz/TestTheadPoolServiceBiz.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wang/project/demo/biz/TestTheadPoolServiceBiz.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/wang/project/demo/dao/WcProductDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wang/project/demo/dao/WcProductDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/wang/project/demo/service/TestThreadPoolService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wang/project/demo/service/TestThreadPoolService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/wang/project/demo/service/impl/TestThreadPoolServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wang/project/demo/service/impl/TestThreadPoolServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/wang/project/demo/test/TestBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wang/project/demo/test/TestBean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/WcProductDaoMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/WcProductDaoMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/spring-mybatis.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/spring-mybatis.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/DemoApplicationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/DemoApplicationTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/wang/project/demo/biz/TestTheadPoolServiceBiz$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/wang/project/demo/biz/TestTheadPoolServiceBiz$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/wang/project/demo/biz/TestTheadPoolServiceBiz.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/wang/project/demo/biz/TestTheadPoolServiceBiz.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/wang/project/demo/dao/WcProductDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/wang/project/demo/dao/WcProductDao.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/wang/project/demo/service/TestThreadPoolService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/wang/project/demo/service/TestThreadPoolService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/wang/project/demo/service/impl/TestThreadPoolServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/wang/project/demo/service/impl/TestThreadPoolServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/wang/project/demo/test/TestBean.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/wang/project/demo/test/TestBean.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/mapper/WcProductDaoMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/mapper/WcProductDaoMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/spring-mybatis.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/spring-mybatis.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/DemoApplicationTest$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/DemoApplicationTest$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/DemoApplicationTest$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/DemoApplicationTest$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/DemoApplicationTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/DemoApplicationTest.class" afterDir="false" />
-    </list>
+    <list default="true" id="72ca2160-6f52-4583-aed3-2c37a1583df1" name="Default Changelist" comment="wangcheng - 测试多线程以及返回值- 20200606" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -83,8 +54,9 @@
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
-        <option name="mavenHome" value="$PROJECT_DIR$/../../../maven/apache-maven-3.6.3.1" />
-        <option name="userSettingsFile" value="D:\wangcheng\kaifa\maven\apache-maven-3.6.3.1\conf\settings.xml" />
+        <option name="localRepository" value="F:\software\java\apache-maven-3.5.2\repository" />
+        <option name="mavenHome" value="F:/software/java/apache-maven-3.5.2" />
+        <option name="userSettingsFile" value="F:\software\java\apache-maven-3.5.2\conf\settings.xml" />
       </MavenGeneralSettings>
     </option>
     <option name="importingSettings">
@@ -113,10 +85,10 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/java/com/wang/project/demo/service/impl" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Global Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="MavenSettings" />
+    <property name="settings.editor.selected.configurable" value="preferences.fileTypes" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -125,10 +97,10 @@
       <recent name="D:\wangcheng\kaifa\workspaces\project\demo\src\main\resources\mapper" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.DemoApplicationTest.testLambda">
-    <configuration name="TestBean" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.wang.project.demo.test.TestBean" />
-      <module name="com.wang.project.demo" />
+  <component name="RunManager" selected="Application.WorkTest">
+    <configuration name="WorkTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.wang.project.demo.test.WorkTest" />
+      <module name="wang-ssm-project" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.wang.project.demo.test.*" />
@@ -139,28 +111,8 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="DemoApplicationTest.testAddWcProductEO" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="com.wang.project.demo" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="DemoApplicationTest" />
-      <option name="METHOD_NAME" value="testAddWcProductEO" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="DemoApplicationTest.testBeanSingleton" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="com.wang.project.demo" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="DemoApplicationTest" />
-      <option name="METHOD_NAME" value="testBeanSingleton" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="DemoApplicationTest.testLambda" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="com.wang.project.demo" />
+      <module name="wang-ssm-project" />
       <option name="PACKAGE_NAME" value="" />
       <option name="MAIN_CLASS_NAME" value="DemoApplicationTest" />
       <option name="METHOD_NAME" value="testLambda" />
@@ -169,101 +121,21 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="DemoApplicationTest.testThreadPool" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="com.wang.project.demo" />
+    <configuration name="DemoApplicationTest.testLockMechanism" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="wang-ssm-project" />
       <option name="PACKAGE_NAME" value="" />
       <option name="MAIN_CLASS_NAME" value="DemoApplicationTest" />
-      <option name="METHOD_NAME" value="testThreadPool" />
+      <option name="METHOD_NAME" value="testLockMechanism" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="demo" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 8.5.54" ALTERNATIVE_JRE_ENABLED="true" ALTERNATIVE_JRE_PATH="1.8">
-      <option name="OPEN_IN_BROWSER_URL" value="http://localhost:8080/demo/" />
-      <option name="UPDATING_POLICY" value="restart-server" />
-      <deployment>
-        <file path="$PROJECT_DIR$">
-          <settings>
-            <option name="CONTEXT_PATH" value="/demo" />
-          </settings>
-        </file>
-      </deployment>
-      <server-settings>
-        <option name="BASE_DIRECTORY_NAME" value="Unnamed_com_wang_project_demo_2" />
-      </server-settings>
-      <predefined_log_file enabled="true" id="Tomcat" />
-      <predefined_log_file enabled="true" id="Tomcat Catalina" />
-      <predefined_log_file id="Tomcat Manager" />
-      <predefined_log_file id="Tomcat Host Manager" />
-      <predefined_log_file id="Tomcat Localhost Access" />
-      <RunnerSettings RunnerId="Debug">
-        <option name="DEBUG_PORT" value="63999" />
-      </RunnerSettings>
-      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
-        <option name="USE_ENV_VARIABLES" value="true" />
-        <STARTUP>
-          <option name="USE_DEFAULT" value="true" />
-          <option name="SCRIPT" value="" />
-          <option name="VM_PARAMETERS" value="" />
-          <option name="PROGRAM_PARAMETERS" value="" />
-        </STARTUP>
-        <SHUTDOWN>
-          <option name="USE_DEFAULT" value="true" />
-          <option name="SCRIPT" value="" />
-          <option name="VM_PARAMETERS" value="" />
-          <option name="PROGRAM_PARAMETERS" value="" />
-        </SHUTDOWN>
-      </ConfigurationWrapper>
-      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Debug">
-        <option name="USE_ENV_VARIABLES" value="true" />
-        <STARTUP>
-          <option name="USE_DEFAULT" value="true" />
-          <option name="SCRIPT" value="" />
-          <option name="VM_PARAMETERS" value="" />
-          <option name="PROGRAM_PARAMETERS" value="" />
-        </STARTUP>
-        <SHUTDOWN>
-          <option name="USE_DEFAULT" value="true" />
-          <option name="SCRIPT" value="" />
-          <option name="VM_PARAMETERS" value="" />
-          <option name="PROGRAM_PARAMETERS" value="" />
-        </SHUTDOWN>
-      </ConfigurationWrapper>
-      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
-        <option name="USE_ENV_VARIABLES" value="true" />
-        <STARTUP>
-          <option name="USE_DEFAULT" value="true" />
-          <option name="SCRIPT" value="" />
-          <option name="VM_PARAMETERS" value="" />
-          <option name="PROGRAM_PARAMETERS" value="" />
-        </STARTUP>
-        <SHUTDOWN>
-          <option name="USE_DEFAULT" value="true" />
-          <option name="SCRIPT" value="" />
-          <option name="VM_PARAMETERS" value="" />
-          <option name="PROGRAM_PARAMETERS" value="" />
-        </SHUTDOWN>
-      </ConfigurationWrapper>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <list>
-      <item itemvalue="Application.TestBean" />
-      <item itemvalue="JUnit.DemoApplicationTest.testThreadPool" />
-      <item itemvalue="JUnit.DemoApplicationTest.testBeanSingleton" />
-      <item itemvalue="JUnit.DemoApplicationTest.testAddWcProductEO" />
-      <item itemvalue="JUnit.DemoApplicationTest.testLambda" />
-      <item itemvalue="Tomcat Server.demo" />
-    </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.WorkTest" />
+        <item itemvalue="JUnit.DemoApplicationTest.testLockMechanism" />
         <item itemvalue="JUnit.DemoApplicationTest.testLambda" />
-        <item itemvalue="JUnit.DemoApplicationTest.testThreadPool" />
-        <item itemvalue="Application.TestBean" />
-        <item itemvalue="JUnit.DemoApplicationTest.testAddWcProductEO" />
-        <item itemvalue="JUnit.DemoApplicationTest.testBeanSingleton" />
       </list>
     </recent_temporary>
   </component>
@@ -318,6 +190,25 @@
       <workItem from="1589772359591" duration="370000" />
       <workItem from="1589772773392" duration="18071000" />
       <workItem from="1589796555505" duration="5478000" />
+      <workItem from="1590162413023" duration="531000" />
+      <workItem from="1590164678969" duration="366000" />
+      <workItem from="1590165060659" duration="71000" />
+      <workItem from="1590165147225" duration="32000" />
+      <workItem from="1590165194357" duration="100000" />
+      <workItem from="1590165310634" duration="568000" />
+      <workItem from="1590165895177" duration="625000" />
+      <workItem from="1590166537498" duration="2505000" />
+      <workItem from="1590499211394" duration="5539000" />
+      <workItem from="1590592792081" duration="1858000" />
+      <workItem from="1590843098605" duration="1918000" />
+      <workItem from="1590930633372" duration="1232000" />
+      <workItem from="1591196750714" duration="608000" />
+      <workItem from="1591371192202" duration="5145000" />
+      <workItem from="1591418192266" duration="3124000" />
+      <workItem from="1591520910576" duration="1567000" />
+      <workItem from="1591631586293" duration="675000" />
+      <workItem from="1591716753854" duration="615000" />
+      <workItem from="1592321323902" duration="377000" />
     </task>
     <task id="LOCAL-00001" summary="wangcheng - 二次pom文件修改测试 - 20200515">
       <created>1589543568517</created>
@@ -340,7 +231,21 @@
       <option name="project" value="LOCAL" />
       <updated>1589543736779</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="wangcheng - 测试并发情况下的锁机制 - 20200527">
+      <created>1590509867120</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1590509867120</updated>
+    </task>
+    <task id="LOCAL-00005" summary="wangcheng - 测试多线程以及返回值- 20200606">
+      <created>1591376919316</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1591376919316</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -350,9 +255,15 @@
     <MESSAGE value="wangcheng - 二次pom文件修改测试 - 20200515" />
     <MESSAGE value="wangcheng - 第三次pom文件修改测试 - 20200515" />
     <MESSAGE value="wangcheng - 第四次work文件修改测试 - 20200515" />
-    <option name="LAST_COMMIT_MESSAGE" value="wangcheng - 第四次work文件修改测试 - 20200515" />
+    <MESSAGE value="wangcheng - 测试并发情况下的锁机制 - 20200527" />
+    <MESSAGE value="wangcheng - 测试多线程以及返回值- 20200606" />
+    <option name="LAST_COMMIT_MESSAGE" value="wangcheng - 测试多线程以及返回值- 20200606" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="552" y="178" key="#Notifications" timestamp="1590165157294">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="552" y="178" key="#Notifications/0.0.1920.1040@0.0.1920.1040" timestamp="1590165157294" />
     <state x="275" y="22" key="#Project_Structure" timestamp="1587869990779">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -361,10 +272,11 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="275" y="22" key="#Tomcat_Server/0.0.1366.728@0.0.1366.728" timestamp="1587869878859" />
-    <state x="229" y="38" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1589777152828">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state x="322" y="54" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1590165412154">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="229" y="38" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1366.728@0.0.1366.728" timestamp="1589777152828" />
+    <state x="322" y="54" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1590165412154" />
     <state x="488" y="80" key="#com.intellij.ide.util.MemberChooser" timestamp="1589791111323">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -373,58 +285,71 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="332" y="41" key="#com.intellij.j2ee.appServerIntegrations.ApplicationServersConfigurable/0.0.1366.728@0.0.1366.728" timestamp="1587871700202" />
-    <state x="413" y="111" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1589368788590">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state x="580" y="159" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1590500858834">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="413" y="111" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1366.728@0.0.1366.728" timestamp="1589368788590" />
-    <state x="241" y="0" key="CommitChangelistDialog2" timestamp="1589543880623">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state x="580" y="159" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1590500858834" />
+    <state x="226" y="145" width="1537" height="817" key="CommitChangelistDialog2" timestamp="1592321725682">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="241" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1589543880623" />
-    <state width="525" height="466" key="DebuggerActiveHint" timestamp="1589801715212">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state x="226" y="145" width="1537" height="817" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1592321725682" />
+    <state width="738" height="666" key="DebuggerActiveHint" timestamp="1590508478606">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="525" height="466" key="DebuggerActiveHint/0.0.1366.728@0.0.1366.728" timestamp="1589801715212" />
-    <state x="92" y="92" width="1182" height="544" key="DiffContextDialog" timestamp="1589543718324">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state width="738" height="666" key="DebuggerActiveHint/0.0.1920.1040@0.0.1920.1040" timestamp="1590508478606" />
+    <state x="129" y="131" width="1182" height="544" key="DiffContextDialog" timestamp="1591376883691">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="92" y="92" width="1182" height="544" key="DiffContextDialog/0.0.1366.728@0.0.1366.728" timestamp="1589543718324" />
-    <state x="446" y="130" key="FileChooserDialogImpl" timestamp="1588036998295">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state x="129" y="131" key="DiffContextDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1591376883691" />
+    <state x="627" y="186" key="FileChooserDialogImpl" timestamp="1590164746818">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="446" y="130" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1588036998295" />
-    <state width="1323" height="212" key="GridCell.Tab.0.bottom" timestamp="1589801772839">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state x="627" y="186" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1590164746818" />
+    <state width="1877" height="348" key="GridCell.Tab.0.bottom" timestamp="1591376925929">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1323" height="212" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1589801772839" />
-    <state width="1323" height="212" key="GridCell.Tab.0.center" timestamp="1589801772838">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state width="1877" height="348" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1591376925929" />
+    <state width="1877" height="348" key="GridCell.Tab.0.center" timestamp="1591376925929">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1323" height="212" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1589801772838" />
-    <state width="1323" height="212" key="GridCell.Tab.0.left" timestamp="1589801772838">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state width="1877" height="348" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1591376925929" />
+    <state width="1877" height="348" key="GridCell.Tab.0.left" timestamp="1591376925929">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1323" height="212" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1589801772838" />
-    <state width="1323" height="212" key="GridCell.Tab.0.right" timestamp="1589801772838">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state width="1877" height="348" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1591376925929" />
+    <state width="1877" height="348" key="GridCell.Tab.0.right" timestamp="1591376925929">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1323" height="212" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1589801772838" />
-    <state width="1323" height="212" key="GridCell.Tab.1.bottom" timestamp="1589801772839">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state width="1877" height="348" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1591376925929" />
+    <state width="1877" height="348" key="GridCell.Tab.1.bottom" timestamp="1591376925929">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1323" height="212" key="GridCell.Tab.1.bottom/0.0.1366.728@0.0.1366.728" timestamp="1589801772839" />
-    <state width="1323" height="212" key="GridCell.Tab.1.center" timestamp="1589801772839">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state width="1877" height="348" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1591376925929" />
+    <state width="1877" height="348" key="GridCell.Tab.1.center" timestamp="1591376925929">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1323" height="212" key="GridCell.Tab.1.center/0.0.1366.728@0.0.1366.728" timestamp="1589801772839" />
-    <state width="1323" height="212" key="GridCell.Tab.1.left" timestamp="1589801772839">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state width="1877" height="348" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1591376925929" />
+    <state width="1877" height="348" key="GridCell.Tab.1.left" timestamp="1591376925929">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1323" height="212" key="GridCell.Tab.1.left/0.0.1366.728@0.0.1366.728" timestamp="1589801772839" />
-    <state width="1323" height="212" key="GridCell.Tab.1.right" timestamp="1589801772839">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state width="1877" height="348" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1591376925929" />
+    <state width="1877" height="348" key="GridCell.Tab.1.right" timestamp="1591376925929">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1323" height="212" key="GridCell.Tab.1.right/0.0.1366.728@0.0.1366.728" timestamp="1589801772839" />
+    <state width="1877" height="348" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1591376925929" />
     <state width="1075" height="274" key="GridCell.Tab.2.bottom" timestamp="1588901192328">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -461,26 +386,35 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state width="220" height="477" key="HiddenNamespacesPopup/0.0.1366.728@0.0.1366.728" timestamp="1587892007217" />
-    <state x="135" y="0" width="1109" height="728" key="SettingsEditor" timestamp="1589801179829">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state x="585" y="102" width="1109" height="728" key="SettingsEditor" timestamp="1592321708578">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="135" y="0" width="1109" height="728" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1589801179829" />
-    <state x="275" y="97" key="Vcs.Push.Dialog.v2" timestamp="1589543739623">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state x="585" y="102" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1592321708578" />
+    <state x="387" y="139" key="Vcs.Push.Dialog.v2" timestamp="1591376920742">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="275" y="97" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1589543739623" />
-    <state x="0" y="0" key="com.intellij.ide.util.TipDialog" timestamp="1589772775115">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state x="387" y="139" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1591376920742" />
+    <state x="683" y="335" key="com.intellij.ide.util.TipDialog" timestamp="1592321326278">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="0" y="0" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1589772775115" />
-    <state x="359" y="97" width="647" height="534" key="find.popup" timestamp="1589771546069">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state x="683" y="335" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1592321326278" />
+    <state x="505" y="139" width="910" height="763" key="find.popup" timestamp="1590501014352">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="359" y="97" width="647" height="534" key="find.popup/0.0.1366.728@0.0.1366.728" timestamp="1589771546069" />
-    <state x="57" y="59" key="new project wizard" timestamp="1587725559513">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state x="505" y="139" width="910" height="763" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1590501014352" />
+    <state x="615" y="310" key="git4idea.merge.GitPullDialog" timestamp="1592321730081">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="615" y="310" key="git4idea.merge.GitPullDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1592321730081" />
+    <state x="80" y="84" key="new project wizard" timestamp="1590166511299">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="57" y="59" key="new project wizard/0.0.1366.728@0.0.1366.728" timestamp="1587725559513" />
+    <state x="80" y="84" key="new project wizard/0.0.1920.1040@0.0.1920.1040" timestamp="1590166511299" />
     <state x="339" y="162" key="run.anything.popup" timestamp="1589537434382">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -489,9 +423,10 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="275" y="23" key="scopes/0.0.1366.728@0.0.1366.728" timestamp="1589371220302" />
-    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup" timestamp="1589371083341">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state x="486" y="70" width="945" height="969" key="search.everywhere.popup" timestamp="1591418290547">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="346" y="49" width="672" height="678" key="search.everywhere.popup/0.0.1366.728@0.0.1366.728" timestamp="1589371083341" />
+    <state x="486" y="70" width="945" height="969" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1591418290547" />
   </component>
 </project>
