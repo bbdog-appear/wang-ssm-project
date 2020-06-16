@@ -1,7 +1,6 @@
 package com.wang.project.demo.test;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
@@ -51,6 +50,34 @@ public class WorkTest {
             e.printStackTrace();
         }
         System.out.println("主线程开始执行");
+//        testCallable();
+        testHashSetOrTreeSet();
+    }
+
+    /**
+     * 测试HashSet或TreeSet
+     *
+     * @param
+     * @return void
+     **/
+    private static void testHashSetOrTreeSet(){
+        Set<String> hashSet = new HashSet<>();
+        hashSet.add("wangyuyan");
+        hashSet.add("wangjingchu");
+        hashSet.add("wangyuyan");
+        hashSet.add("haoha");
+        hashSet.add("84747");
+        Iterator<String> iterator = hashSet.iterator();
+//        System.out.println("=========="+iterator);
+        while (iterator.hasNext()){
+            String next = iterator.next();
+            if ("wangjingchu".equals(next)) {
+                iterator.remove();
+            }
+        }
+        while (iterator.hasNext()){
+            System.out.println("++++++++"+iterator.next());
+        }
     }
 
     /**
