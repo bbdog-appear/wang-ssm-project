@@ -80,4 +80,21 @@
 <!--        <constructor-arg name="workQueue" ref="linkQueue"/>-->
 <!--    </bean>-->
 
+    <!-- 配置redis -->
+    <bean id="annotationPropertyConfigurerRedis" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="order" value="1"/>
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
+        <property name="locations">
+            <list>
+                <value>
+                    classpath:redis.properties
+                </value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        
+    </bean>
+
 </beans>
