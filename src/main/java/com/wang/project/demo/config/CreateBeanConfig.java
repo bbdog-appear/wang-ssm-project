@@ -1,21 +1,11 @@
 package com.wang.project.demo.config;
 
 import com.wang.project.demo.test.Simple;
-import lombok.Data;
-import org.apache.commons.dbcp.BasicDataSource;
-import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mybatis.spring.SqlSessionFactoryBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.SQLException;
 
 /**
  * @Description TODO
@@ -26,7 +16,7 @@ import java.sql.SQLException;
  **/
 @Configuration
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:spring-mybatis.xml"})
+@ContextConfiguration(locations = {"classpath:spring/application.xml"})
 public class CreateBeanConfig {
 
 //    @Autowired

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context-4.0.xsd
+                           http://www.springframework.org/schema/mvc
+                           http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor"/>
+
+    <!-- 配置jdk中的线程池 -->
+    <!--    <bean id="linkQueue" class="java.util.concurrent.LinkedBlockingQueue">-->
+    <!--        <constructor-arg name="capacity" value="${thread.pool.linkQueue.size}" type="int"/>-->
+    <!--    </bean>-->
+    <!--    <bean id="threadPoolExecutor" class="java.util.concurrent.ThreadPoolExecutor">-->
+    <!--        <constructor-arg name="corePoolSize" value="${thread.pool.core.size}" type="int"/>-->
+    <!--        <constructor-arg name="maximumPoolSize" value="${thread.pool.max.size}" type="int"/>-->
+    <!--        &lt;!&ndash; 允许非核心空闲线程存活的最大时间 &ndash;&gt;-->
+    <!--        <constructor-arg name="keepAliveTime" value="${thread.pool.keep.alive.time}" type="long"/>-->
+    <!--        <constructor-arg name="unit" value="${thread.pool.time.unit}" />-->
+    <!--        <constructor-arg name="workQueue" ref="linkQueue"/>-->
+    <!--    </bean>-->
+
+</beans>

@@ -1,11 +1,8 @@
 package com.wang.project.demo.test;
 
 import com.wang.project.demo.task.MyTask;
-import org.mybatis.spring.SqlSessionFactoryBean;
-import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -60,7 +57,7 @@ public class TestBean {
     }
 
     public static void testBean(){
-        ApplicationContext context = new ClassPathXmlApplicationContext("classpath:spring-mybatis.xml");
+        ApplicationContext context = new ClassPathXmlApplicationContext("classpath:spring/application.xml");
         PropertyPlaceholderConfigurer propertyConfigurer = (PropertyPlaceholderConfigurer) context.getBean("propertyConfigurer");
         PropertyPlaceholderConfigurer propertyConfigurer2 = (PropertyPlaceholderConfigurer) context.getBean("propertyConfigurer");
         System.out.println(propertyConfigurer);

@@ -1,4 +1,3 @@
-import com.wang.project.demo.biz.TestTheadPoolServiceBiz;
 import com.wang.project.demo.config.CreateBeanConfig;
 import com.wang.project.demo.entity.User;
 import com.wang.project.demo.entity.WcProductEO;
@@ -8,12 +7,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mybatis.spring.SqlSessionFactoryBean;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
-import org.springframework.stereotype.Service;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -32,7 +29,7 @@ import java.util.concurrent.*;
  * User:wangcheng Date:2020/4/26 13:36 ProjectName:DemoApplicationTest Version:1.0
  **/
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:spring-mybatis.xml"})
+@ContextConfiguration(locations = {"classpath:spring/application.xml"})
 @Slf4j
 public class DemoApplicationTest {
 
