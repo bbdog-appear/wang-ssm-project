@@ -62,6 +62,20 @@ public class DemoApplicationTest {
     private TestTryCatchFinallyService testTryCatchFinallyService;
     @Autowired
     private TestLockMechanismService testLockMechanismService;
+    @Autowired
+    private TestRedisService testRedisService;
+
+    /**
+     * 测试redis相关操作
+     *
+     * @param
+     * @return void
+     **/
+    @Test
+    public void testRedis(){
+//        testRedisService.testRedis();
+        testRedisService.testRedisTemplateExecutor();
+    }
 
 
     /**
