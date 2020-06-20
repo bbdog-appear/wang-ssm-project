@@ -1,14 +1,11 @@
 package com.wang.project.demo.service.impl;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.wang.project.demo.service.TestRedisService;
+import com.wang.project.demo.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
-import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -25,6 +22,8 @@ import java.util.List;
 public class TestRedisServiceImpl implements TestRedisService {
     @Autowired
     private RedisTemplate redisTemplate;
+    @Autowired
+    private RedisUtil redisUtil;
 
     @Override
     public void testRedis() {
@@ -48,19 +47,9 @@ public class TestRedisServiceImpl implements TestRedisService {
         String key = "listKey5";
         List<String> list = Arrays.asList("testList4", "testList5", "testList3");
         System.out.println("第1个"+list);
-        String value = JSONObject.toJSONString(list);
-        System.out.println("第2个"+value);
-        boolean result = (boolean) redisTemplate.execute((RedisConnection redisConnection) -> {
-            byte[] redisKey = redisTemplate.getStringSerializer().serialize(key);
-            byte[] redisValue = redisTemplate.getStringSerializer().serialize(value);
-            return redisConnection.setNX(redisKey, redisValue);
-        });
+        boolean result = redisUtil.setNX(key, list);
         System.out.println("第3个"+result);
-        String resultList4 = (String) redisTemplate.execute((RedisConnection redisConnection) -> {
-            byte[] redisKey = redisTemplate.getStringSerializer().serialize(key);
-            byte[] bytes = redisConnection.get(redisKey);
-            return redisTemplate.getStringSerializer().deserialize(bytes);
-        });
+        String resultList4 = redisUtil.get(key);
         System.out.println("第4个"+resultList4);
         List<String> resultList5 = JSONObject.parseArray(resultList4, String.class);
         System.out.println("第5个"+resultList5);
