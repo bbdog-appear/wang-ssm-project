@@ -62,19 +62,14 @@ public class TestRedisServiceImpl implements TestRedisService {
             return redisConnection.setNX(redisKey, redisValue);
         });
         System.out.println("第3个"+result);
-        String listKey5 = (String) redisTemplate.opsForValue().get("listKey5");
-        System.out.println("第4个"+listKey5);
-        List<String> resultList5 = JSONObject.parseArray(listKey5, String.class);
+        String resultList4 = (String) redisTemplate.execute((RedisConnection redisConnection) -> {
+            byte[] redisKey = redisTemplate.getStringSerializer().serialize(key);
+            byte[] bytes = redisConnection.get(redisKey);
+            return redisTemplate.getStringSerializer().deserialize(bytes);
+        });
+        System.out.println("第4个"+resultList4);
+        List<String> resultList5 = JSONObject.parseArray(resultList4, String.class);
         System.out.println("第5个"+resultList5);
-    }
-
-    public static void main(String[] args) {
-        List<String> list = Arrays.asList("testList1", "testList2", "testList3");
-        System.out.println(list);
-        String value = JSONObject.toJSONString(list);
-        System.out.println(value);
-        List<String> list2 = (List<String>) JSONObject.toJSON(value);
-        System.out.println(list2);
     }
 
 }
