@@ -3,7 +3,7 @@ package com.wang.project.demo.service;
 public interface TestRedisService {
 
     /**
-     * 测试redis相关操作
+     * redisTemplate.opsForList()操作list
      *
      * @param
      * @return void
@@ -11,10 +11,18 @@ public interface TestRedisService {
     void testRedis();
 
     /**
-     * 测试redisTemplate中的executor
+     * 测试redisTemplate中的setNX，其中如果这个key存在，那么就不进行操作了
      *
      * @param
      * @return void
      **/
     void testRedisTemplateExecutor();
+
+    /**
+     * 测试redis key是否存在，如果不存在，获取的话，会不会报错
+     *
+     * @param
+     * @return void
+     **/
+    void testRedisKeyExists();
 }

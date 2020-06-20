@@ -75,6 +75,7 @@ public class DemoApplicationTest {
     public void testRedis(){
 //        testRedisService.testRedis();
         testRedisService.testRedisTemplateExecutor();
+//        testRedisService.testRedisKeyExists();
     }
 
 

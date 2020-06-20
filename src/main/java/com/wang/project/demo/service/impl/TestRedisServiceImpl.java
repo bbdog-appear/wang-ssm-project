@@ -26,12 +26,6 @@ public class TestRedisServiceImpl implements TestRedisService {
     @Autowired
     private RedisTemplate redisTemplate;
 
-    /**
-     * 测试redis相关操作
-     *
-     * @param
-     * @return void
-     **/
     @Override
     public void testRedis() {
         //定义一个list
@@ -52,7 +46,7 @@ public class TestRedisServiceImpl implements TestRedisService {
     @Override
     public void testRedisTemplateExecutor() {
         String key = "listKey5";
-        List<String> list = Arrays.asList("testList1", "testList2", "testList3");
+        List<String> list = Arrays.asList("testList4", "testList5", "testList3");
         System.out.println("第1个"+list);
         String value = JSONObject.toJSONString(list);
         System.out.println("第2个"+value);
@@ -70,6 +64,22 @@ public class TestRedisServiceImpl implements TestRedisService {
         System.out.println("第4个"+resultList4);
         List<String> resultList5 = JSONObject.parseArray(resultList4, String.class);
         System.out.println("第5个"+resultList5);
+    }
+
+    @Override
+    public void testRedisKeyExists() {
+        String key = "listKey6";
+        String resultList6 = (String) redisTemplate.execute((RedisConnection redisConnection) -> {
+            byte[] redisKey = redisTemplate.getStringSerializer().serialize(key);
+            System.out.println(redisConnection.exists(redisKey));
+            if (redisConnection.exists(redisKey)) {
+                byte[] bytes = redisConnection.get(redisKey);
+                System.out.println(bytes);
+                return redisTemplate.getStringSerializer().deserialize(bytes);
+            }
+            return null;
+        });
+        System.out.println(resultList6);
     }
 
 }
