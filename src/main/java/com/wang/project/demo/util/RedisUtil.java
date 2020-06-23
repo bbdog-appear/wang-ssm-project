@@ -93,4 +93,43 @@ public class RedisUtil {
         return result;
     }
 
+    /**
+     * redis分布式锁 加锁
+     *
+     * @param lockKey 锁名
+     * @param expirationTime 锁过期时间(毫秒)
+     * @return boolean
+     **/
+    public boolean lock(String lockKey, long expirationTime){
+        boolean success = false;
+        //redisValue(锁过期时间+当前时间)
+        long value = expirationTime + System.currentTimeMillis();
+        //设置key和value。如果key不存在，则返回true，反之false。
+        success = setNX(lockKey, value);
+        if (!success) {
+            Long keyValue = getObjByKey(lockKey, Long.class);
+            // TODO: 2020/6/23
+        }
+        return success;
+    }
+
+    /**
+     * 根据key获得指定类型的value
+     *
+     * @param key
+     * @param clazz
+     * @return T
+     **/
+    public <T> T getObjByKey(String key, Class<T> clazz){
+        log.error("getObjByKey request：key={}，clazz={}", key, clazz);
+
+        //根据key获取value
+        String value = get(key);
+        //将字符串转为指定类型的对象
+        T result = JSONObject.parseObject(value, clazz);
+
+        log.error("getObjByKey request：key={}，clazz={}", key, clazz);
+        return result;
+    }
+
 }
