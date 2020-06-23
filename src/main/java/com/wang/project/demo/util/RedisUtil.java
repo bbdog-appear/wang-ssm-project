@@ -5,9 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @Description redis操作类
@@ -17,24 +17,27 @@ import java.util.List;
 public class RedisUtil {
 
     @Autowired
-    private RedisTemplate redisTemplate;
+    private RedisTemplate<String, Object> redisTemplate;
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
 
     /**
      * redisTemplate的setNX操作
+     * (如果是相同的key，则不进行操作，返回false)
      *
      * @param key redisKey
      * @param object redisValue
      * @return boolean
      **/
     public boolean setNX(String key, Object object){
-        log.info("setNX request：key={}，value={}", key, object);
+        log.error("setNX request：key={}，value={}", key, object);
         String value = JSONObject.toJSONString(object);
         boolean result = (boolean) redisTemplate.execute((RedisConnection redisConnection) -> {
             byte[] redisKey = redisTemplate.getStringSerializer().serialize(key);
             byte[] redisValue = redisTemplate.getStringSerializer().serialize(value);
             return redisConnection.setNX(redisKey, redisValue);
         });
-        log.info("setNX response：{}", result);
+        log.error("setNX response：{}", result);
         return result;
     }
 
@@ -45,13 +48,13 @@ public class RedisUtil {
      * @return java.lang.String
      **/
     public String get(String key){
-        log.info("get request：key={}", key);
+        log.error("get request：key={}", key);
         String result = (String) redisTemplate.execute((RedisConnection redisConnection) -> {
             byte[] redisKey = redisTemplate.getStringSerializer().serialize(key);
             byte[] bytes = redisConnection.get(redisKey);
             return redisTemplate.getStringSerializer().deserialize(bytes);
         });
-        log.info("get response：{}", result);
+        log.error("get response：{}", result);
         return result;
     }
 
@@ -63,6 +66,31 @@ public class RedisUtil {
      **/
     public boolean keyExist(String key){
         return redisTemplate.hasKey(key);
+    }
+
+    /**
+     * redis插入，并设置key的存活时间，单位为秒
+     * (如果是相同的key，则覆盖内容，返回true)
+     *
+     * @param key key
+     * @param object value
+     * @param timeOut key存活时间(秒)
+     * @return boolean
+     **/
+    public boolean set(String key, Object object, long timeOut){
+        log.error("setNX request：key={}，value={}", key, object);
+        String value = JSONObject.toJSONString(object);
+        boolean result = (boolean) redisTemplate.execute((RedisConnection redisConnection) -> {
+            byte[] redisKey = redisTemplate.getStringSerializer().serialize(key);
+            byte[] redisValue = redisTemplate.getStringSerializer().serialize(value);
+            redisConnection.set(redisKey, redisValue);
+            if (timeOut > 0) {
+                redisTemplate.expire(key, timeOut, TimeUnit.SECONDS);
+            }
+            return true;
+        });
+        log.error("setNX response：{}", result);
+        return result;
     }
 
 }

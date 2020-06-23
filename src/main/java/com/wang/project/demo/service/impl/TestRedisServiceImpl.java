@@ -1,27 +1,30 @@
 package com.wang.project.demo.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.wang.project.demo.entity.User;
 import com.wang.project.demo.service.TestRedisService;
 import com.wang.project.demo.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 /**
- * @Description TODO
- * <p>
- * 1、TODO
- * <p>
+ * @Description redis操作
  * User:wangcheng Date:2020/6/19 15:33 ProjectName:TestRedisServiceImpl Version:1.0
  **/
 @Service
 public class TestRedisServiceImpl implements TestRedisService {
     @Autowired
-    private RedisTemplate redisTemplate;
+    private RedisTemplate<String, Object> redisTemplate;
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
     @Autowired
     private RedisUtil redisUtil;
 
@@ -32,12 +35,17 @@ public class TestRedisServiceImpl implements TestRedisService {
         System.out.println("第1个"+list);
 
         //往redis中存入一个list
+        //解析：相当于redis的List中存了一个list对象
         redisTemplate.opsForList().leftPushAll("listKey2", list);
+        //解析：相当于redis的List中存了一个list对象，两个字符串
         redisTemplate.opsForList().leftPush("listKey3", list);
+        redisTemplate.opsForList().leftPush("listKey3", "zhuijia1");
+        redisTemplate.opsForList().leftPush("listKey3", "zhuijia2");
 
         //从redis中弹出这个key，redis中就没有这个key了。
-        List<String> resultList2 = redisTemplate.opsForList().range("listKey2", 0, -1);
-        List<String> resultList3 = (List<String>) redisTemplate.opsForList().leftPop("listKey3");
+//        List<String> resultList3 = (List<String>) redisTemplate.opsForList().leftPop("listKey3");
+        List<Object> resultList2 = redisTemplate.opsForList().range("listKey2", 0, -1);
+        List<Object> resultList3 = redisTemplate.opsForList().range("listKey3", 0, -1);
         System.out.println("第2个"+resultList2);
         System.out.println("第3个"+resultList3);
     }
@@ -69,6 +77,42 @@ public class TestRedisServiceImpl implements TestRedisService {
             return null;
         });
         System.out.println(resultList6);
+    }
+
+    @Override
+    public void testRedisSet() {
+        String key = "listKey7";
+        List<String> list = Arrays.asList("testKey77", "testKey888");
+        long timeOut = 60*10;
+        boolean result = redisUtil.set(key, list, timeOut);
+        System.out.println(result);
+    }
+
+    @Override
+    public void testRedisSetListObject() {
+        String key = "listKey8";
+        List<User> userList = getUserList();
+        long timeOut = 60*10;
+        boolean result = redisUtil.set(key, userList, timeOut);
+        System.out.println(result);
+        String resultList = redisUtil.get(key);
+        List<User> users = JSONObject.parseArray(resultList, User.class);
+        System.out.println(users);
+    }
+
+    private List<User> getUserList(){
+        List<User> users = new ArrayList<>();
+        User user = new User();
+        user.setCode("wangcheng");
+        user.setName("王成");
+        user.setInsertTime(new Date());
+        User user2 = new User();
+        user2.setCode("wangcheng2");
+        user2.setName("王成2");
+        user2.setInsertTime(new Date());
+        users.add(user);
+        users.add(user2);
+        return users;
     }
 
 }

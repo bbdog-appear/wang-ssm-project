@@ -25,4 +25,20 @@ public interface TestRedisService {
      * @return void
      **/
     void testRedisKeyExists();
+
+    /**
+     * 测试redis的set操作
+     *
+     * @param
+     * @return void
+     **/
+    void testRedisSet();
+
+    /**
+     * 测试redis中set操作，为List<Object>的String类型的插入操作。
+     *
+     * @param
+     * @return void
+     **/
+    void testRedisSetListObject();
 }

@@ -19,13 +19,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.*;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.Future;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
- * @Description TODO
- * <p>
- * 1、TODO
- * <p>
+ * @Description 测试主类
  * User:wangcheng Date:2020/4/26 13:36 ProjectName:DemoApplicationTest Version:1.0
  **/
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -73,9 +73,11 @@ public class DemoApplicationTest {
      **/
     @Test
     public void testRedis(){
-//        testRedisService.testRedis();
-        testRedisService.testRedisTemplateExecutor();
+        testRedisService.testRedis();
+//        testRedisService.testRedisTemplateExecutor();
 //        testRedisService.testRedisKeyExists();
+//        testRedisService.testRedisSet();
+//        testRedisService.testRedisSetListObject();
     }
 
 

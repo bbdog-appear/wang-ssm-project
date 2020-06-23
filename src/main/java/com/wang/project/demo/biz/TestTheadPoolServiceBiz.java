@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.*;
 
 /**
@@ -76,6 +78,17 @@ public class TestTheadPoolServiceBiz {
             }
         });
 
+//        Future<Map<String, Object>> submit = theadPoolExecutor.submit(() -> {
+//            System.out.println("测试线程池返回值");
+//            Map<String, Object> map = new HashMap<>();
+//            map.put("test", "测试");
+//            return map;
+//        });
+//        try {
+//            Map<String, Object> map = submit.get();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
     }
 
