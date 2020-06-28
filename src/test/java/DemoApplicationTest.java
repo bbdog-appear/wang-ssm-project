@@ -64,6 +64,27 @@ public class DemoApplicationTest {
     private TestLockMechanismService testLockMechanismService;
     @Autowired
     private TestRedisService testRedisService;
+    @Autowired
+    private TestRedisLockService testRedisLockService;
+
+    /**
+     * 测试redis分布式锁
+     * 猜测一下：第1个线程拿到锁，然后第5个线程拿到锁，第9个线程拿到锁，其他拿不到锁。 猜错了！
+     * 答案：因为虽然睡眠5秒，但是执行代码还要时间，所以每次循环大于5秒，经过3次循环，第4次已经超过15秒了。
+     *      所以第一次存的毫秒数 < 当前时间。所以第1、4、7、10个线程拿到锁，其余没拿到锁。
+     *
+     * @param
+     * @return void
+     **/
+    @Test
+    public void testRedisLock() throws Exception{
+        for (int i = 0; i < 10; i++) {
+            int threadNum = i;
+            theadPoolExecutor.execute(() ->
+                    testRedisLockService.testRedisLock(threadNum + 1));
+            Thread.sleep(5000);
+        }
+    }
 
     /**
      * 测试redis相关操作

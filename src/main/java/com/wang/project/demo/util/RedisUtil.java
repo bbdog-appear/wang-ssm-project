@@ -107,8 +107,23 @@ public class RedisUtil {
         //设置key和value。如果key不存在，则返回true，反之false。
         success = setNX(lockKey, value);
         if (!success) {
+            //获取redis中第一次存的时间
             Long keyValue = getObjByKey(lockKey, Long.class);
-            // TODO: 2020/6/23
+            long oldValue = keyValue == null ? 0L : keyValue;
+            //如果第一次存的时间小于当前时间，说明已经超过expirationTime时间了，锁已经过期了。
+            if (oldValue < System.currentTimeMillis()) {
+                //获取这个key原来的值，插入新的值。
+                long resultValue = getSet(lockKey, value, Long.class);
+                if (oldValue == resultValue) {
+                    success = true;
+                } else {
+                    //已被其他进程捷足先登了
+                    success = false;
+                }
+            } else {
+                //锁还未失效
+                success = false;
+            }
         }
         return success;
     }
@@ -116,8 +131,8 @@ public class RedisUtil {
     /**
      * 根据key获得指定类型的value
      *
-     * @param key
-     * @param clazz
+     * @param key key
+     * @param clazz 类型的Class对象
      * @return T
      **/
     public <T> T getObjByKey(String key, Class<T> clazz){
@@ -130,6 +145,25 @@ public class RedisUtil {
 
         log.error("getObjByKey request：key={}，clazz={}", key, clazz);
         return result;
+    }
+
+    /**
+     * redis的getSet操作(获取原来的值，插入现在的值)
+     *
+     * @param key key
+     * @param object value
+     * @param clazz 类型的Class对象
+     * @return T
+     **/
+    public <T> T getSet(String key, Object object, Class<T> clazz){
+        String value = JSONObject.toJSONString(object);
+        String resultValue = redisTemplate.execute((RedisConnection redisConnection) -> {
+            byte[] redisKey = redisTemplate.getStringSerializer().serialize(key);
+            byte[] redisValue = redisTemplate.getStringSerializer().serialize(value);
+            byte[] result = redisConnection.getSet(redisKey, redisValue);
+            return redisTemplate.getStringSerializer().deserialize(result);
+        });
+        return JSONObject.parseObject(resultValue, clazz);
     }
 
 }
