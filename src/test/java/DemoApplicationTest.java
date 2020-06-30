@@ -94,11 +94,12 @@ public class DemoApplicationTest {
      **/
     @Test
     public void testRedis(){
-        testRedisService.testRedis();
+//        testRedisService.testRedis();
 //        testRedisService.testRedisTemplateExecutor();
 //        testRedisService.testRedisKeyExists();
 //        testRedisService.testRedisSet();
 //        testRedisService.testRedisSetListObject();
+        testRedisService.testRedisHash();
     }
 
 

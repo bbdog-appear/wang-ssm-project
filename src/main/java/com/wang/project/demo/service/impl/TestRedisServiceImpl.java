@@ -6,14 +6,12 @@ import com.wang.project.demo.service.TestRedisService;
 import com.wang.project.demo.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.connection.RedisConnection;
+import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * @Description redis操作
@@ -114,5 +112,19 @@ public class TestRedisServiceImpl implements TestRedisService {
         users.add(user2);
         return users;
     }
+
+    @Override
+    public void testRedisHash() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("code", "10001");
+        map.put("count", 20);
+        System.out.println(map);
+        HashOperations<String, Object, Object> hashOperations = redisTemplate.opsForHash();
+        hashOperations.putAll("store1", map);
+
+        Object o = redisTemplate.opsForHash().get("store1", "count");
+        System.out.println(o);
+    }
+
 
 }

@@ -41,4 +41,12 @@ public interface TestRedisService {
      * @return void
      **/
     void testRedisSetListObject();
+
+    /**
+     * 测试redis hash结构 存取
+     *
+     * @param
+     * @return void
+     **/
+    void testRedisHash();
 }
