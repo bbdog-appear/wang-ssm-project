@@ -12,6 +12,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @Description redis操作
@@ -121,6 +122,7 @@ public class TestRedisServiceImpl implements TestRedisService {
         System.out.println(map);
         HashOperations<String, Object, Object> hashOperations = redisTemplate.opsForHash();
         hashOperations.putAll("store1", map);
+        redisTemplate.expire("store1", 10, TimeUnit.SECONDS);
 
         Object o = redisTemplate.opsForHash().get("store1", "count");
         System.out.println(o);
