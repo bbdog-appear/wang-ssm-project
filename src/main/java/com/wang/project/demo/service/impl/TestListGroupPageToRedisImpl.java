@@ -2,6 +2,8 @@ package com.wang.project.demo.service.impl;
 
 import com.wang.project.demo.service.TestListGroupPageToRedis;
 import com.wang.project.demo.vo.Goods;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -15,6 +17,9 @@ import java.util.stream.Collectors;
  **/
 @Service
 public class TestListGroupPageToRedisImpl implements TestListGroupPageToRedis {
+
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
 
     @Override
     public void testListGroupPageToRedis() {
@@ -34,7 +39,7 @@ public class TestListGroupPageToRedisImpl implements TestListGroupPageToRedis {
                 //总数
                 int totalNum = value.size();
                 //每页大小
-                int pageSize = 1000;
+                int pageSize = 2;
                 //总页数
                 int pageNum = totalNum/pageSize;
                 if (totalNum % pageSize != 0) {
@@ -43,26 +48,21 @@ public class TestListGroupPageToRedisImpl implements TestListGroupPageToRedis {
                 for (int i = 0; i < pageNum; i++) {
                     //对list进行分页(每页1000条)
                     List<Goods> collect = value.stream().skip(i*pageSize).limit(pageSize).collect(Collectors.toList());
+                    System.out.println(collect);
                     //获取商品编号，准备存入redis
                     List<String> goodsNos = collect.stream().map(Goods::getGoodsNo).collect(Collectors.toList());
-                    //入redis中，规则：key：wangcheng_10001_(i+1), value：
-                    System.out.println(collect);
+                    //入redis中，规则：key：wangcheng_10001_(i+1), value：List<String> goodsNos， timeout：1小时（暂时不填）
+                    String redisKey = "wangcheng_" + collect.get(0).getCategory() + "_" + (i + 1);
+                    Long result = redisTemplate.opsForList().rightPush(redisKey, goodsNos);
+                    System.out.println(result);
+                    List<Object> range = redisTemplate.opsForList().range(redisKey, 0, -1);
+                    System.out.println(range);
+//                    redisTemplate.opsForList().remove()
+                    Object obj = redisTemplate.opsForList().rightPop(redisKey);
+                    System.out.println(obj);
                 }
             }
             System.out.println(map);
-
-            //遍历方式1：
-            Set<String> set = map.keySet();
-            for (String key : set) {
-                List<Goods> list = map.get(key);
-            }
-            //遍历方式2：
-            Iterator<Map.Entry<String, List<Goods>>> iterator = map.entrySet().iterator();
-            while (iterator.hasNext()){
-                Map.Entry<String, List<Goods>> next = iterator.next();
-                String key = next.getKey();
-                List<Goods> value = next.getValue();
-            }
         }
     }
 
@@ -93,5 +93,26 @@ public class TestListGroupPageToRedisImpl implements TestListGroupPageToRedis {
         return Arrays.asList(goods1, goods2, goods3, goods4, goods5, goods6, goods7);
     }
 
+    /**
+     * HashMap的几种遍历方式
+     *
+     * @param
+     * @return void
+     **/
+    private void testHashMapFor(){
+        Map<String, List<Goods>> map = new HashMap<>();
+        //遍历方式1：
+        Set<String> set = map.keySet();
+        for (String key : set) {
+            List<Goods> list = map.get(key);
+        }
+        //遍历方式2：
+        Iterator<Map.Entry<String, List<Goods>>> iterator = map.entrySet().iterator();
+        while (iterator.hasNext()){
+            Map.Entry<String, List<Goods>> next = iterator.next();
+            String key = next.getKey();
+            List<Goods> value = next.getValue();
+        }
+    }
 
 }
