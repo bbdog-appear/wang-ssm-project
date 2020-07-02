@@ -1,5 +1,6 @@
 package com.wang.project.demo.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.wang.project.demo.service.TestListGroupPageToRedis;
 import com.wang.project.demo.vo.Goods;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,8 +79,10 @@ public class TestListGroupPageToRedisImpl implements TestListGroupPageToRedis {
          */
         List<Object> range = redisTemplate.opsForList().range(redisKey, 0, 0);
         System.out.println(range);
+        List<String> list = (List<String>) redisTemplate.opsForList().range(redisKey, 0, 0).get(0);
+        System.out.println(list);
         Long remove = redisTemplate.opsForList().remove(redisKey, -1, range.get(0));
-        System.out.println(remove);
+//        System.out.println(remove);
         List<Object> range2 = redisTemplate.opsForList().range(redisKey, 0, -1);
         System.out.println(range2);
     }
