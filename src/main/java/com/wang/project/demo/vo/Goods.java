@@ -21,4 +21,9 @@ public class Goods {
      * 商品编号
      */
     private String goodsNo;
+
+    /**
+     * 商品类型下的商品数量（另加字段，不和商品类关联，只是少写一个VO）
+     */
+    private int categoryNum;
 }
