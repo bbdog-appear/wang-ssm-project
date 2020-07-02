@@ -1,10 +1,10 @@
 package com.wang.project.demo.test;
 
-import com.wang.project.demo.vo.Goods;
-import org.springframework.util.StringUtils;
-
 import java.util.*;
-import java.util.concurrent.*;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.Future;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -24,8 +24,7 @@ public class WorkTest {
 //        test1();
 //        test2();
 //        testCallable();
-//        testOriginalThread();
-        testGroupBy();
+        testOriginalThread();
     }
 
     /**
@@ -153,43 +152,5 @@ public class WorkTest {
         collect1.forEach(c1 -> System.out.println(c1));
         collect2.forEach(c2 -> System.out.println(c2));
     }
-    /**
-     * 测试jdk8中list的分组
-     *
-     * @param
-     * @return void
-     **/
-    public static void testGroupBy(){
-        List<Goods> goodsList = getGoodsList();
-        //根据商品分类进行分组(过滤掉以null为key的组)
-        Map<String, List<Goods>> collect = goodsList.stream().
-                filter(goods -> !StringUtils.isEmpty(goods.getCategory())).
-                collect(Collectors.groupingBy(Goods::getCategory));
-        System.out.println(collect);
-    }
 
-    private static List<Goods> getGoodsList(){
-        Goods goods1 = new Goods();
-        goods1.setCategory("drinks");
-        goods1.setGoodsNo("10001001");
-        Goods goods2 = new Goods();
-        goods2.setCategory("drinks");
-        goods2.setGoodsNo("10001002");
-        Goods goods3 = new Goods();
-        goods3.setCategory("dryCargo");
-        goods3.setGoodsNo("10002001");
-        Goods goods4 = new Goods();
-        goods4.setCategory("dryCargo");
-        goods4.setGoodsNo("10002002");
-        Goods goods5 = new Goods();
-        goods5.setCategory("dryCargo");
-        goods5.setGoodsNo("10002003");
-        Goods goods6 = new Goods();
-        goods6.setCategory(null);
-        goods6.setGoodsNo("10003001");
-        Goods goods7 = new Goods();
-        goods7.setCategory("");
-        goods7.setGoodsNo("10004001");
-        return Arrays.asList(goods1, goods2, goods3, goods4, goods5, goods6, goods7);
-    }
 }

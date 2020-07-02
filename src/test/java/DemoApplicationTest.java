@@ -66,6 +66,19 @@ public class DemoApplicationTest {
     private TestRedisService testRedisService;
     @Autowired
     private TestRedisLockService testRedisLockService;
+    @Autowired
+    private TestListGroupPageToRedis testListGroupPageToRedis;
+
+    /**
+     * 测试list集合根据某个字段分组，并分页插入redis中(jdk8中list分组)
+     *
+     * @param
+     * @return void
+     **/
+    @Test
+    public void testListGroupPageToRedis() {
+        testListGroupPageToRedis.testListGroupPageToRedis();
+    }
 
     /**
      * 测试redis分布式锁
