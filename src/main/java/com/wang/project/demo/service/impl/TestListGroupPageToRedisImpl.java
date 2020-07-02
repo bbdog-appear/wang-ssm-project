@@ -46,6 +46,7 @@ public class TestListGroupPageToRedisImpl implements TestListGroupPageToRedis {
                     pageNum += 1;
                 }
                 for (int i = 0; i < pageNum; i++) {
+                    System.out.println("================================================");
                     //对list进行分页(每页1000条)
                     List<Goods> collect = value.stream().skip(i*pageSize).limit(pageSize).collect(Collectors.toList());
                     System.out.println(collect);
@@ -53,17 +54,34 @@ public class TestListGroupPageToRedisImpl implements TestListGroupPageToRedis {
                     List<String> goodsNos = collect.stream().map(Goods::getGoodsNo).collect(Collectors.toList());
                     //入redis中，规则：key：wangcheng_10001_(i+1), value：List<String> goodsNos， timeout：1小时（暂时不填）
                     String redisKey = "wangcheng_" + collect.get(0).getCategory() + "_" + (i + 1);
+//                    redisTemplate.delete(redisKey);
                     Long result = redisTemplate.opsForList().rightPush(redisKey, goodsNos);
                     System.out.println(result);
                     List<Object> range = redisTemplate.opsForList().range(redisKey, 0, -1);
                     System.out.println(range);
-//                    redisTemplate.opsForList().remove()
-                    Object obj = redisTemplate.opsForList().rightPop(redisKey);
-                    System.out.println(obj);
+                    System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
                 }
             }
             System.out.println(map);
         }
+    }
+
+    @Override
+    public void removeListRedis() {
+        String redisKey = "wangcheng_dryCargo_1";
+//        List<String> goodsNos = Arrays.asList("10002001", "10002002");
+        /*
+         * 这里注意，redisTemplate.opsForList().rightPush(redisKey, list);这里存到redis中的数据结构是
+         * [[10002001,10002002]]，意思是redis里有一个List，本次存的list，是放在redis中的List中的，所以
+         * 获取的时候redisTemplate.opsForList().range(redisKey, 0, 0);意思是获取redis中的List中的第
+         * 0个元素，也就是上次存的list。
+         */
+        List<Object> range = redisTemplate.opsForList().range(redisKey, 0, 0);
+        System.out.println(range);
+        Long remove = redisTemplate.opsForList().remove(redisKey, -1, range.get(0));
+        System.out.println(remove);
+        List<Object> range2 = redisTemplate.opsForList().range(redisKey, 0, -1);
+        System.out.println(range2);
     }
 
     private static List<Goods> getGoodsList(){

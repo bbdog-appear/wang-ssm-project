@@ -70,6 +70,17 @@ public class DemoApplicationTest {
     private TestListGroupPageToRedis testListGroupPageToRedis;
 
     /**
+     * 删除redis中list数据类型中的key或value
+     *
+     * @param
+     * @return void
+     **/
+    @Test
+    public void removeListRedis() {
+        testListGroupPageToRedis.removeListRedis();
+    }
+
+    /**
      * 测试list集合根据某个字段分组，并分页插入redis中(jdk8中list分组)
      *
      * @param

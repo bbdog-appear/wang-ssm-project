@@ -9,4 +9,13 @@ public interface TestListGroupPageToRedis {
      * @return void
      **/
     void testListGroupPageToRedis();
+
+    /**
+     * 删除redis中list数据类型中的key或value
+     *
+     * @param
+     * @return void
+     **/
+    void removeListRedis();
+
 }
