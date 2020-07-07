@@ -6,7 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -164,6 +167,65 @@ public class RedisUtil {
             return redisTemplate.getStringSerializer().deserialize(result);
         });
         return JSONObject.parseObject(resultValue, clazz);
+    }
+
+    /**
+     * redis管道批量插入list结构的数据
+     *
+     * @param key
+     * @param valueList
+     * @return java.util.List<java.lang.Object>
+     **/
+    public List<Object> rPushList(String key, List<String> valueList){
+        List<Object> results = redisTemplate.executePipelined((RedisConnection redisConnection) -> {
+            // 打开管道
+            redisConnection.openPipeline();
+            // 给本次管道内添加，要一次性执行的多条命令
+            for (String value : valueList) {
+                redisConnection.rPush(key.getBytes(), value.getBytes());
+            }
+            // 关闭管道 不需要close 否则拿不到返回值
+            // connection.closePipeline();
+            // 这里一定要返回null，最终pipeline的执行结果，才会返回给最外层
+            return null;
+        });
+        return results;
+    }
+
+    /**
+     * redis管道批量弹出list结构的数据
+     * todo 这个方法将删除，因为这个方法，在while循环中，redisConnection.rPop(redisKey.getBytes())不会执行，
+     * todo 因为一个管道里面的所有命令是一并执行的，当executePipelined方法结束，才会提交这些命令。所以可以将
+     * todo 循环多少次，作为参数传进方法里才能做。
+     *
+     * @return java.util.List<java.lang.Object>
+     **/
+    public List<Object> rPopList(String category, int categoryNum){
+        List<Object> objects = redisTemplate.executePipelined((RedisConnection redisConnection) -> {
+            // 打开管道
+            redisConnection.openPipeline();
+            List<String> resultList = new ArrayList<>();
+            int i = 1;
+            String redisKey = "wangcheng_" + category + "_" + i;
+            while (true) {
+                byte[] bytes = redisConnection.rPop(redisKey.getBytes());
+                String result = redisTemplate.getStringSerializer().deserialize(bytes);
+                resultList.add(result);
+                if (result == null) {
+                    i = i + 1;
+                    String redisKey2 = "wangcheng_" + category + "_" + i;
+                    byte[] bytes2 = redisConnection.rPop(redisKey2.getBytes());
+                    String result2 = redisTemplate.getStringSerializer().deserialize(bytes2);
+                    resultList.add(result2);
+                }
+                if (categoryNum <= resultList.size()) {
+                    break;
+                }
+            }
+            System.out.println(resultList);
+            return null;
+        });
+        return objects;
     }
 
 }

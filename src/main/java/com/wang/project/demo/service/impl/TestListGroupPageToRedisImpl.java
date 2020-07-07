@@ -3,6 +3,7 @@ package com.wang.project.demo.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.wang.project.demo.dto.CategoryDTO;
 import com.wang.project.demo.service.TestListGroupPageToRedis;
+import com.wang.project.demo.util.RedisUtil;
 import com.wang.project.demo.vo.Goods;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -22,6 +23,8 @@ public class TestListGroupPageToRedisImpl implements TestListGroupPageToRedis {
 
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
+    @Autowired
+    private RedisUtil redisUtil;
 
     @Override
     public void testListGroupPageToRedis() {
@@ -60,8 +63,6 @@ public class TestListGroupPageToRedisImpl implements TestListGroupPageToRedis {
                     //每次入redis之前，先删除这个key
                     redisTemplate.delete(redisKey);
 
-                    redisTemplate.opsForList().rightPush(redisKey, collect);
-
                     //第一种插入redis方案，例子：[[10001,10002,10003],[10004]]，(直接往redis的list结构中插入一个list对象)
 //                    Long result = redisTemplate.opsForList().rightPush(redisKey, goodsNos);
 //                    System.out.println(result);
@@ -69,8 +70,12 @@ public class TestListGroupPageToRedisImpl implements TestListGroupPageToRedis {
                     //第二种插入redis方案，例子：[10001,10002,10003]，(redis的list结构循环插入每一个元素，因为是字符串，所以没有[])
 //                    goodsNos.forEach(goodsNo -> redisTemplate.opsForList().rightPush(redisKey, goodsNo));
 
-                    List<Object> range = redisTemplate.opsForList().range(redisKey, 0, -1);
-                    System.out.println(range);
+                    //第二种循环插入会造成频繁的redis连接断开，所以使用管道批量插入
+                    List<Object> objects = redisUtil.rPushList(redisKey, goodsNos);
+                    System.out.println(objects);
+
+//                    List<Object> range = redisTemplate.opsForList().range(redisKey, 0, -1);
+//                    System.out.println(range);
                     System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
                 }
             }
@@ -86,34 +91,36 @@ public class TestListGroupPageToRedisImpl implements TestListGroupPageToRedis {
             String category = goods.getCategory();
             //请求的某种类型的数量
             int categoryNum = goods.getCategoryNum();
-            int i = 1;
-            List<String> list = new ArrayList<>();
-            String redisKey = "wangcheng_"+ category +"_" + i;
-            // TODO: 2020/7/3 有可能查出来的是空,那么就会报错
-            List<Object> range = redisTemplate.opsForList().range(redisKey, 0, -1);
-            // TODO: 2020/7/3 这个range可能是[[]],所以得到第一个就是[]，所以list1可能为空集合，所以这里也要判断一下，不能get(0)
-            List<String> list1 = (List<String>) range.get(0);
-            list.addAll(list1);
-            while (true){
-                //如果请求中需卖出的商品数大于查出来的数量，则查询该商品
-                //类型的下一个key。比如要卖5件，一个key里有2件，那么当i = 3时(第3个key)，5 < 6，跳出while循环。
-                //这时候list里是6件，然后需要卖5件，从这个list中去掉5件，剩下的1件，是循环到最后一个key里的。
-                //所以把前2个key都给删了，第3个key覆盖一下。
-                if (categoryNum > list.size()) {
-                    i = i + 1;
-                    String redisKey2 = "wangcheng_"+ category +"_" + i;
-                    // TODO: 2020/7/3 有可能查出来是空
-                    List<Object> range2 = redisTemplate.opsForList().range(redisKey2, 0, -1);
-                    List<String> list2 = (List<String>) range2.get(0);
-                    list.addAll(list2);
-                } else {
-                    break;
-                }
-            }
-            //需要卖出的商品编号
-            List<String> list2 = list.subList(0, categoryNum - 1);
-            //最后一个key中剩余的商品编号
-            List<String> collect = list.stream().filter(item -> !list2.contains(item)).collect(Collectors.toList());
+            List<Object> objects = redisUtil.rPopList(category, categoryNum);
+            System.out.println(objects);
+//            int i = 1;
+//            List<String> list = new ArrayList<>();
+//            String redisKey = "wangcheng_"+ category +"_" + i;
+//            // TODO: 2020/7/3 有可能查出来的是空,那么就会报错
+//            List<Object> range = redisTemplate.opsForList().range(redisKey, 0, -1);
+//            // TODO: 2020/7/3 这个range可能是[[]],所以得到第一个就是[]，所以list1可能为空集合，所以这里也要判断一下，不能get(0)
+//            List<String> list1 = (List<String>) range.get(0);
+//            list.addAll(list1);
+//            while (true){
+//                //如果请求中需卖出的商品数大于查出来的数量，则查询该商品
+//                //类型的下一个key。比如要卖5件，一个key里有2件，那么当i = 3时(第3个key)，5 < 6，跳出while循环。
+//                //这时候list里是6件，然后需要卖5件，从这个list中去掉5件，剩下的1件，是循环到最后一个key里的。
+//                //所以把前2个key都给删了，第3个key覆盖一下。
+//                if (categoryNum > list.size()) {
+//                    i = i + 1;
+//                    String redisKey2 = "wangcheng_"+ category +"_" + i;
+//                    // TODO: 2020/7/3 有可能查出来是空
+//                    List<Object> range2 = redisTemplate.opsForList().range(redisKey2, 0, -1);
+//                    List<String> list2 = (List<String>) range2.get(0);
+//                    list.addAll(list2);
+//                } else {
+//                    break;
+//                }
+//            }
+//            //需要卖出的商品编号
+//            List<String> list2 = list.subList(0, categoryNum - 1);
+//            //最后一个key中剩余的商品编号
+//            List<String> collect = list.stream().filter(item -> !list2.contains(item)).collect(Collectors.toList());
 
 
         });
@@ -210,13 +217,14 @@ public class TestListGroupPageToRedisImpl implements TestListGroupPageToRedis {
      **/
     private CategoryDTO getCategoryDTO(){
         CategoryDTO categoryDTO = new CategoryDTO();
-        Goods goods1 = new Goods();
-        goods1.setCategory("drinks");
-        goods1.setCategoryNum(1);
+//        Goods goods1 = new Goods();
+//        goods1.setCategory("drinks");
+//        goods1.setCategoryNum(1);
         Goods goods2 = new Goods();
         goods2.setCategory("dryCargo");
         goods2.setCategoryNum(6);
-        categoryDTO.setGoodsList(Arrays.asList(goods1, goods2));
+        categoryDTO.setGoodsList(Arrays.asList(goods2));
+//        categoryDTO.setGoodsList(Arrays.asList(goods1, goods2));
         return categoryDTO;
     }
 
