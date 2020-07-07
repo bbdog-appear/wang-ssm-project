@@ -18,4 +18,12 @@ public interface TestListGroupPageToRedis {
      **/
     void removeListRedis();
 
+    /**
+     * 测试其他redis的list结构的api
+     *
+     * @param
+     * @return void
+     **/
+    void testOtherListRedisOpr();
+
 }

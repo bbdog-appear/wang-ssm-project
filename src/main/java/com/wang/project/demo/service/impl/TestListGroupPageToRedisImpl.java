@@ -51,20 +51,29 @@ public class TestListGroupPageToRedisImpl implements TestListGroupPageToRedis {
                     System.out.println("================================================");
                     //对list进行分页(每页1000条)
                     List<Goods> collect = value.stream().skip(i*pageSize).limit(pageSize).collect(Collectors.toList());
-                    System.out.println(collect);
                     //获取商品编号，准备存入redis
                     List<String> goodsNos = collect.stream().map(Goods::getGoodsNo).collect(Collectors.toList());
+
                     //入redis中，规则：key：wangcheng_10001_(i+1), value：List<String> goodsNos， timeout：1小时（暂时不填）
                     String redisKey = "wangcheng_" + collect.get(0).getCategory() + "_" + (i + 1);
-//                    redisTemplate.delete(redisKey);
-                    Long result = redisTemplate.opsForList().rightPush(redisKey, goodsNos);
-                    System.out.println(result);
+
+                    //每次入redis之前，先删除这个key
+                    redisTemplate.delete(redisKey);
+
+                    redisTemplate.opsForList().rightPush(redisKey, collect);
+
+                    //第一种插入redis方案，例子：[[10001,10002,10003],[10004]]，(直接往redis的list结构中插入一个list对象)
+//                    Long result = redisTemplate.opsForList().rightPush(redisKey, goodsNos);
+//                    System.out.println(result);
+
+                    //第二种插入redis方案，例子：[10001,10002,10003]，(redis的list结构循环插入每一个元素，因为是字符串，所以没有[])
+//                    goodsNos.forEach(goodsNo -> redisTemplate.opsForList().rightPush(redisKey, goodsNo));
+
                     List<Object> range = redisTemplate.opsForList().range(redisKey, 0, -1);
                     System.out.println(range);
                     System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
                 }
             }
-            System.out.println(map);
         }
     }
 
@@ -73,23 +82,27 @@ public class TestListGroupPageToRedisImpl implements TestListGroupPageToRedis {
         CategoryDTO categoryDTO = getCategoryDTO();
         List<Goods> goodsList = categoryDTO.getGoodsList();
         goodsList.forEach(goods -> {
+            //请求的商品类型
             String category = goods.getCategory();
+            //请求的某种类型的数量
             int categoryNum = goods.getCategoryNum();
             int i = 1;
             List<String> list = new ArrayList<>();
             String redisKey = "wangcheng_"+ category +"_" + i;
+            // TODO: 2020/7/3 有可能查出来的是空,那么就会报错
             List<Object> range = redisTemplate.opsForList().range(redisKey, 0, -1);
+            // TODO: 2020/7/3 这个range可能是[[]],所以得到第一个就是[]，所以list1可能为空集合，所以这里也要判断一下，不能get(0)
             List<String> list1 = (List<String>) range.get(0);
             list.addAll(list1);
             while (true){
                 //如果请求中需卖出的商品数大于查出来的数量，则查询该商品
-                //类型的下一个key
+                //类型的下一个key。比如要卖5件，一个key里有2件，那么当i = 3时(第3个key)，5 < 6，跳出while循环。
+                //这时候list里是6件，然后需要卖5件，从这个list中去掉5件，剩下的1件，是循环到最后一个key里的。
+                //所以把前2个key都给删了，第3个key覆盖一下。
                 if (categoryNum > list.size()) {
-                    //说明这个商品类型的第1页全部都需要卖掉，所以把redis中的这个list给删掉
-                    Long remove = redisTemplate.opsForList().remove(redisKey, -1, range.get(0));
-
                     i = i + 1;
                     String redisKey2 = "wangcheng_"+ category +"_" + i;
+                    // TODO: 2020/7/3 有可能查出来是空
                     List<Object> range2 = redisTemplate.opsForList().range(redisKey2, 0, -1);
                     List<String> list2 = (List<String>) range2.get(0);
                     list.addAll(list2);
@@ -97,11 +110,42 @@ public class TestListGroupPageToRedisImpl implements TestListGroupPageToRedis {
                     break;
                 }
             }
+            //需要卖出的商品编号
+            List<String> list2 = list.subList(0, categoryNum - 1);
+            //最后一个key中剩余的商品编号
+            List<String> collect = list.stream().filter(item -> !list2.contains(item)).collect(Collectors.toList());
+
 
         });
-//        if (categoryNum > (list.size() + list2.size())) {
-//
-//        }
+    }
+
+    @Override
+    public void testOtherListRedisOpr() {
+        String redisKey = "wangcheng_dryCargo_1";
+        List<String> list = Arrays.asList("11111", "22222");
+        List<Object> range1 = redisTemplate.opsForList().range(redisKey, 0, -1);
+        System.out.println(range1);
+        if (!CollectionUtils.isEmpty(range1)) {
+            // TODO: 2020/7/3 这个list1可能是[]
+            List<String> list1 = (List<String>) range1.get(0);
+            System.out.println(list1);
+        }
+//        redisTemplate.opsForList().rightPushIfPresent(redisKey, list);
+//        redisTemplate.opsForList().rightPush(redisKey, list);
+//        Long size = redisTemplate.opsForList().size(redisKey);
+//        Object o = redisTemplate.opsForList().rightPop(redisKey);
+//        System.out.println(o);
+        List<Object> range2 = redisTemplate.opsForList().range(redisKey, 0, -1);
+        System.out.println(range2);
+    }
+
+    /**
+     * 临时方法
+     *
+     * @param
+     * @return void
+     **/
+    private void temporary(){
         String redisKey = "wangcheng_dryCargo_1";
 //        List<String> goodsNos = Arrays.asList("10002001", "10002002");
         /*
