@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -193,39 +193,41 @@ public class RedisUtil {
     }
 
     /**
-     * redis管道批量弹出list结构的数据
-     * todo 这个方法将删除，因为这个方法，在while循环中，redisConnection.rPop(redisKey.getBytes())不会执行，
-     * todo 因为一个管道里面的所有命令是一并执行的，当executePipelined方法结束，才会提交这些命令。所以可以将
-     * todo 循环多少次，作为参数传进方法里才能做。
+     * redis管道list结构批量pop出元素
      *
+     * @param key key
+     * @param categoryNum 次数
      * @return java.util.List<java.lang.Object>
      **/
-    public List<Object> rPopList(String category, int categoryNum){
+    public List<String> rPopList(String key, int categoryNum){
         List<Object> objects = redisTemplate.executePipelined((RedisConnection redisConnection) -> {
             // 打开管道
             redisConnection.openPipeline();
-            List<String> resultList = new ArrayList<>();
-            int i = 1;
-            String redisKey = "wangcheng_" + category + "_" + i;
-            while (true) {
-                byte[] bytes = redisConnection.rPop(redisKey.getBytes());
-                String result = redisTemplate.getStringSerializer().deserialize(bytes);
-                resultList.add(result);
-                if (result == null) {
-                    i = i + 1;
-                    String redisKey2 = "wangcheng_" + category + "_" + i;
-                    byte[] bytes2 = redisConnection.rPop(redisKey2.getBytes());
-                    String result2 = redisTemplate.getStringSerializer().deserialize(bytes2);
-                    resultList.add(result2);
-                }
-                if (categoryNum <= resultList.size()) {
-                    break;
-                }
+            for (int i = 0; i < categoryNum; i++) {
+                redisConnection.rPop(key.getBytes());
             }
-            System.out.println(resultList);
             return null;
         });
-        return objects;
+        List<String> resultList = new ArrayList<>();
+        objects.forEach(object -> resultList.add((String) object));
+        return resultList;
     }
 
+    /**
+     * 获取有前缀的key的列表
+     *
+     * @param prefixKey key前缀，如：helloJava_*
+     * @return java.util.Set<java.lang.String>
+     **/
+    public Set<String> getKeys(String prefixKey){
+        return redisTemplate.keys(prefixKey);
+    }
+
+    public static void main(String[] args) {
+        String redisKey = "wangcheng_category_188";
+        String substring = redisKey.substring(redisKey.lastIndexOf("_") + 1);
+        String substring1 = redisKey.substring(0, redisKey.lastIndexOf("_"));
+        System.out.println(substring);
+        System.out.println(substring1);
+    }
 }

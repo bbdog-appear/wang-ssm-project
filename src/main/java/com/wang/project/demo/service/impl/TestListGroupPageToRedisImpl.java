@@ -5,6 +5,7 @@ import com.wang.project.demo.dto.CategoryDTO;
 import com.wang.project.demo.service.TestListGroupPageToRedis;
 import com.wang.project.demo.util.RedisUtil;
 import com.wang.project.demo.vo.Goods;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
  * User:wangcheng Date:2020/7/2 15:02 ProjectName:TestListGroupPageToRedisImpl Version:1.0
  **/
 @Service
+@Slf4j
 public class TestListGroupPageToRedisImpl implements TestListGroupPageToRedis {
 
     @Autowired
@@ -91,38 +93,70 @@ public class TestListGroupPageToRedisImpl implements TestListGroupPageToRedis {
             String category = goods.getCategory();
             //请求的某种类型的数量
             int categoryNum = goods.getCategoryNum();
-            List<Object> objects = redisUtil.rPopList(category, categoryNum);
-            System.out.println(objects);
-//            int i = 1;
-//            List<String> list = new ArrayList<>();
-//            String redisKey = "wangcheng_"+ category +"_" + i;
-//            // TODO: 2020/7/3 有可能查出来的是空,那么就会报错
-//            List<Object> range = redisTemplate.opsForList().range(redisKey, 0, -1);
-//            // TODO: 2020/7/3 这个range可能是[[]],所以得到第一个就是[]，所以list1可能为空集合，所以这里也要判断一下，不能get(0)
-//            List<String> list1 = (List<String>) range.get(0);
-//            list.addAll(list1);
-//            while (true){
-//                //如果请求中需卖出的商品数大于查出来的数量，则查询该商品
-//                //类型的下一个key。比如要卖5件，一个key里有2件，那么当i = 3时(第3个key)，5 < 6，跳出while循环。
-//                //这时候list里是6件，然后需要卖5件，从这个list中去掉5件，剩下的1件，是循环到最后一个key里的。
-//                //所以把前2个key都给删了，第3个key覆盖一下。
-//                if (categoryNum > list.size()) {
-//                    i = i + 1;
-//                    String redisKey2 = "wangcheng_"+ category +"_" + i;
-//                    // TODO: 2020/7/3 有可能查出来是空
-//                    List<Object> range2 = redisTemplate.opsForList().range(redisKey2, 0, -1);
-//                    List<String> list2 = (List<String>) range2.get(0);
-//                    list.addAll(list2);
-//                } else {
-//                    break;
-//                }
-//            }
-//            //需要卖出的商品编号
-//            List<String> list2 = list.subList(0, categoryNum - 1);
-//            //最后一个key中剩余的商品编号
-//            List<String> collect = list.stream().filter(item -> !list2.contains(item)).collect(Collectors.toList());
+
+            // 获取这个商品类型下所有的key
+            Set<String> keys = redisUtil.getKeys("wangcheng_" + category + "_*");
+            if (CollectionUtils.isEmpty(keys)) {
+                log.error("redis中，该商品类型【" + category + "】下不存在商品");
+                return;
+            }
+
+            List<String> resultValue = new ArrayList<>();
+
+            for (String redisKey : keys) {
+
+                // 如：wangcheng_category_188 -> wangcheng_category
+                String subRedisKeyPre = redisKey.substring(0, redisKey.lastIndexOf("_"));
+                // 如：wangcheng_category_188 -> 188
+                String subRedisKeySuf = redisKey.substring(redisKey.lastIndexOf("_") + 1);
+                int subRedisKeySufInt = Integer.parseInt(subRedisKeySuf);
+
+                int i = subRedisKeySufInt;
+                int size = redisTemplate.opsForList().size(redisKey).intValue();
+                while (true){
+                    //注意一点，如果所有的key的value总数量也小于本次需要发的总数量，那么就直接抛异常
+                    if (categoryNum > size) {
+                        i = i + 1;
+                        redisKey = subRedisKeyPre + "_" + i;
+                        //测试一下key如果不存在，返回值是什么
+                        int size2 = redisTemplate.opsForList().size(redisKey).intValue();
+                        // 如果key没有的情况下，还不够卖出这些商品，那么就可以退出循环，并且抛异常出去。
+                        if (size2 <= 0) {
+                            log.error("redis中，该商品类型【" + category + "】下库存不足");
+                            break;
+                        }
+                        size = size + size2;
+                    }else {
+                        break;
+                    }
+                }
+                //本次需要发的量
+                System.out.println(categoryNum);
+                //总共需要key中的value的总数量
+                System.out.println(size);
+                //需要的key的数量
+                System.out.println(i - subRedisKeySufInt);
 
 
+                //进入循环中的key，都是全部需要发的
+                for (int j = subRedisKeySufInt; j < i; j++) {
+                    String redisKey2 = subRedisKeyPre + "_" + j;
+                    int size3 = redisTemplate.opsForList().size(redisKey2).intValue();
+                    List<String> objects = redisUtil.rPopList(redisKey2, size3);
+                    resultValue.addAll(objects);
+                }
+                //最后一个需要发的key，判断本次需要发的总量是否大于前几个key中value的总量，
+                // 如果是，则还需要从最后一个key中取value值
+                if (categoryNum > resultValue.size()) {
+                    String redisKey2 = subRedisKeyPre + "_" + i;
+                    //剩余需要发的量，从最后一个key中拿值
+                    int remainingNum = categoryNum - resultValue.size();
+                    List<String> objects = redisUtil.rPopList(redisKey2, remainingNum);
+                    resultValue.addAll(objects);
+                }
+            }
+            //需要返回的券号
+            System.out.println(resultValue);
         });
     }
 
@@ -170,6 +204,40 @@ public class TestListGroupPageToRedisImpl implements TestListGroupPageToRedis {
 //        System.out.println(remove);
         List<Object> range2 = redisTemplate.opsForList().range(redisKey, 0, -1);
         System.out.println(range2);
+
+
+        //临时方法：
+//        List<Object> objects = redisUtil.rPopList(category, categoryNum);
+//            System.out.println(objects);
+
+//            int i = 1;
+//            List<String> list = new ArrayList<>();
+//            String redisKey = "wangcheng_"+ category +"_" + i;
+//            // TODO: 2020/7/3 有可能查出来的是空,那么就会报错
+//            List<Object> range = redisTemplate.opsForList().range(redisKey, 0, -1);
+//            // TODO: 2020/7/3 这个range可能是[[]],所以得到第一个就是[]，所以list1可能为空集合，所以这里也要判断一下，不能get(0)
+//            List<String> list1 = (List<String>) range.get(0);
+//            list.addAll(list1);
+//            while (true){
+//                //如果请求中需卖出的商品数大于查出来的数量，则查询该商品
+//                //类型的下一个key。比如要卖5件，一个key里有2件，那么当i = 3时(第3个key)，5 < 6，跳出while循环。
+//                //这时候list里是6件，然后需要卖5件，从这个list中去掉5件，剩下的1件，是循环到最后一个key里的。
+//                //所以把前2个key都给删了，第3个key覆盖一下。
+//                if (categoryNum > list.size()) {
+//                    i = i + 1;
+//                    String redisKey2 = "wangcheng_"+ category +"_" + i;
+//                    // TODO: 2020/7/3 有可能查出来是空
+//                    List<Object> range2 = redisTemplate.opsForList().range(redisKey2, 0, -1);
+//                    List<String> list2 = (List<String>) range2.get(0);
+//                    list.addAll(list2);
+//                } else {
+//                    break;
+//                }
+//            }
+//            //需要卖出的商品编号
+//            List<String> list2 = list.subList(0, categoryNum - 1);
+//            //最后一个key中剩余的商品编号
+//            List<String> collect = list.stream().filter(item -> !list2.contains(item)).collect(Collectors.toList());
     }
 
     private List<Goods> getGoodsList(){
@@ -277,5 +345,7 @@ public class TestListGroupPageToRedisImpl implements TestListGroupPageToRedis {
         System.out.println(list);
         System.out.println(b + "," + b1);
     }
+
+
 
 }
