@@ -69,18 +69,6 @@ public class DemoApplicationTest {
     @Autowired
     private TestListGroupPageToRedis testListGroupPageToRedis;
 
-
-    /**
-     * 测试其他redis的list结构的api
-     *
-     * @param
-     * @return void
-     **/
-    @Test
-    public void testOtherListRedisOpr() {
-        testListGroupPageToRedis.testOtherListRedisOpr();
-    }
-
     /**
      * 删除redis中list数据类型中的key或value
      *

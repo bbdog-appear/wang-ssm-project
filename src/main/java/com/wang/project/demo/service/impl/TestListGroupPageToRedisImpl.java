@@ -1,13 +1,11 @@
 package com.wang.project.demo.service.impl;
 
-import com.alibaba.fastjson.JSONObject;
 import com.wang.project.demo.dto.CategoryDTO;
 import com.wang.project.demo.service.TestListGroupPageToRedis;
 import com.wang.project.demo.util.RedisUtil;
 import com.wang.project.demo.vo.Goods;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -15,6 +13,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @Description 测试list集合根据某个字段分组，并分页插入redis中
@@ -47,7 +46,7 @@ public class TestListGroupPageToRedisImpl implements TestListGroupPageToRedis {
                 //总数
                 int totalNum = value.size();
                 //每页大小
-                int pageSize = 5;
+                int pageSize = 2;
                 //总页数
                 int pageNum = totalNum/pageSize;
                 if (totalNum % pageSize != 0) {
@@ -108,6 +107,8 @@ public class TestListGroupPageToRedisImpl implements TestListGroupPageToRedis {
                 log.error("redis中，该商品类型【" + category + "】下key不存在");
                 return;
             }
+            //正序排序
+            keys = keys.stream().sorted().collect(Collectors.toCollection(LinkedHashSet::new));
 
             List<String> resultValue = new ArrayList<>();
 
@@ -175,7 +176,7 @@ public class TestListGroupPageToRedisImpl implements TestListGroupPageToRedis {
                 }
             }
             //需要返回的商品编号
-            System.out.println(resultValue);
+            System.out.println("本次需要卖出的商品编号：" + resultValue);
         });
     }
 
@@ -391,7 +392,7 @@ public class TestListGroupPageToRedisImpl implements TestListGroupPageToRedis {
 //        goods1.setCategoryNum(1);
         Goods goods2 = new Goods();
         goods2.setCategory("dryCargo");
-        goods2.setCategoryNum(6);
+        goods2.setCategoryNum(1);
         categoryDTO.setGoodsList(Arrays.asList(goods2));
 //        categoryDTO.setGoodsList(Arrays.asList(goods1, goods2));
         return categoryDTO;

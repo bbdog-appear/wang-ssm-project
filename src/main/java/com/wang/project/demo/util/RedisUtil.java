@@ -7,10 +7,10 @@ import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @Description redis操作类
@@ -227,12 +227,28 @@ public class RedisUtil {
         return redisTemplate.keys(prefixKey);
     }
 
+//    public static void main(String[] args) {
+//        String redisKey = "wangcheng_category_188";
+//        String substring = redisKey.substring(redisKey.lastIndexOf("_") + 1);
+//        String substring1 = redisKey.substring(0, redisKey.lastIndexOf("_"));
+//        System.out.println(substring);
+//        System.out.println(substring1);
+//    }
+
     public static void main(String[] args) {
-        String redisKey = "wangcheng_category_188";
-        String substring = redisKey.substring(redisKey.lastIndexOf("_") + 1);
-        String substring1 = redisKey.substring(0, redisKey.lastIndexOf("_"));
-        System.out.println(substring);
-        System.out.println(substring1);
+        Set<String> keys = new TreeSet<>();
+        keys.add("wang_fruit_1");
+        keys.add("wang_fruit_3");
+        keys.add("wang_fruit_2");
+        keys.add("wang_fruit_5");
+        keys.add("wang_fruit_4");
+        System.out.println(keys);
+        Set<String> collect = keys.stream().sorted().collect(Collectors.toSet());
+        System.out.println(collect);
+        List<String> list = keys.stream().collect(Collectors.toList());
+        System.out.println(list);
+        List<String> collect1 = list.stream().sorted(Comparator.naturalOrder()).collect(Collectors.toList());
+        System.out.println(collect1);
     }
 
 }
