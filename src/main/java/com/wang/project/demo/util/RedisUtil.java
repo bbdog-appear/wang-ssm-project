@@ -152,6 +152,8 @@ public class RedisUtil {
 
     /**
      * redis的getSet操作(获取原来的值，插入现在的值)
+     * todo 这里存值得时候序列化指定了是StringSerializer，所以存的是字符串
+     *  取的时候，也要指定一下是字符串的反序列化。
      *
      * @param key key
      * @param object value
@@ -194,6 +196,8 @@ public class RedisUtil {
 
     /**
      * redis管道list结构批量pop出元素
+     * todo 这里要注意，因为存的value序列化规则是StringSerializer
+     *  所以取的时候，要指定一下redisTemplate.getStringSerializer()
      *
      * @param key key
      * @param categoryNum 次数
@@ -207,7 +211,7 @@ public class RedisUtil {
                 redisConnection.rPop(key.getBytes());
             }
             return null;
-        });
+        }, redisTemplate.getStringSerializer());
         List<String> resultList = new ArrayList<>();
         objects.forEach(object -> resultList.add((String) object));
         return resultList;
@@ -230,4 +234,5 @@ public class RedisUtil {
         System.out.println(substring);
         System.out.println(substring1);
     }
+
 }
