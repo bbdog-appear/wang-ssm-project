@@ -66,6 +66,11 @@ public class TestListGroupPageToRedisImpl implements TestListGroupPageToRedis {
                     redisTemplate.delete(redisKey);
 
                     //第一种插入redis方案，例子：[[10001,10002,10003],[10004]]，(直接往redis的list结构中插入一个list对象)
+                    // TODO: 2020/7/9 这种方案容易出问题，因为这是发货商品，所以存在并发情况，比如干货类型的商品第一次发10件货
+                    //  ，第二次发20件货，但是对这个商品类型不能加锁，否则就会影响效率。所以第一次和第二次如果并发进来，第一次从
+                    //  redis中一次读出一个key(也就是一个元素，即一个集合)，这些是准备发货的。然后第二次进来也读到这个key，那么
+                    //  第一次发货成功后，第二次又拿着这批商品发货一次，导致超卖现象。
+                    //  所以这种方案不行。
 //                    Long result = redisTemplate.opsForList().rightPush(redisKey, goodsNos);
 //                    System.out.println(result);
 
@@ -101,6 +106,8 @@ public class TestListGroupPageToRedisImpl implements TestListGroupPageToRedis {
             //请求的某种类型的数量
             int categoryNum = goods.getCategoryNum();
 
+            // TODO: 2020/7/9 并发情况下，这种，同一个商品类型进来发货，同时读到还有多少个key，也会出问题。
+            //  需要加一个写锁，等第一个线程 读、更新完，再允许第二个线程进来读，这时候才是准确的。
             // 获取这个商品类型下所有的key
             Set<String> keys = redisUtil.getKeys("wangcheng_" + category + "_*");
             if (CollectionUtils.isEmpty(keys)) {
@@ -164,8 +171,8 @@ public class TestListGroupPageToRedisImpl implements TestListGroupPageToRedis {
                     }
                     // 最后一次key部分发货
                     else if (counterAll == frequency) {
-                        // 剩余需要发货的量
-                        int remainingNum = totalSize - categoryNum;
+                        // 剩余需要发货的量 = 需要发的量 - 已经发的量
+                        int remainingNum = categoryNum - resultValue.size();
                         List<String> objects = redisUtil.rPopList(redisKey, remainingNum);
                         resultValue.addAll(objects);
                     }
@@ -175,6 +182,7 @@ public class TestListGroupPageToRedisImpl implements TestListGroupPageToRedis {
                     }
                 }
             }
+
             //需要返回的商品编号
             System.out.println("本次需要卖出的商品编号：" + resultValue);
         });
