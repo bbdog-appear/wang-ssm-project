@@ -117,8 +117,6 @@ public class TestListGroupPageToRedisImpl implements TestListGroupPageToRedis {
             //正序排序
             keys = keys.stream().sorted().collect(Collectors.toCollection(LinkedHashSet::new));
 
-            List<String> resultValue = new ArrayList<>();
-
             // 该商品类型的库存总量
             int totalSize = 0;
             // 循环次数(需要key的数量)
@@ -145,6 +143,9 @@ public class TestListGroupPageToRedisImpl implements TestListGroupPageToRedis {
                 log.error("redis中，该商品类型【" + category + "】下库存不足");
                 return;
             }
+
+            // 定义本次实际需要发的商品编号集合
+            List<String> resultValue = new ArrayList<>();
 
             // 计数器
             int counterAll = 0;
@@ -183,6 +184,15 @@ public class TestListGroupPageToRedisImpl implements TestListGroupPageToRedis {
                 }
             }
 
+            // 考虑并发情况下，如果，需要发的量与实际发的量不一致，那么说明产生并发问题，第二个线程开始读到的key
+            // 是脏数据，但是前几个key已经被第一个线程发过了，这时候第二个线程后面循环发的时候，前几个key都是空，
+            // 接口返回的实际货数量不够，但是不会造成超发问题。可以直接抛异常出去。如果第二个线程需要更多的key，
+            // 则还是会从redis中返回一部分商品编号出去的，但是不更新数据库，后面补偿redis的时候，还会将该商品编号
+            // 补偿进去。
+            if (resultValue.size() != categoryNum) {
+                log.error("并发情况下发货失败，请稍后重试");
+                return;
+            }
             //需要返回的商品编号
             System.out.println("本次需要卖出的商品编号：" + resultValue);
         });
