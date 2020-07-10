@@ -1,3 +1,7 @@
+import com.wang.project.demo.service.TestRedisMapService;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
 /**
  * @ClassName TestProject
  * @Description
@@ -7,14 +11,18 @@
  **/
 public class TestProject extends DemoApplicationTest {
 
+    @Autowired
+    private TestRedisMapService testRedisMapService;
+
     /**
-     * @Author c_wangcheng-007
-     * @Description 测试项目
-     * @Date 20:51 2020/7/3/003
-     * @Param []
+     * 测试redis hash结构
+     *
+     * @param
      * @return void
      **/
-    public void testProject(){
-
+    @Test
+    public void testRedisHash(){
+        testRedisMapService.testAddRedisMap();
+        testRedisMapService.testQueryRedisMap();
     }
 }
