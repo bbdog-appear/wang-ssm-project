@@ -174,11 +174,12 @@ public class RedisUtil {
     /**
      * redis管道批量插入list结构的数据
      *
-     * @param key
-     * @param valueList
+     * @param key key
+     * @param valueList value
+     * @param expiration 过期时间(分钟)
      * @return java.util.List<java.lang.Object>
      **/
-    public List<Object> rPushList(String key, List<String> valueList){
+    public List<Object> rPushList(String key, List<String> valueList, long expiration){
         List<Object> results = redisTemplate.executePipelined((RedisConnection redisConnection) -> {
             // 打开管道
             redisConnection.openPipeline();
@@ -191,6 +192,7 @@ public class RedisUtil {
             // 这里一定要返回null，最终pipeline的执行结果，才会返回给最外层
             return null;
         });
+        redisTemplate.expire(key, expiration, TimeUnit.MINUTES);
         return results;
     }
 

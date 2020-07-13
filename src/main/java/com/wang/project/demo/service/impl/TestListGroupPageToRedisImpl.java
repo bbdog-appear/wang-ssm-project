@@ -85,7 +85,7 @@ public class TestListGroupPageToRedisImpl implements TestListGroupPageToRedis {
                     //  所以后面根据key取值的时候，就不能用redisTemplate直接取，因为这样取的值反序列化规则
                     //  是JdkSerializationRedisSerializer，而存的时候的序列化规则是自定义的(字符串)，所以
                     //  这种方式取值，应该在回调函数的另一个参数指定一下，返回值是StringSerializer
-                    List<Object> objects = redisUtil.rPushList(redisKey, goodsNos);
+                    List<Object> objects = redisUtil.rPushList(redisKey, goodsNos, 1);
                     System.out.println(objects);
 
 //                    List<Object> range = redisTemplate.opsForList().range(redisKey, 0, -1);
