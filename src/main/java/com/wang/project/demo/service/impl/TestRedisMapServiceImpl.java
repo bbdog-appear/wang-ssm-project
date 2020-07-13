@@ -7,8 +7,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @Description 测试redis map结构
@@ -59,6 +58,15 @@ public class TestRedisMapServiceImpl implements TestRedisMapService {
         Object goodsSellNum11 = redisTemplate.opsForHash().get(redisKey1 + "_1", "goodsSellNum1");
         System.out.println(goodsTotalNum11);
         System.out.println(goodsSellNum11);
+
+        List<Object> list = new ArrayList<>();
+        list.add("goodsTotalNum");
+        list.add("goodsSellNum");
+        List<Object> objects = redisTemplate.opsForHash().multiGet(redisKey1, list);
+        System.out.println("redis hash multiGet：" + objects);
+
+        Set<Object> keys = redisTemplate.opsForHash().keys(redisKey1);
+        System.out.println("redis hash keys:" + keys);
 
     }
 
