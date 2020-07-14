@@ -178,7 +178,13 @@ public class DemoApplicationTest {
      **/
     @Test
     public void testTryCatchFinally(){
-        testTryCatchFinallyService.testTryCatchFinally();
+//        testTryCatchFinallyService.testTryCatchFinally();
+        try {
+            testTryCatchFinallyService.testTryFinally();
+        }catch (Exception e){
+            System.out.println("catch啦");
+        }
+        System.out.println("结束啦");
     }
 
     /**

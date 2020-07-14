@@ -1,6 +1,8 @@
 package com.wang.project.demo.service.impl;
 
+import com.wang.project.demo.biz.handle.TestTryFinallyHandle;
 import com.wang.project.demo.service.TestTryCatchFinallyService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -12,6 +14,9 @@ import org.springframework.stereotype.Service;
  **/
 @Service
 public class TestTryCatchFinallyServiceImpl implements TestTryCatchFinallyService {
+    @Autowired
+    private TestTryFinallyHandle testTryFinallyHandle;
+
     @Override
     public void testTryCatchFinally() {
         System.out.println("try 外面=========");
@@ -27,4 +32,15 @@ public class TestTryCatchFinallyServiceImpl implements TestTryCatchFinallyServic
 
         }
     }
+
+    @Override
+    public void testTryFinally() {
+        try {
+            testTryFinallyHandle.testTryFinally();
+        }finally {
+            System.out.println("finally块");
+        }
+    }
+
+
 }

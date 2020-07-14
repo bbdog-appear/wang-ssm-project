@@ -10,4 +10,12 @@ public interface TestTryCatchFinallyService {
      **/
     void testTryCatchFinally();
 
+    /**
+     * 测试try finally
+     *
+     * @param
+     * @return void
+     **/
+    void testTryFinally();
+
 }
