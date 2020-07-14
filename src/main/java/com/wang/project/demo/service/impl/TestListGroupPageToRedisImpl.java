@@ -85,7 +85,7 @@ public class TestListGroupPageToRedisImpl implements TestListGroupPageToRedis {
                     //  所以后面根据key取值的时候，就不能用redisTemplate直接取，因为这样取的值反序列化规则
                     //  是JdkSerializationRedisSerializer，而存的时候的序列化规则是自定义的(字符串)，所以
                     //  这种方式取值，应该在回调函数的另一个参数指定一下，返回值是StringSerializer
-                    List<Object> objects = redisUtil.rPushList(redisKey, goodsNos, 1);
+                    List<Object> objects = redisUtil.rPushList(redisKey, goodsNos, 100);
                     System.out.println(objects);
 
 //                    List<Object> range = redisTemplate.opsForList().range(redisKey, 0, -1);
@@ -109,13 +109,38 @@ public class TestListGroupPageToRedisImpl implements TestListGroupPageToRedis {
             // TODO: 2020/7/9 并发情况下，这种，同一个商品类型进来发货，同时读到还有多少个key，也会出问题。
             //  需要加一个写锁，等第一个线程 读、更新完，再允许第二个线程进来读，这时候才是准确的。
             // 获取这个商品类型下所有的key
-            Set<String> keys = redisUtil.getKeys("wangcheng_" + category + "_*");
+//            Set<String> keys = redisUtil.getKeys("wangcheng_" + category + "_*");
+            
+            // 上面的keys命令在生产中禁用的，因此，用while循环，当最后一个key不存在时，跳出循环
+            List<String> keys = new ArrayList<>();
+            int keySubscript = 0;
+            while (true){
+                Boolean aBoolean = redisTemplate.hasKey("wangcheng_" + category + "_" + keySubscript);
+                if (aBoolean) {
+                    break;
+                }
+                if (keySubscript > 20) {
+                    break;
+                }
+                keySubscript++;
+            }
+
+            while (true){
+                Boolean aBoolean = redisTemplate.hasKey("wangcheng_" + category + "_" + keySubscript);
+                if (!aBoolean) {
+                    break;
+                }
+                String key = "wangcheng_" + category + "_" + keySubscript;
+                keys.add(key);
+                keySubscript++;
+            }
+            
             if (CollectionUtils.isEmpty(keys)) {
                 log.error("redis中，该商品类型【" + category + "】下key不存在");
                 return;
             }
             //正序排序
-            keys = keys.stream().sorted().collect(Collectors.toCollection(LinkedHashSet::new));
+//            keys = keys.stream().sorted().collect(Collectors.toCollection(LinkedHashSet::new));
 
             // 该商品类型的库存总量
             int totalSize = 0;

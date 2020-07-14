@@ -35,9 +35,6 @@ public class TestRedisMapServiceImpl implements TestRedisMapService {
         redisTemplate.opsForHash().putAll(redisKey1, redisValueMap1);
         redisTemplate.opsForHash().putAll(redisKey2, redisValueMap2);
 
-        redisTemplate.opsForHash().put(redisKey1+"_1", "goodsTotalNum1", 20);
-        redisTemplate.opsForHash().put(redisKey1+"_1", "goodsSellNum1", 12);
-
     }
 
     @Override
@@ -45,19 +42,21 @@ public class TestRedisMapServiceImpl implements TestRedisMapService {
         String redisKey1 = "dryCargo";
         String redisKey2 = "drinks";
 
+        redisTemplate.delete(redisKey1);
+
         Object goodsTotalNum1 = redisTemplate.opsForHash().get(redisKey1, "goodsTotalNum");
         Object goodsSellNum1 = redisTemplate.opsForHash().get(redisKey1, "goodsSellNum");
         Object goodsTotalNum2 = redisTemplate.opsForHash().get(redisKey2, "goodsTotalNum");
         Object goodsSellNum2 = redisTemplate.opsForHash().get(redisKey2, "goodsSellNum");
-        System.out.println(goodsTotalNum1);
-        System.out.println(goodsSellNum1);
-        System.out.println(goodsTotalNum2);
-        System.out.println(goodsSellNum2);
+        System.out.println("dryCargo goodsTotalNum: " + goodsTotalNum1);
+        System.out.println("dryCargo goodsSellNum: " + goodsSellNum1);
+        System.out.println("drinks goodsTotalNum: " + goodsTotalNum2);
+        System.out.println("drinks goodsSellNum: " + goodsSellNum2);
 
-        Object goodsTotalNum11 = redisTemplate.opsForHash().get(redisKey1 + "_1", "goodsTotalNum1");
-        Object goodsSellNum11 = redisTemplate.opsForHash().get(redisKey1 + "_1", "goodsSellNum1");
-        System.out.println(goodsTotalNum11);
-        System.out.println(goodsSellNum11);
+        Boolean aBoolean = redisTemplate.hasKey(redisKey1);
+        Boolean aBoolean2 = redisTemplate.hasKey(redisKey2);
+        System.out.println("dryCargo是否存在：" + aBoolean);
+        System.out.println("drinks是否存在：" + aBoolean2);
 
         List<Object> list = new ArrayList<>();
         list.add("goodsTotalNum");
