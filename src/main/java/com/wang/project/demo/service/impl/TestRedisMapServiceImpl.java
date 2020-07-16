@@ -8,6 +8,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @Description 测试redis map结构
@@ -34,7 +35,9 @@ public class TestRedisMapServiceImpl implements TestRedisMapService {
 
         redisTemplate.opsForHash().putAll(redisKey1, redisValueMap1);
         redisTemplate.opsForHash().putAll(redisKey2, redisValueMap2);
+        redisTemplate.expire(redisKey1, 30, TimeUnit.SECONDS);
 
+        redisTemplate.opsForHash().put(redisKey1, "goodsTotalNum", 20);
     }
 
     @Override
@@ -42,7 +45,7 @@ public class TestRedisMapServiceImpl implements TestRedisMapService {
         String redisKey1 = "dryCargo";
         String redisKey2 = "drinks";
 
-        redisTemplate.delete(redisKey1);
+//        redisTemplate.delete(redisKey1);
 
         Object goodsTotalNum1 = redisTemplate.opsForHash().get(redisKey1, "goodsTotalNum");
         Object goodsSellNum1 = redisTemplate.opsForHash().get(redisKey1, "goodsSellNum");
