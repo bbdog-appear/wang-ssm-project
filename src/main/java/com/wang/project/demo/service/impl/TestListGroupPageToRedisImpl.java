@@ -117,6 +117,9 @@ public class TestListGroupPageToRedisImpl implements TestListGroupPageToRedis {
      * 操作redis中的数据。数据库中的乐观锁同样也是这种，update状态为无效where状态为有效，那么这个where操作在数据库中是个查询操作，
      * 但是数据库已经加了锁空值，也就是行锁，两个线程进来，只有一个线程在同一时刻执行这条sql，另一个线程再执行的话，状态已经改变了。
      * 就相当于把并发这种问题用乐观锁，将问题抛给了数据库层面，让它去加锁解决。redis也是的，单线程的，pop操作，是线程安全的。
+     *
+     * 但是因为这个发货，需要速度快，所以不能加锁去解决并发问题。但是不加锁，查询操作就会有并发问题，那么在不加锁的情况下，把并发问题
+     * 抛给redis或者mysql行锁去解决。
      */
     @Override
     public void removeListRedis() {
