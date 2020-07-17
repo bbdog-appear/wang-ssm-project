@@ -111,6 +111,12 @@ public class TestListGroupPageToRedisImpl implements TestListGroupPageToRedis {
      * 第三次从第三个redisKey中pop5个，如果pop出的总量等于本次的量，就跳出循环。还有中情况，第一个redisKey上次已经被发过了，那么第一
      * 各redisKey pop0个，就继续从下一个key pop，如果都循环完了，pop出的元素为0，就从数据库中查，如果pop元素不为0，但是不够，就报货
      * 不够。
+     * 总结：就跟查数据库一样，查出数据库的值在内存中，但是下一秒数据库中的数据变了，但是jvm中是不感知的，所以在查询的时候要加读锁，
+     * 这样其他的接口写这个数据的时候，就会被锁，保证数据的稳定性。所以在查redis的时候，也一样，查询redis，将数据放在jvm内存中，再进行
+     * redis的其他操作，如变更、删除(pop)，那么并发情况下，这个数据肯定是不准的。所以操作redis时，不能先查，再对其进行变更，需要直接
+     * 操作redis中的数据。数据库中的乐观锁同样也是这种，update状态为无效where状态为有效，那么这个where操作在数据库中是个查询操作，
+     * 但是数据库已经加了锁空值，也就是行锁，两个线程进来，只有一个线程在同一时刻执行这条sql，另一个线程再执行的话，状态已经改变了。
+     * 就相当于把并发这种问题用乐观锁，将问题抛给了数据库层面，让它去加锁解决。redis也是的，单线程的，pop操作，是线程安全的。
      */
     @Override
     public void removeListRedis() {
