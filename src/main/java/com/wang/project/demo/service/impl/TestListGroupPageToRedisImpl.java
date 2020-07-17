@@ -96,6 +96,22 @@ public class TestListGroupPageToRedisImpl implements TestListGroupPageToRedis {
         }
     }
 
+    /**
+     * 重要的问题：以后可以说，开发过程中遇到哪些问题，怎么分析问题的，怎么解决的。
+     * 这种通过先计算该商品类型下总共有多少个redisKey，然后再计算本次需要发的商品数量需要几个redisKey，最后再循环redisKey列表几次
+     * ，这种方式是有问题的：如果1000个线程并发进来发货，那么1000个线程同时都读到该商品类型总共有10个redisKey，然后计算出都需要4个
+     * redisKey，那么第一个线程先对redisKey循环4次，把前4个redisKey里面的value都给pop出来了，第二个线程也计算出需要4个，所以也对
+     * 总redisKey循环4次，但是第1个线程已经把前4个redisKey都pop完了，第2个线程pop出来为空，然后就会抛异常：因为并发，第二个线程发
+     * 货失败，因为需要的数和查到的数不一致。但是实际上呢，第一个线程虽然把前4个redisKey都pop完了，但是还剩6个redisKey，不应该抛异
+     * 常的，应该把剩下的6个key中的4个key pop出去。所以以此类推，999个线程同时都抛异常出去。这就会造成一个问题，在前一秒内，第二个线
+     * 程发不了货，但是过了一秒，这个线程又可以发货了，就会出现隔一秒可以发货，隔一秒又不能发货。
+     * 解决办法：不查该商品类型下总共有多少个redisKey，也不计算本次需要发的商品数量需要几个redisKey，直接定义一个常量，比如10，固定
+     * 循环10次，第一次从第一个redisKey中pop元素，比如这次要发货25个，那么第一次循环，从第一个redisKey中通过管道pop，pop25个，但是
+     * 实际上就10个元素，所以pop10个，再拿25-10=15，结果大于0，就进行下一次循环，下一次从第二个redisKey中pop15，实际上pop10个，然后
+     * 第三次从第三个redisKey中pop5个，如果pop出的总量等于本次的量，就跳出循环。还有中情况，第一个redisKey上次已经被发过了，那么第一
+     * 各redisKey pop0个，就继续从下一个key pop，如果都循环完了，pop出的元素为0，就从数据库中查，如果pop元素不为0，但是不够，就报货
+     * 不够。
+     */
     @Override
     public void removeListRedis() {
         CategoryDTO categoryDTO = getCategoryDTO();
