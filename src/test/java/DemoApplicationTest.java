@@ -77,7 +77,11 @@ public class DemoApplicationTest {
      **/
     @Test
     public void removeListRedis() {
-        testListGroupPageToRedis.removeListRedis();
+//        testListGroupPageToRedis.removeListRedis();
+//        testListGroupPageToRedis.popRedisListElements();
+        Object obj = 10;
+        Long objLong = Long.valueOf(String.valueOf(obj));
+        System.out.println(objLong);
     }
 
     /**

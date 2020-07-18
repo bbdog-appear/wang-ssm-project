@@ -19,6 +19,14 @@ public interface TestListGroupPageToRedis {
     void removeListRedis();
 
     /**
+     * pop redis list结构中的元素，优化上面的removeListRedis方法
+     *
+     * @param
+     * @return void
+     **/
+    void popRedisListElements();
+
+    /**
      * 测试其他redis的list结构的api
      *
      * @param

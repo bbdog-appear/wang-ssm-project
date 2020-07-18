@@ -249,6 +249,50 @@ public class TestListGroupPageToRedisImpl implements TestListGroupPageToRedis {
     }
 
     @Override
+    public void popRedisListElements() {
+        CategoryDTO categoryDTO = getCategoryDTO();
+        List<Goods> goodsList = categoryDTO.getGoodsList();
+        goodsList.forEach(goods -> {
+            //请求的商品类型
+            String category = goods.getCategory();
+            //请求的某种类型的数量
+            int categoryNum = goods.getCategoryNum();
+
+            List<String> result = new ArrayList<>();
+
+            int categoryNumTemp = categoryNum;
+
+            for (int i = 0; i < 10; i++) {
+
+                String redisKey = "wangcheng_" + category + "_" + i;
+                List<String> singleElements = redisUtil.rPopList(redisKey, categoryNumTemp);
+
+                singleElements = singleElements.stream().filter(Objects::nonNull).collect(Collectors.toList());
+
+                result.addAll(singleElements);
+
+                if (categoryNumTemp >= singleElements.size()) {
+                    categoryNumTemp = categoryNumTemp - singleElements.size();
+                }
+
+                if (categoryNumTemp == 0) {
+                    break;
+                }
+            }
+
+            if (categoryNumTemp == categoryNum) {
+                System.out.println("类型：" + category + "下，redis没有数据");
+            }
+            else if (categoryNumTemp > 0) {
+                System.out.println("类型：" + category + "下，库存不足");
+            }
+
+            System.out.println("类型：" + category + "下，pop出的商品编号：" + result);
+
+        });
+    }
+
+    @Override
     public void testOtherListRedisOpr() {
         String redisKey = "wangcheng_dryCargo_1";
         List<String> list = Arrays.asList("11111", "22222");
@@ -460,7 +504,7 @@ public class TestListGroupPageToRedisImpl implements TestListGroupPageToRedis {
 //        goods1.setCategoryNum(1);
         Goods goods2 = new Goods();
         goods2.setCategory("dryCargo");
-        goods2.setCategoryNum(1);
+        goods2.setCategoryNum(5);
         categoryDTO.setGoodsList(Arrays.asList(goods2));
 //        categoryDTO.setGoodsList(Arrays.asList(goods1, goods2));
         return categoryDTO;
