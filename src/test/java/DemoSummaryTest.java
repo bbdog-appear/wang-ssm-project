@@ -1,3 +1,4 @@
+import com.wang.project.demo.service.TestRedissonService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,8 @@ public class DemoSummaryTest extends DemoApplicationTest{
 
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
+    @Autowired
+    private TestRedissonService testRedissonService;
 
     @Test
     public void testRedisOperate(){
@@ -38,4 +41,18 @@ public class DemoSummaryTest extends DemoApplicationTest{
             System.out.println("count2：" + count2);
         }
     }
+
+    /**
+     * 测试redisson操作
+     */
+    @Test
+    public void testRedisson(){
+        try {
+//            testRedissonService.testRedissonWriteLock();
+            testRedissonService.testRedissonReadLock();
+        } catch (Exception e){
+            log.error("操作redisson异常", e);
+        }
+    }
+
 }

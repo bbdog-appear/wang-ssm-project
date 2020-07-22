@@ -72,8 +72,6 @@ public class DemoApplicationTest {
     /**
      * 删除redis中list数据类型中的key或value
      *
-     * @param
-     * @return void
      **/
     @Test
     public void removeListRedis() {
@@ -87,8 +85,6 @@ public class DemoApplicationTest {
     /**
      * 测试list集合根据某个字段分组，并分页插入redis中(jdk8中list分组)
      *
-     * @param
-     * @return void
      **/
     @Test
     public void testListGroupPageToRedis() {
@@ -101,8 +97,6 @@ public class DemoApplicationTest {
      * 答案：因为虽然睡眠5秒，但是执行代码还要时间，所以每次循环大于5秒，经过3次循环，第4次已经超过15秒了。
      *      所以第一次存的毫秒数 < 当前时间。所以第1、4、7、10个线程拿到锁，其余没拿到锁。
      *
-     * @param
-     * @return void
      **/
     @Test
     public void testRedisLock() throws Exception{
@@ -117,8 +111,6 @@ public class DemoApplicationTest {
     /**
      * 测试redis相关操作
      *
-     * @param
-     * @return void
      **/
     @Test
     public void testRedis(){
@@ -134,8 +126,6 @@ public class DemoApplicationTest {
     /**
      * 测试相同属性的两个类的类型转换
      *
-     * @param
-     * @return void
      **/
     @Test
     public void testTypeConversion(){
@@ -157,8 +147,6 @@ public class DemoApplicationTest {
      * 但是在实际开发中，虽然主线程跑完了，但是只要这个进程存在，虚拟机会一直存在的，所以子线程也会
      * 得到执行，就跟WorkTest中的main方法测试的一种情况差不多。
      *
-     * @param
-     * @return void
      **/
     @Test
     public void testLockMechanism() throws InterruptedException {
@@ -177,8 +165,6 @@ public class DemoApplicationTest {
     /**
      * 测试Try Catch Finally
      *
-     * @param
-     * @return
      **/
     @Test
     public void testTryCatchFinally(){
@@ -194,9 +180,6 @@ public class DemoApplicationTest {
     /**
      * @author wangcheng
      * @Description 测试jdk8中的lambda表达式（集合）
-     * @Date 17:23 2020/5/18
-     * @Param []
-     * @return void
      **/
     @Test
     public void testLambda(){
@@ -206,9 +189,6 @@ public class DemoApplicationTest {
     /**
      * @author wangcheng
      * @Description 测试线程池
-     * @Date 9:30 2020/5/15
-     * @Param []
-     * @return void
      **/
     @Test
     public void testThreadPool(){
@@ -261,9 +241,6 @@ public class DemoApplicationTest {
      *
      * 如果将一个类放在spring容器中，那么项目启动的时候，就会初始化配置文件，然后如果要拿这个类的对象的话，
      * 直接从工厂中拿，因为为单例模式，所以每次拿到的都是一个对象，不管哪个线程过来，都是一个同一个对象。
-     * @Date 14:09 2020/5/15
-     * @Param []
-     * @return void
      **/
     @Test
     public void testBeanSingleton(){
