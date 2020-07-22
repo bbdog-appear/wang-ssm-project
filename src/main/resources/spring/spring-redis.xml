@@ -3,12 +3,17 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:redisson="http://redisson.org/schema/redisson"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
                            http://www.springframework.org/schema/context
                            http://www.springframework.org/schema/context/spring-context-4.0.xsd
                            http://www.springframework.org/schema/mvc
-                           http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+                           http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx.xsd
+                           http://redisson.org/schema/redisson
+                           http://redisson.org/schema/redisson/redisson.xsd">
 
     <!-- 配置redis -->
     <bean id="annotationPropertyConfigurerRedis" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -79,5 +84,10 @@
 
     <!-- 自定义redis工具类 -->
     <bean id="redisUtil" class="com.wang.project.demo.util.RedisUtil"/>
+
+    <!-- 配置redisson实例 -->
+    <redisson:client id="redissonClient">
+        <redisson:single-server address="${redis.redissonClient}"/>
+    </redisson:client>
 
 </beans>
