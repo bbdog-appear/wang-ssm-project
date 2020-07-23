@@ -48,8 +48,8 @@ public class DemoSummaryTest extends DemoApplicationTest{
     @Test
     public void testRedisson(){
         try {
-//            testRedissonService.testRedissonWriteLock();
-            testRedissonService.testRedissonReadLock();
+            testRedissonService.testRedissonWriteLock();
+//            testRedissonService.testRedissonReadLock();
         } catch (Exception e){
             log.error("操作redisson异常", e);
         }

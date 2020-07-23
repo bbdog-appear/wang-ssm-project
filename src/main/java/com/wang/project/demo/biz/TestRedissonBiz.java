@@ -48,10 +48,10 @@ public class TestRedissonBiz {
 
     /**
      * 测试redisson锁机制(读锁)
+     * 结论：读读不互斥，读写互斥，写读互斥，写写互斥
      */
     public void testRedissonReadLock() throws InterruptedException {
 
-        // TODO: 2020/7/22 看下读锁源码 ，并测试记录读读不互斥，读写互斥，写写互斥
         // 获取读写锁对象
         RReadWriteLock readWriteLock = redissonClient.getReadWriteLock(rwLockKey);
 
