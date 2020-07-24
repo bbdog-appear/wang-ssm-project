@@ -1,4 +1,5 @@
 import com.wang.project.demo.service.TestRedissonService;
+import com.wang.project.demo.service.TestThreadLocalService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,8 @@ public class DemoSummaryTest extends DemoApplicationTest{
     private RedisTemplate<String, Object> redisTemplate;
     @Autowired
     private TestRedissonService testRedissonService;
+    @Autowired
+    private TestThreadLocalService testThreadLocalService;
 
     @Test
     public void testRedisOperate(){
@@ -52,6 +55,18 @@ public class DemoSummaryTest extends DemoApplicationTest{
 //            testRedissonService.testRedissonReadLock();
         } catch (Exception e){
             log.error("操作redisson异常", e);
+        }
+    }
+
+    /**
+     * 测试threadLocal
+     */
+    @Test
+    public void testThreadLocal(){
+        try {
+            testThreadLocalService.testThreadLocal();
+        } catch (Exception e) {
+            log.error("测试threadLocal异常", e);
         }
     }
 

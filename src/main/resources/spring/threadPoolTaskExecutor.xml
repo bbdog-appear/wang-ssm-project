@@ -10,7 +10,26 @@
                            http://www.springframework.org/schema/mvc
                            http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
-    <bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor"/>
+    <!-- 读取properties文件,配置多个properties配置文件 -->
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" scope="prototype">
+        <property name="location" value="classpath:properties/application.properties"/>
+    </bean>
+
+    <!-- 配置spring封装的线程池 -->
+    <bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+        <!-- 核心线程数 -->
+        <property name="corePoolSize" value="${thread.pool.core.size}"/>
+        <!-- 空闲时间 -->
+        <property name="keepAliveSeconds" value="${thread.pool.keep.alive.seconds}"/>
+        <!-- 最大线程数 -->
+        <property name="maxPoolSize" value="${thread.pool.max.size}"/>
+        <!-- 缓存队列 -->
+        <property name="queueCapacity" value="${thread.pool.queueCapacity.size}"/>
+        <!-- 线程池的拒绝策略 -->
+        <property name="rejectedExecutionHandler">
+            <bean class="java.util.concurrent.ThreadPoolExecutor$CallerRunsPolicy"/>
+        </property>
+    </bean>
 
     <!-- 配置jdk中的线程池 -->
     <!--    <bean id="linkQueue" class="java.util.concurrent.LinkedBlockingQueue">-->
