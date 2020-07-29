@@ -1,5 +1,9 @@
 package com.wang.project.demo.test;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.Month;
 import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.Future;
@@ -24,16 +28,63 @@ public class WorkTest {
 //        test1();
 //        test2();
 //        testCallable();
-        testOriginalThread();
+//        testOriginalThread();
+        test3();
     }
 
     /**
-     * @Author c_wangcheng-007
-     * @Description 测试原始线程，原始线程执行完之后，就会自动销毁。随之虚拟机结束
+     * 1、测试和SimpleDateFormat一起用的Locale.getDefault();可以获取该虚拟机的运行语言环境
+     * 2、测试jdk8中的日期和时间
+     */
+    private static void test3(){
+        Locale aDefault = Locale.getDefault();
+        System.out.println(aDefault);
+        String country = aDefault.getCountry();
+        System.out.println(country);
+        System.out.println();
+        System.out.println();
+
+        // jdk1.8获取日期和时间
+        LocalDateTime localDateTime = LocalDateTime.now();
+        System.out.println(localDateTime);
+        LocalDate localDate = localDateTime.toLocalDate();
+        LocalTime localTime = localDateTime.toLocalTime();
+        System.out.println(localDate);
+        System.out.println(localTime);
+        System.out.println();
+
+        LocalDate localDate1 = LocalDate.now();
+        System.out.println(localDate1);
+        System.out.println();
+
+        LocalTime localTime1 = LocalTime.now();
+        System.out.println(localTime1);
+        int hour = localTime1.getHour();
+        int minute = localTime1.getMinute();
+        int second = localTime1.getSecond();
+        System.out.println(hour);
+        System.out.println(minute);
+        System.out.println(second);
+        System.out.println();
+
+        LocalDateTime localDateTime1 = LocalDateTime.of(2020, 7, 28, 7, 31, 10);
+        System.out.println(localDateTime1);
+        LocalDate localDate2 = localDateTime1.toLocalDate();
+        LocalTime localTime2 = localDateTime1.toLocalTime();
+        System.out.println(localDate2);
+        System.out.println(localTime2);
+        System.out.println();
+
+        int year = localDateTime1.getYear();
+        int month = localDateTime1.getMonth().getValue();
+        int dayOfMonth = localDateTime1.getDayOfMonth();
+
+    }
+
+
+    /**
+     * 测试原始线程，原始线程执行完之后，就会自动销毁。随之虚拟机结束
      * 注意，传统的new Thread方式，只支持RunnerAble，没有返回值。用线程池的时候，可以用CallAble
-     * @Date 0:05 2020/6/6/006
-     * @Param []
-     * @return void
      **/
     private static void testOriginalThread(){
         Thread thread = new Thread(() -> {
@@ -59,9 +110,6 @@ public class WorkTest {
 
     /**
      * 测试HashSet或TreeSet
-     *
-     * @param
-     * @return void
      **/
     private static void testHashSetOrTreeSet(){
         Set<String> hashSet = new HashSet<>();
@@ -93,8 +141,6 @@ public class WorkTest {
      * 记住，在main方法中开线程，虚拟机肯定等到最后一个线程中的任务跑完，再结束的。
      * 但是如果线程还存在的话，那么虚拟机就不会结束。
      *
-     * @param
-     * @return void
      **/
     private static void testCallable() {
         //将一个任务丢进线程池中执行
@@ -121,8 +167,6 @@ public class WorkTest {
     /**
      * 测试if 和 if else 是否只走其中一个。答：是的
      *
-     * @param
-     * @return void
      **/
     public static void test2(){
         String i = "nihao";
@@ -140,8 +184,6 @@ public class WorkTest {
     /**
      * 测试jdk8新特性中list的操作
      *
-     * @param
-     * @return void
      **/
     public static void test1(){
         //快速创建list
