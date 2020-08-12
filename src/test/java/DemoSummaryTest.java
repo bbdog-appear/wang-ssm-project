@@ -1,4 +1,5 @@
 import com.wang.project.demo.service.TestRedissonService;
+import com.wang.project.demo.service.TestReflectService;
 import com.wang.project.demo.service.TestThreadLocalService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -24,6 +25,8 @@ public class DemoSummaryTest extends DemoApplicationTest{
     private TestRedissonService testRedissonService;
     @Autowired
     private TestThreadLocalService testThreadLocalService;
+    @Autowired
+    private TestReflectService testReflectService;
 
     @Test
     public void testRedisOperate(){
@@ -68,6 +71,14 @@ public class DemoSummaryTest extends DemoApplicationTest{
         } catch (Exception e) {
             log.error("测试threadLocal异常", e);
         }
+    }
+
+    /**
+     * 测试反射
+     */
+    @Test
+    public void testReflect() {
+        testReflectService.testReflect();
     }
 
 }
