@@ -22,12 +22,16 @@ public class TestRedisMapServiceImpl implements TestRedisMapService {
     @Autowired
     private RedisUtil redisUtil;
 
+    /**
+     * 说明：redis hash结构，相同的key，其中hashMap中的key相同的话，会覆盖上一次的值
+     * 过期时间：expire方法，会覆盖上一次的过期时间。
+     */
     @Override
     public void testAddRedisMap() {
         String redisKey1 = "dryCargo";
         Map<String, Object> redisValueMap1 = new HashMap<>();
-        redisValueMap1.put("goodsTotalNum", 10);
-        redisValueMap1.put("goodsSellNum", 6);
+        redisValueMap1.put("goodsTotalNum", 16);
+        redisValueMap1.put("goodsSellNum", 3);
         String redisKey2 = "drinks";
         Map<String, Object> redisValueMap2 = new HashMap<>();
         redisValueMap2.put("goodsTotalNum", 15);
@@ -37,7 +41,7 @@ public class TestRedisMapServiceImpl implements TestRedisMapService {
         redisTemplate.opsForHash().putAll(redisKey2, redisValueMap2);
         redisTemplate.expire(redisKey1, 30, TimeUnit.SECONDS);
 
-        redisTemplate.opsForHash().put(redisKey1, "goodsTotalNum", 20);
+//        redisTemplate.opsForHash().put(redisKey1, "goodsTotalNum", 20);
     }
 
     @Override
