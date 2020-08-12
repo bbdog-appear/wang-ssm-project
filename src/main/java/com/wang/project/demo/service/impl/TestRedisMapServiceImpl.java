@@ -1,5 +1,6 @@
 package com.wang.project.demo.service.impl;
 
+import com.wang.project.demo.entity.User;
 import com.wang.project.demo.service.TestRedisMapService;
 import com.wang.project.demo.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +29,15 @@ public class TestRedisMapServiceImpl implements TestRedisMapService {
      */
     @Override
     public void testAddRedisMap() {
+
+        User user = new User();
+        user.setCode("chengcheng");
+        user.setName("成成");
+        user.setInsertTime(new Date());
+
         String redisKey1 = "dryCargo";
         Map<String, Object> redisValueMap1 = new HashMap<>();
-        redisValueMap1.put("goodsTotalNum", 16);
+        redisValueMap1.put("goodsTotalNum", user);
         redisValueMap1.put("goodsSellNum", 3);
         String redisKey2 = "drinks";
         Map<String, Object> redisValueMap2 = new HashMap<>();
@@ -39,9 +46,30 @@ public class TestRedisMapServiceImpl implements TestRedisMapService {
 
         redisTemplate.opsForHash().putAll(redisKey1, redisValueMap1);
         redisTemplate.opsForHash().putAll(redisKey2, redisValueMap2);
-        redisTemplate.expire(redisKey1, 30, TimeUnit.SECONDS);
+//        redisTemplate.expire(redisKey1, 30, TimeUnit.SECONDS);
 
 //        redisTemplate.opsForHash().put(redisKey1, "goodsTotalNum", 20);
+    }
+
+    /**
+     * 测试关于int转Long、long类型问题
+     * 应该用String类型过度一下
+     *
+     * @param args
+     */
+    public static void main(String[] args) {
+        Object lon = 10;
+        String s = String.valueOf(lon);
+        Long aLong = Long.valueOf(s);
+        System.out.println(aLong);
+
+        // 报错
+        Long aa = (Long) lon;
+        System.out.println(aa);
+
+        // 报错
+        long aaa = (long) lon;
+        System.out.println(aaa);
     }
 
     @Override
