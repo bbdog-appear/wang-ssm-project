@@ -6,6 +6,7 @@ import org.apache.commons.lang3.reflect.FieldUtils;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
+import java.util.List;
 
 /**
  * <p>
@@ -27,9 +28,11 @@ public class TestReflectServiceImpl implements TestReflectService {
 //        Field[] fields = wcProductEO.getClass().getFields();
 
         // Commons-lang3包中可以获取当前类和父类所有的属性(public、private)
-        Field[] allFields = FieldUtils.getAllFields(WcProductEO.class);
+        // 下面两个一样的效果
+//        Field[] allFields = FieldUtils.getAllFields(WcProductEO.class);
+        List<Field> allFieldsList = FieldUtils.getAllFieldsList(WcProductEO.class);
 
-        for (Field allField : allFields) {
+        for (Field allField : allFieldsList) {
             String name = allField.getName();
             System.out.println(name);
         }
