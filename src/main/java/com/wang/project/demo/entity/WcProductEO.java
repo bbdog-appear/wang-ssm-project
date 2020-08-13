@@ -18,9 +18,9 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class WcProductEO implements Serializable {
+public class WcProductEO {
 
-    private static final long serialVersionUID = 5203567668957067748L;
+//    private static final long serialVersionUID = 5203567668957067748L;
 
     private Long id;
     private String productCode;

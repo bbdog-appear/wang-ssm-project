@@ -69,6 +69,11 @@ public class TestReflectServiceImpl implements TestReflectService {
             }
         }
         System.out.println("反射addRedis的hashMap值：" + map);
+
+        /* 这里需要说明一下：因为redisTemplate操作map的时候，最外面的是wcProductEO对象，已经在配置的时候
+        * 加了JDK的序列化了，存入时值大概为：productCode为\xAC\xED\x00\x05t\x00\x0510001，所以WcProductEO
+        * 不需要实现Serializable了，如果再实现，那么就会报错转换warn。
+        * 但是里面的User对象，没有加上序列化，所以需要在User类里实现Serializable才可以，不然会报错Exception */
         redisTemplate.opsForHash().putAll("cheng007", map);
     }
 
