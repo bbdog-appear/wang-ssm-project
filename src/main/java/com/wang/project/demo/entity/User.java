@@ -1,6 +1,9 @@
 package com.wang.project.demo.entity;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -12,7 +15,9 @@ import java.util.Date;
  * <p>
  * User:wangcheng Date:2020/4/26 9:49 ProjectName:User Version:1.0
  **/
-@Data
+@Getter
+@Setter
+@ToString
 public class User implements Serializable {
 
     private static final long serialVersionUID = -5730383041598417485L;

@@ -78,7 +78,8 @@ public class DemoSummaryTest extends DemoApplicationTest{
      */
     @Test
     public void testReflect() {
-        testReflectService.testReflect();
+        testReflectService.testReflectAddRedis();
+        testReflectService.testReflectGetRedis();
     }
 
 }

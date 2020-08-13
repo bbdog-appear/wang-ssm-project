@@ -6,6 +6,7 @@ import lombok.ToString;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @Description TODO
@@ -27,4 +28,6 @@ public class WcProductEO implements Serializable {
     private Long productNum;
     private Date insertTime;
     private Date updateTime;
+    private List<User> userList;
+
 }
