@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 读取properties文件,配置多个properties配置文件 -->
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" scope="prototype">
+        <property name="location" value="classpath:properties/application.properties"/>
+    </bean>
+
+    <!-- 定义consumer的参数 -->
+    <bean id="consumerProperties" class="java.util.HashMap">
+        <constructor-arg>
+            <map>
+                <entry key="bootstrap.servers"          value="${kafka.consumer.bootstrap.servers}"/>
+                <entry key="group.id"                   value="${kafka.consumer.group.id}"/>
+                <entry key="enable.auto.commit"         value="${kafka.consumer.enable.auto.commit}" />
+                <entry key="session.timeout.ms"         value="${kafka.consumer.session.timeout.ms}" />
+                <entry key="auto.commit.interval.ms"    value="${kafka.consumer.auto.commit.interval.ms}" />
+                <entry key="retry.backoff.ms"           value="100" />
+                <entry key="key.deserializer"           value="${kafka.consumer.key.deserializer}" />
+                <entry key="value.deserializer"         value="${kafka.consumer.value.deserializer}" />
+            </map>
+        </constructor-arg>
+    </bean>
+
+    <!-- 创建consumerFactory bean -->
+    <bean id="consumerFactory" class="org.springframework.kafka.core.DefaultKafkaConsumerFactory">
+        <constructor-arg ref="consumerProperties"/>
+    </bean>
+
+</beans>
