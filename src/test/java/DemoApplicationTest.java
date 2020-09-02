@@ -183,7 +183,8 @@ public class DemoApplicationTest {
      **/
     @Test
     public void testLambda(){
-        testLambdaService.testLambda();
+//        testLambdaService.testLambda();
+        testLambdaService.testListToMap();
     }
 
     /**

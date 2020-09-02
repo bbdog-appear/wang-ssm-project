@@ -3,12 +3,15 @@ package com.wang.project.demo.service.impl;
 import com.wang.project.demo.dao.WcProductDao;
 import com.wang.project.demo.entity.WcProductEO;
 import com.wang.project.demo.service.TestLambdaService;
+import com.wang.project.demo.vo.Goods;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -47,4 +50,38 @@ public class TestLambdaServiceImpl implements TestLambdaService {
         }
 
     }
+
+    /**
+     * 结论：list转map之后，通过map遍历出来的对象，更改属性值之后，list里的对象跟着改变
+     */
+    @Override
+    public void testListToMap() {
+        List<Goods> goodsList = new ArrayList<>();
+        Goods goods1 = new Goods();
+        goods1.setCategory("1");
+        goods1.setGoodsNo("1");
+        goods1.setCategoryNum(1);
+        Goods goods2 = new Goods();
+        goods2.setCategory("2");
+        goods2.setGoodsNo("2");
+        goods2.setCategoryNum(2);
+        goodsList.add(goods1);
+        goodsList.add(goods2);
+        System.out.println("goodsList的值：" + goodsList);
+
+        testTrans(goodsList);
+        System.out.println("goodsList变更后的值：" + goodsList);
+
+    }
+
+    private void testTrans(List<Goods> goodsList){
+        Map<String, Goods> goodsMap = goodsList.stream().
+                collect(Collectors.toMap(Goods::getCategory, Function.identity()));
+        System.out.println("goodsMap的值：" + goodsMap);
+
+        Goods goods1 = goodsMap.get("1");
+        goods1.setGoodsNo("3");
+        System.out.println("goodsMap变更后的值：" + goodsMap);
+    }
+
 }

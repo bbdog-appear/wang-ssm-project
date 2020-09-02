@@ -10,4 +10,9 @@ public interface TestLambdaService {
      * @return void
      **/
     void testLambda();
+
+    /**
+     * 测试list转map后对象是否改变
+     */
+    void testListToMap();
 }
