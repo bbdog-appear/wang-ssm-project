@@ -29,7 +29,15 @@ public class WorkTest {
 //        test2();
 //        testCallable();
 //        testOriginalThread();
-        test3();
+        test4();
+    }
+
+    private static void test4(){
+        Long arr = null;
+        if (arr != -1 && arr <= 0) {
+            System.out.println("arr不行");
+        }
+        System.out.println("结束");
     }
 
     /**
