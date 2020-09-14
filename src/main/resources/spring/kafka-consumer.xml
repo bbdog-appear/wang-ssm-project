@@ -44,9 +44,9 @@
         <constructor-arg value="${kafka.topic.name.default}"/>
         <property name="messageListener" ref="singleAutoKafkaConsumer"/>
         <!-- 提交offset,批量提交(当auto.commit开关为开时，默认的ack，当为关时，需配置这里) -->
-        <property name="ackMode" value="MANUAL"/>
+<!--        <property name="ackMode" value="MANUAL"/>-->
         <!-- 提交offset的方式,每调用一次，就立即commit -->
-<!--        <property name="ackMode" value="MANUAL_IMMEDIATE"/>-->
+        <property name="ackMode" value="MANUAL_IMMEDIATE"/>
     </bean>
 
     <!-- 单线程消息监听容器,每启动一个消费者客户端,只会开启一个线程来消费 -->

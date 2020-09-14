@@ -1,7 +1,4 @@
-import com.wang.project.demo.service.TestKafkaProducerService;
-import com.wang.project.demo.service.TestRedissonService;
-import com.wang.project.demo.service.TestReflectService;
-import com.wang.project.demo.service.TestThreadLocalService;
+import com.wang.project.demo.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +27,8 @@ public class DemoSummaryTest extends DemoApplicationTest{
     private TestReflectService testReflectService;
     @Autowired
     private TestKafkaProducerService testKafkaProducerService;
+    @Autowired
+    private TestKafkaConsumerService testKafkaConsumerService;
 
     @Test
     public void testRedisOperate(){
@@ -91,6 +90,14 @@ public class DemoSummaryTest extends DemoApplicationTest{
     @Test
     public void sendMessage(){
         testKafkaProducerService.sendMessage();
+    }
+
+    /**
+     * 测试kafka接收消息
+     */
+    @Test
+    public void receiveMessage(){
+        testKafkaConsumerService.receiveMessage();
     }
 
 }

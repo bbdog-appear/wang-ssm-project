@@ -1,5 +1,7 @@
 package com.wang.project.demo.service.kafkaConsumer;
 
+import com.alibaba.fastjson.JSONObject;
+import com.wang.project.demo.entity.WcProductEO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.listener.MessageListener;
@@ -15,10 +17,17 @@ import org.springframework.kafka.listener.MessageListener;
 @Slf4j
 public class TestSingleAutoKafkaConsumer implements MessageListener<String, String> {
 
-
     @Override
-    public void onMessage(ConsumerRecord<String, String> stringStringConsumerRecord) {
-
+    public void onMessage(ConsumerRecord<String, String> data) {
+        String topic = data.topic();
+        System.out.println("topic为：" + topic);
+        long offset = data.offset();
+        System.out.println("offset为：" + offset);
+        int partition = data.partition();
+        System.out.println("partition为：" + partition);
+        String value = data.value();
+        WcProductEO wcProductEO = JSONObject.parseObject(value, WcProductEO.class);
+        System.out.println("消息为：" + wcProductEO);
     }
 
 }
