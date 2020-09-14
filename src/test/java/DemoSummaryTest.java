@@ -1,3 +1,4 @@
+import com.wang.project.demo.service.TestKafkaProducerService;
 import com.wang.project.demo.service.TestRedissonService;
 import com.wang.project.demo.service.TestReflectService;
 import com.wang.project.demo.service.TestThreadLocalService;
@@ -27,6 +28,8 @@ public class DemoSummaryTest extends DemoApplicationTest{
     private TestThreadLocalService testThreadLocalService;
     @Autowired
     private TestReflectService testReflectService;
+    @Autowired
+    private TestKafkaProducerService testKafkaProducerService;
 
     @Test
     public void testRedisOperate(){
@@ -80,6 +83,14 @@ public class DemoSummaryTest extends DemoApplicationTest{
     public void testReflect() {
         testReflectService.testReflectAddRedis();
         testReflectService.testReflectGetRedis();
+    }
+
+    /**
+     * 测试kafka发送消息
+     */
+    @Test
+    public void sendMessage(){
+        testKafkaProducerService.sendMessage();
     }
 
 }

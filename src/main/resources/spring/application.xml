@@ -25,4 +25,8 @@
     <!-- 引入spring封装的线程池 -->
     <import resource="threadPoolTaskExecutor.xml"/>
 
+    <!-- 引入kafka生产者、消费者 -->
+    <import resource="kafka-producer.xml"/>
+    <import resource="kafka-consumer.xml"/>
+
 </beans>
