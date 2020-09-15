@@ -63,4 +63,26 @@
         <property name="concurrency" value="${kafka.consumer.concurrency}"/>
     </bean>
 
+    <!-- 消费二、消费消息的服务实现类 -->
+    <bean id="batchAutoKafkaConsumer" class="com.wang.project.demo.service.kafkaConsumer.TestBatchAutoKafkaConsumer"/>
+
+    <!-- 消费二、消费者容器配置信息 -->
+    <bean id="batchAutoContainerProperties" class="org.springframework.kafka.listener.config.ContainerProperties">
+        <!-- 主题topic -->
+        <constructor-arg value="${kafka.topic.name.default}"/>
+        <property name="messageListener" ref="batchAutoKafkaConsumer"/>
+        <!-- 提交offset,批量提交(当auto.commit开关为开时，默认的ack，当为关时，需配置这里) -->
+        <!--        <property name="ackMode" value="MANUAL"/>-->
+        <!-- 提交offset的方式,每调用一次，就立即commit -->
+        <property name="ackMode" value="MANUAL_IMMEDIATE"/>
+    </bean>
+
+    <!-- 消费二、多线程消息监听容器,每启动一个消费者客户端,可以开启多个线程,开启多少个线程自己可以通过concurrency来指定 -->
+    <bean id="batchAutoMessageListenerContainer" class="org.springframework.kafka.listener.ConcurrentMessageListenerContainer" init-method="doStart">
+        <constructor-arg ref="consumerFactory"/>
+        <constructor-arg ref="batchAutoContainerProperties"/>
+        <!-- 并发数 -->
+        <property name="concurrency" value="${kafka.consumer.concurrency}"/>
+    </bean>
+
 </beans>

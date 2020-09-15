@@ -98,6 +98,7 @@ public class DemoSummaryTest extends DemoApplicationTest{
     @Test
     public void receiveMessage(){
         testKafkaConsumerService.receiveMessage();
+        testKafkaConsumerService.batchAutoReceiveMessage();
     }
 
 }

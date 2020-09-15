@@ -7,4 +7,9 @@ public interface TestKafkaConsumerService {
      */
     void receiveMessage();
 
+    /**
+     * 测试kafka消费者批量接收消息。自动提交offset
+     */
+    void batchAutoReceiveMessage();
+
 }
