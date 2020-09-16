@@ -1,5 +1,6 @@
 package com.wang.project.demo.config;
 
+import com.rabbitmq.client.ConnectionFactory;
 import com.wang.project.demo.test.Simple;
 import org.junit.runner.RunWith;
 import org.springframework.context.annotation.Bean;
@@ -8,9 +9,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
- * @Description TODO
  * <p>
- * 1、TODO
+ *      创建bean类
  * <p>
  * User:wangcheng Date:2020/5/7 11:18 ProjectName:CreateBeanConfig Version:1.0
  **/
@@ -40,4 +40,14 @@ public class CreateBeanConfig {
         simple.setSimpleName("简单名字");
         return simple;
     }
+
+    @Bean(name = "factory")
+    public ConnectionFactory createConnectionFactory(){
+        ConnectionFactory factory = new ConnectionFactory();
+        factory.setUsername("guest");
+        factory.setPassword("guest");
+        factory.setHost("localhost");
+        return factory;
+    }
+
 }

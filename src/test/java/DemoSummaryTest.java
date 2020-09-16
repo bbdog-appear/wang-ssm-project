@@ -29,6 +29,8 @@ public class DemoSummaryTest extends DemoApplicationTest{
     private TestKafkaProducerService testKafkaProducerService;
     @Autowired
     private TestKafkaConsumerService testKafkaConsumerService;
+    @Autowired
+    private TestRabbitMQService testRabbitMQService;
 
     @Test
     public void testRedisOperate(){
@@ -99,6 +101,17 @@ public class DemoSummaryTest extends DemoApplicationTest{
     public void receiveMessage(){
         testKafkaConsumerService.receiveMessage();
         testKafkaConsumerService.batchAutoReceiveMessage();
+    }
+
+    /**
+     * 测试rabbitMQ
+     *
+     * @throws Exception 异常
+     */
+    @Test
+    public void testRabbitMQ() throws Exception{
+        testRabbitMQService.testProducer();
+        testRabbitMQService.testConsumer();
     }
 
 }

@@ -232,6 +232,13 @@
             </exclusions>
         </dependency>
 
+        <!-- 引入rabbitMQ客户端包 -->
+        <dependency>
+            <groupId>com.rabbitmq</groupId>
+            <artifactId>amqp-client</artifactId>
+            <version>5.7.0</version>
+        </dependency>
+
 
     </dependencies>
 
