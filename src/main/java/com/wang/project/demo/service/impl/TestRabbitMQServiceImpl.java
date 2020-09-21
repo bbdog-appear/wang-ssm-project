@@ -3,12 +3,12 @@ package com.wang.project.demo.service.impl;
 import com.rabbitmq.client.*;
 import com.wang.project.demo.service.TestRabbitMQService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.concurrent.TimeoutException;
 
 /**
  * <p>
@@ -24,6 +24,8 @@ public class TestRabbitMQServiceImpl implements TestRabbitMQService {
 
     @Autowired
     private ConnectionFactory factory;
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     @Override
     public void testProducer() throws Exception {
@@ -78,6 +80,24 @@ public class TestRabbitMQServiceImpl implements TestRabbitMQService {
                 }
             });
         }
+    }
+
+    @Override
+    public void testSpringProducer() throws Exception{
+        rabbitTemplate.convertAndSend("exchange_1_queue_1_message_1");
+        Thread.sleep(5000);
+    }
+
+    @Override
+    public void testSpringConsumer() throws Exception{
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+
+            }
+        };
+        thread.start();
+
     }
 
 }

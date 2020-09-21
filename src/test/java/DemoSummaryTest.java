@@ -110,8 +110,10 @@ public class DemoSummaryTest extends DemoApplicationTest{
      */
     @Test
     public void testRabbitMQ() throws Exception{
-        testRabbitMQService.testProducer();
-        testRabbitMQService.testConsumer();
+//        testRabbitMQService.testProducer();
+//        testRabbitMQService.testConsumer();
+        testRabbitMQService.testSpringProducer();
+//        testRabbitMQService.testSpringConsumer();
     }
 
 }

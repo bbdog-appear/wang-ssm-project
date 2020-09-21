@@ -29,4 +29,7 @@
     <import resource="kafka-producer.xml"/>
     <import resource="kafka-consumer.xml"/>
 
+    <!-- 引入rabbitMQ配置 -->
+    <import resource="spring-rabbitmq.xml"/>
+
 </beans>
