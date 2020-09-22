@@ -85,19 +85,26 @@ public class TestRabbitMQServiceImpl implements TestRabbitMQService {
     @Override
     public void testSpringProducer() throws Exception{
         rabbitTemplate.convertAndSend("exchange_1_queue_1_message_1");
-        Thread.sleep(5000);
+        // 队列在配置中已经配好，这里可以指定一下routerKey(路由key)
+        rabbitTemplate.convertAndSend("queue_1_key", "exchange_1_queue_1_message_1");
+        Thread.sleep(50000);
     }
 
     @Override
     public void testSpringConsumer() throws Exception{
-        Thread thread = new Thread() {
-            @Override
-            public void run() {
-
-            }
-        };
-        thread.start();
-
+        /*
+        使用消息中间件的目的:
+            1.模块解耦, 各个模块各司其职, 避免业务耦合:
+                应用场景:商品上下架时,可以将Solr索引库的同步请求发送到消息队列, 让搜索微服务自己去同步Solr库,
+                而商品模块可以直接认为商品同步成功, 并且此处的Solr索引同步延迟是可以接受的;
+            2.异步处理,将不需要同步处理的业务进行异步处理, 提高接口响应速度:
+                典型场景,后端生成验证码之后不必等待短信系统发送完再将结果返回, 当提交给短信发送微服务后即可认
+                为发送成功, 故可直接通知用户短信已发送;
+            3.削峰填谷, 均衡整个系统的负载:
+                rabbitmq是默认单线程消费某个队列的消息, 也可以通过设置, 进行并发消费,总之其实可控的,避免高并发下的系统假死;
+                可以设置最大消息数, 当超过时直接丢弃, 保证系统不至于过载;
+        应用场景:秒杀;
+         */
     }
 
 }

@@ -14,10 +14,11 @@
     <!-- 通过指定下面的admin信息，当前producer中的exchange和queue会在rabbitmq服务器上自动生成 -->
     <rabbit:admin id="connectAdmin" connection-factory="rabbitConnectionFactory"/>
 
+    <!-- +++++++++++++++++++++++++++++++direct类型转换器配置 begin++++++++++++++++++++++++++++++++ -->
     <!-- 配置消息队列 -->
     <rabbit:queue name="queue_1" declared-by="connectAdmin"/>
 
-    <!-- 定义direct exchange，绑定queue_1 -->
+    <!-- 定义direct exchange(其中有多种类型的转换器：direct、fanout、topic)，绑定queue_1 -->
     <rabbit:direct-exchange name="exchange_1" declared-by="connectAdmin">
         <rabbit:bindings>
             <rabbit:binding queue="queue_1"/>
@@ -34,5 +35,76 @@
     <rabbit:listener-container>
         <rabbit:listener ref="messageReceiver" queues="queue_1"/>
     </rabbit:listener-container>
+    <!-- +++++++++++++++++++++++++++++++direct类型转换器配置 end++++++++++++++++++++++++++++++++ -->
+
+    <!-- +++++++++++++++++++++++++++++++fanout类型转换器配置 begin++++++++++++++++++++++++++++++++ -->
+<!--    &lt;!&ndash; 配置消息队列 &ndash;&gt;-->
+<!--    <rabbit:queue name="queue_2" declared-by="connectAdmin"/>-->
+<!--    <rabbit:queue name="queue_3" declared-by="connectAdmin"/>-->
+
+<!--    &lt;!&ndash; 定义direct exchange(其中有多种类型的转换器：direct、fanout、topic)，绑定queue_1 &ndash;&gt;-->
+<!--    <rabbit:direct-exchange name="exchange_2" declared-by="connectAdmin">-->
+<!--        <rabbit:bindings>-->
+<!--            <rabbit:binding queue="queue_2"/>-->
+<!--            <rabbit:binding queue="queue_3"/>-->
+<!--        </rabbit:bindings>-->
+<!--    </rabbit:direct-exchange>-->
+
+<!--    &lt;!&ndash;定义rabbit template用于数据的接收和发送 &ndash;&gt;-->
+<!--    <rabbit:template id="rabbitTemplate" connection-factory="rabbitConnectionFactory" exchange="exchange_2"/>-->
+
+<!--    &lt;!&ndash; 消息接收者 &ndash;&gt;-->
+<!--    <bean id="messageReceiver_2" class="com.wang.project.demo.service.rabbitMQConsumer.TestRabbitMQConsumer"/>-->
+
+<!--    &lt;!&ndash; queue listener 观察 监听模式 当有消息到达时会通知监听在对应的队列上的监听对象 &ndash;&gt;-->
+<!--    <rabbit:listener-container>-->
+<!--        <rabbit:listener ref="messageReceiver_2" queues="queue_2"/>-->
+<!--    </rabbit:listener-container>-->
+
+<!--    &lt;!&ndash; 消息接收者 &ndash;&gt;-->
+<!--    <bean id="messageReceiver_3" class="com.wang.project.demo.service.rabbitMQConsumer.TestRabbitMQConsumer"/>-->
+
+<!--    &lt;!&ndash; queue listener 观察 监听模式 当有消息到达时会通知监听在对应的队列上的监听对象 &ndash;&gt;-->
+<!--    <rabbit:listener-container>-->
+<!--        <rabbit:listener ref="messageReceiver_3" queues="queue_3"/>-->
+<!--    </rabbit:listener-container>-->
+    <!-- +++++++++++++++++++++++++++++++fanout类型转换器配置 end++++++++++++++++++++++++++++++++ -->
+
+    <!-- +++++++++++++++++++++++++++++++topic类型转换器配置 begin++++++++++++++++++++++++++++++++ -->
+<!--    <rabbit:queue name="queue_4"  declared-by="connectAdmin"/>-->
+<!--    <rabbit:queue name="queue_5"  declared-by="connectAdmin"/>-->
+<!--    <rabbit:queue name="queue_6"  declared-by="connectAdmin"/>-->
+
+<!--    <rabbit:topic-exchange name="exchange_topic">-->
+<!--        <rabbit:bindings>-->
+<!--            <rabbit:binding queue="queue_4" pattern="*.*.test"/>-->
+<!--            <rabbit:binding queue="queue_5" pattern="com.wang.test"/>-->
+<!--            <rabbit:binding queue="queue_6" pattern="*.wang.test"/>-->
+<!--        </rabbit:bindings>-->
+<!--    </rabbit:topic-exchange>-->
+
+<!--    <rabbit:template id="rabbitTemplate_topic" connection-factory="rabbitConnectionFactory" exchange="exchange_topic"/>-->
+
+<!--    &lt;!&ndash;定义监听器&ndash;&gt;-->
+<!--    <bean id="messageListener_4" class="com.wang.project.demo.service.rabbitMQConsumer.TestRabbitMQConsumer"/>-->
+
+<!--    <rabbit:listener-container>-->
+<!--        <rabbit:listener queues="queue_4" ref="messageListener_4"/>-->
+<!--    </rabbit:listener-container>-->
+
+<!--    &lt;!&ndash;定义监听器&ndash;&gt;-->
+<!--    <bean id="messageListener_5" class="com.wang.project.demo.service.rabbitMQConsumer.TestRabbitMQConsumer"/>-->
+
+<!--    <rabbit:listener-container>-->
+<!--        <rabbit:listener queues="queue_5" ref="messageListener_5"/>-->
+<!--    </rabbit:listener-container>-->
+
+<!--    &lt;!&ndash;定义监听器&ndash;&gt;-->
+<!--    <bean id="messageListener_6" class="com.wang.project.demo.service.rabbitMQConsumer.TestRabbitMQConsumer"/>-->
+
+<!--    <rabbit:listener-container>-->
+<!--        <rabbit:listener queues="queue_6" ref="messageListener_6"/>-->
+<!--    </rabbit:listener-container>-->
+    <!-- +++++++++++++++++++++++++++++++topic类型转换器配置 end++++++++++++++++++++++++++++++++ -->
 
 </beans>
