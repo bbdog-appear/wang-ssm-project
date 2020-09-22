@@ -1,18 +1,15 @@
 package com.wang.project.demo.biz;
 
-import com.sun.corba.se.spi.orbutil.threadpool.Work;
-import com.wang.project.demo.commons.CostomException;
 import com.wang.project.demo.dao.WcProductDao;
+import com.wang.project.demo.entity.User;
 import com.wang.project.demo.entity.WcProductEO;
-import javafx.concurrent.Worker;
-import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.*;
 
@@ -78,18 +75,39 @@ public class TestTheadPoolServiceBiz {
             }
         });
 
-//        Future<Map<String, Object>> submit = theadPoolExecutor.submit(() -> {
-//            System.out.println("测试线程池返回值");
-//            Map<String, Object> map = new HashMap<>();
-//            map.put("test", "测试");
-//            return map;
-//        });
-//        try {
-//            Map<String, Object> map = submit.get();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        // 第三种写法，lambda表达式，匿名内部类，有返回值
+        Future<Map<String, Object>> submit = theadPoolExecutor.submit(() -> {
+            System.out.println("测试线程池返回值");
+            Map<String, Object> map = new HashMap<>();
+            map.put("test", "测试");
+            return map;
+        });
+        try {
+            Map<String, Object> map = submit.get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
+        // 第四种写法，匿名内部类，有返回值
+        Future<List<User>> result = theadPoolExecutor.submit(new Callable<List<User>>() {
+            @Override
+            public List<User> call() throws Exception {
+                List<User> users = new ArrayList<>();
+                users.add(new User());
+                return users;
+            }
+        });
+
+        // 第五种方法，定义一个类实现Runnable接口
+        Future<?> submit1 = theadPoolExecutor.submit(new MyThreadRunTest());
+        // 第六种方法，定义一个类实现callable<>接口
+        Future<List<User>> submit2 = theadPoolExecutor.submit(new MyThreadCallTest());
+        try {
+            Object o = submit1.get();
+            List<User> users = submit2.get();
+        } catch (Exception e) {
+            System.out.println("异常" + e);
+        }
     }
 
     /**
@@ -112,4 +130,24 @@ public class TestTheadPoolServiceBiz {
 //    public void setTheadPoolExecutor(ThreadPoolExecutor theadPoolExecutor) {
 //        TestTheadPoolServiceBiz.theadPoolExecutor = theadPoolExecutor;
 //    }
+
+
+}
+class MyThreadRunTest implements Runnable{
+
+    @Override
+    public void run() {
+        List<User> users = new ArrayList<>();
+        users.add(new User());
+    }
+}
+
+class MyThreadCallTest implements Callable<List<User>>{
+
+    @Override
+    public List<User> call() throws Exception {
+        List<User> users = new ArrayList<>();
+        users.add(new User());
+        return users;
+    }
 }
