@@ -1,22 +1,23 @@
-package com.wang.project.demo.entity;
+package com.wang.project.demo.vo;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import java.util.Date;
-import java.util.List;
 
 /**
- * @Description
- * User:wangcheng Date:2020/5/6 10:58 ProjectName:WcProductEO Version:1.0
- **/
+ * <p>
+ *      用户产品VO
+ * </p>
+ *
+ * @author wangcheng
+ * @version Id：UserProductVO.java Date：2020/10/12 17:20 Version：1.0
+ */
 @Getter
 @Setter
 @ToString
-public class WcProductEO {
-
-//    private static final long serialVersionUID = 5203567668957067748L;
+public class UserProductVO {
 
     private Long id;
     private String productCode;
@@ -24,6 +25,7 @@ public class WcProductEO {
     private Long productNum;
     private Date insertTime;
     private Date updateTime;
-    private List<User> userList;
+    private String code;
+    private String name;
 
 }

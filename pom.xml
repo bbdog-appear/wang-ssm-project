@@ -245,6 +245,13 @@
             <version>2.2.1.RELEASE</version>
         </dependency>
 
+        <!-- 引入guava线程池 -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>19.0</version>
+        </dependency>
+
     </dependencies>
 
 </project>

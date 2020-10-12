@@ -1,6 +1,5 @@
 package com.wang.project.demo.entity;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -9,10 +8,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * @Description TODO
- * <p>
- * 1、TODO
- * <p>
+ * @Description
  * User:wangcheng Date:2020/4/26 9:49 ProjectName:User Version:1.0
  **/
 @Getter

@@ -31,6 +31,8 @@ public class DemoSummaryTest extends DemoApplicationTest{
     private TestKafkaConsumerService testKafkaConsumerService;
     @Autowired
     private TestRabbitMQService testRabbitMQService;
+    @Autowired
+    private TestGuavaThreadPoolService testGuavaThreadPoolService;
 
     @Test
     public void testRedisOperate(){
@@ -114,6 +116,16 @@ public class DemoSummaryTest extends DemoApplicationTest{
 //        testRabbitMQService.testConsumer();
         testRabbitMQService.testSpringProducer();
 //        testRabbitMQService.testSpringConsumer();
+    }
+
+    /**
+     * 测试guava线程池
+     *
+     * @throws Exception 异常
+     */
+    @Test
+    public void testGuavaThreadPool() throws Exception{
+        testGuavaThreadPoolService.testGuavaThreadPool();
     }
 
 }
