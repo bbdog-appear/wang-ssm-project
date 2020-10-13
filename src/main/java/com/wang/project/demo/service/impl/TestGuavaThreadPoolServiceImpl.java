@@ -50,11 +50,11 @@ public class TestGuavaThreadPoolServiceImpl implements TestGuavaThreadPoolServic
 
 
     /**
-     * 结论：guava线程池和普通线程池的区别：其实对于性能来说，两者执行时间差不多，
+     * 结论：guava线程池和普通线程池的区别：guava线程池多个回调函数，另外对于性能来说，两者执行时间差不多，
      * guava线程池将多个ListenableFuture放入list中，批量get，普通线程池一个一个get，两者的时间差不多。
-     * 但是需要注意的是，普通线程池，必须在所有线程异步执行代码的最后，一个个的get，否则就是线形执行了。
+     * 但是需要注意的是，普通线程池，必须在所有线程异步执行代码的最后，一个个的get，否则就是串行执行了。
      *
-     * @throws Exception
+     * @throws Exception 异常
      */
     @Override
     public void testGuavaThreadPool() throws Exception{
@@ -95,6 +95,11 @@ public class TestGuavaThreadPoolServiceImpl implements TestGuavaThreadPoolServic
         ordinaryThreadPool();
     }
 
+    /**
+     * 普通线程池执行所需时间
+     *
+     * @throws Exception 异常
+     */
     private void ordinaryThreadPool() throws Exception {
         // 普通线程池执行开始时间
         long ordinaryStartMillis = System.currentTimeMillis();
