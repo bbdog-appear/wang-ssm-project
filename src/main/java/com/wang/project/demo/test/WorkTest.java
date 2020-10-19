@@ -38,6 +38,8 @@ public class WorkTest {
             System.out.println("arr不行");
         }
         System.out.println("结束");
+        Map map = new HashMap();
+        map.put("nihao", "nihao");
     }
 
     /**

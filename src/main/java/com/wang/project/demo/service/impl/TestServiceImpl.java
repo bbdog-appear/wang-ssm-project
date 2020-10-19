@@ -41,6 +41,27 @@ public class TestServiceImpl implements TestService {
 //        throw new RuntimeException("自己抛出的运行时异常");
     }
 
+    @Override
+    public void testObjectToFun(User user) {
+        user = new User();
+        user.setName("name2");
+        System.out.println(user);
+    }
+
+    /**
+     * 测试java对象传递
+     * 该方法中的user，传进testObjectToFun里，然后这个方法里的user因为是方法里的参数，
+     * 所以是一个新的引用了，所以新的引用指向另一个新的对象。所以对该方法的user没有任何
+     * 影响。
+     */
+    @Override
+    public void testObjectFun() {
+        User user = new User();
+        user.setName("name1");
+        testObjectToFun(user);
+        System.out.println(user);
+    }
+
     private WcProductEO getWcProductEO(){
         WcProductEO wcProductEO = new WcProductEO();
         wcProductEO.setProductCode("13579");

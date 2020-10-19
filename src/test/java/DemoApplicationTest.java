@@ -323,4 +323,10 @@ public class DemoApplicationTest {
         String logId = UUID.randomUUID().toString();
         System.out.println(logId);
     }
+
+    @Test
+    public void testObjectToFun(){
+        testService.testObjectFun();
+    }
+
 }

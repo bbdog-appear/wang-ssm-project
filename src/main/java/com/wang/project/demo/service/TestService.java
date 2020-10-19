@@ -5,4 +5,9 @@ import com.wang.project.demo.entity.User;
 public interface TestService {
 
     void addUser(User user);
+
+    void testObjectToFun(User user);
+
+    void testObjectFun();
+
 }
