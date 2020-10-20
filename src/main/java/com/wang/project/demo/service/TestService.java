@@ -10,4 +10,6 @@ public interface TestService {
 
     void testObjectFun();
 
+    void testIfElse();
+
 }

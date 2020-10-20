@@ -14,8 +14,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
+import javax.sound.midi.Soundbank;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @Description TODO
@@ -60,6 +64,46 @@ public class TestServiceImpl implements TestService {
         user.setName("name1");
         testObjectToFun(user);
         System.out.println(user);
+    }
+
+    /**
+     * 测试if else
+     * 如果第一个if中的&&有一个不满足，则直接跳到下一个if else
+     * 那如果第一个if中满足，然后进入自己的if里面，再不满足则直接跳出所有if
+     */
+    @Override
+    public void testIfElse() {
+        WcProductEO wcProductEO = new WcProductEO();
+        wcProductEO.setProductCode("wangchengProduct");
+        wcProductEO.setProductName("wanghcengzhognwen");
+        User user1 = new User();
+        user1.setCode("user1");
+        user1.setName("用户1");
+        User user2 = new User();
+        user2.setCode("user2");
+        user2.setName("用户2");
+        List<User> users = new ArrayList<>();
+        users.add(user1);
+        users.add(user2);
+        wcProductEO.setUserList(users);
+
+        if (wcProductEO != null && !CollectionUtils.isEmpty(wcProductEO.getUserList()) && "user2".equals(wcProductEO.getUserList().get(0).getCode())) {
+            System.out.println("第一个if");
+        } else if ("wangchengProduct".equals(wcProductEO.getProductCode())) {
+            System.out.println("第二个if else");
+        } else if ("wanghcengzhognwen".equals(wcProductEO.getProductName())) {
+            System.out.println("第三个if else");
+        }
+
+        if (wcProductEO != null && !CollectionUtils.isEmpty(wcProductEO.getUserList())) {
+            if ("user2".equals(wcProductEO.getUserList().get(0).getCode())) {
+                System.out.println("第一个if");
+            }
+        } else if ("wangchengProduct".equals(wcProductEO.getProductCode())) {
+            System.out.println("第二个if else");
+        } else if ("wanghcengzhognwen".equals(wcProductEO.getProductName())) {
+            System.out.println("第三个if else");
+        }
     }
 
     private WcProductEO getWcProductEO(){

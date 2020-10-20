@@ -326,7 +326,8 @@ public class DemoApplicationTest {
 
     @Test
     public void testObjectToFun(){
-        testService.testObjectFun();
+//        testService.testObjectFun();
+        testService.testIfElse();
     }
 
 }
