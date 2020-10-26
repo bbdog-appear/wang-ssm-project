@@ -10,10 +10,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.concurrent.BrokenBarrierException;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.CyclicBarrier;
-import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.*;
 
 /**
  * @Description TODO
@@ -56,5 +53,26 @@ public class TestThreadPoolServiceImpl implements TestThreadPoolService {
 
     public void testSingleton2(){
 //        System.out.println("testSingleton2 = "+testTheadPoolServiceBiz.getTheadPoolExecutor());
+    }
+
+    @Override
+    public void testExecutorService() {
+        ExecutorService executorService = Executors.newCachedThreadPool();
+        ExecutorService executorService1 = Executors.newFixedThreadPool(10);
+        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(10);
+        executorService.submit(() -> {
+            System.out.println("测试ExecutorService");
+            System.out.println("这是匿名内部类");
+        });
+        // 延迟3秒再执行
+        scheduledExecutorService.schedule(() -> {
+            System.out.println("测试ScheduledExecutorService");
+            System.out.println("这是匿名内部类");
+        }, 3, TimeUnit.SECONDS);
+        // 延迟1秒后每隔3秒执行一次
+        scheduledExecutorService.scheduleAtFixedRate(() -> {
+            System.out.println("测试ScheduledExecutorService");
+            System.out.println("这是匿名内部类");
+        }, 1, 3, TimeUnit.SECONDS);
     }
 }
