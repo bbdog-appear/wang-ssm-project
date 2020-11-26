@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+                           http://code.alibabatech.com/schema/dubbo
+                           http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <!-- 如果check=false，总是会返回引用，当服务恢复时，能自动连上。反之，会抛出异常，默认为true -->
+<!--    <dubbo:consumer check="false"/>-->
+
+    <!-- 调用远程的dubbo服务，接口为TestLambdaService -->
+    <dubbo:reference id="testLambdaService" interface="com.wang.project.demo.service.TestLambdaService"
+                     retries="0" timeout="2000" check="false" version="1.0.0"/>
+    
+</beans>

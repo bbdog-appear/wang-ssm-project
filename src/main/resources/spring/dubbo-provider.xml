@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+                           http://code.alibabatech.com/schema/dubbo
+                           http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <!-- 提供方应用信息，用于计算依赖关系 -->
+    <dubbo:application name="wang-ssm-project">
+        <!-- 线程池满时自动dump，路径与jvm参数配置一致 -->
+        <dubbo:parameter key="dump.directory" value="D:\dump"/>
+    </dubbo:application>
+
+    <!-- dubbo服务的端口信息 -->
+    <dubbo:protocol name="dubbo" port="20880" threads="500" dispatcher="message"/>
+
+    <!-- 使用zookeeper注册中心暴露服务地址 -->
+    <dubbo:registry id="zookeeper_service" protocol="zookeeper" address="localhost:2181"/>
+
+    <!-- 监控 -->
+    <dubbo:monitor protocol="registry"/>
+
+    <!-- 提供的服务(重试次数0，超时时间1秒，版本号1.0.0) -->
+    <dubbo:service interface="com.wang.project.demo.service.TestLambdaService"
+                   ref="TestLambdaServiceImpl" registry="zookeeper_service"
+                   retries="0" timeout="1000" version="1.0.0"/>
+
+</beans>

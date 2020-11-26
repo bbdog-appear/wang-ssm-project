@@ -27,6 +27,9 @@ public class TestLockMechanismServiceImpl implements TestLockMechanismService {
         reentrantLock.lock();
         System.out.println("线程" + threadId + "拿到锁，锁对象为：" + reentrantLock);
         try {
+            synchronized (this){
+                System.out.println("锁这个对象");
+            }
             System.out.println("线程" + threadId + "开始休眠");
             testReentrantLock(threadId);
             Thread.sleep(10000);
