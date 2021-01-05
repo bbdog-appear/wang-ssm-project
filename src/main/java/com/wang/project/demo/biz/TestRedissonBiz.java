@@ -1,5 +1,6 @@
 package com.wang.project.demo.biz;
 
+import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
 import org.redisson.api.RReadWriteLock;
 import org.redisson.api.RedissonClient;
@@ -17,6 +18,7 @@ import java.util.concurrent.TimeUnit;
  * @version Id：TestRedissonBiz.java Date：2020/7/22 14:36 Version：1.0
  */
 @Component
+@Slf4j
 public class TestRedissonBiz {
 
     @Autowired
@@ -27,7 +29,8 @@ public class TestRedissonBiz {
     /**
      * 测试redisson锁机制(获取对象rwLockKey的写锁)
      */
-    public void testRedissonWriteLock() throws InterruptedException {
+    public void testRedissonWriteLock(int num) throws InterruptedException {
+        log.info("线程：{}，开始执行", num);
 
         // 获取读写锁对象
         RReadWriteLock readWriteLock = redissonClient.getReadWriteLock(rwLockKey);
@@ -38,12 +41,14 @@ public class TestRedissonBiz {
         // 对于该key加写锁
         rLock.lock(10, TimeUnit.MINUTES);
 
+        log.info("线程：{}，拿到锁", num);
+
         System.out.println("写锁业务代码执行开始");
-        Thread.sleep(5000);
+        Thread.sleep(10000);
         System.out.println("写锁业务代码执行完成");
 
         // 对于该key释放写锁
-//        rLock.unlock();
+        rLock.unlock();
     }
 
     /**

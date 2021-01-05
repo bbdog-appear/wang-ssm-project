@@ -20,8 +20,8 @@ public class TestRedissonServiceImpl implements TestRedissonService {
     private TestRedissonBiz testRedissonBiz;
 
     @Override
-    public void testRedissonWriteLock() throws InterruptedException {
-        testRedissonBiz.testRedissonWriteLock();
+    public void testRedissonWriteLock(int num) throws InterruptedException {
+        testRedissonBiz.testRedissonWriteLock(num);
     }
 
     @Override

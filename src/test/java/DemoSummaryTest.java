@@ -5,6 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.Set;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * <p>
@@ -16,6 +19,10 @@ import java.util.Set;
  */
 @Slf4j
 public class DemoSummaryTest extends DemoApplicationTest{
+    //线程池
+    private ThreadPoolExecutor theadPoolExecutor = new ThreadPoolExecutor(
+            10, 20, 30, TimeUnit.SECONDS,
+            new ArrayBlockingQueue<Runnable>(20), new ThreadPoolExecutor.AbortPolicy());
 
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
@@ -58,13 +65,21 @@ public class DemoSummaryTest extends DemoApplicationTest{
      * 测试redisson操作
      */
     @Test
-    public void testRedisson(){
-        try {
-            testRedissonService.testRedissonWriteLock();
-//            testRedissonService.testRedissonReadLock();
-        } catch (Exception e){
-            log.error("操作redisson异常", e);
+    public void testRedisson() throws Exception{
+        for (int i = 0; i < 2; i++) {
+            int threadNum = i;
+            theadPoolExecutor.execute(() -> {
+                try {
+                    testRedissonService.testRedissonWriteLock(threadNum + 1);
+                } catch (InterruptedException e) {
+                    System.out.println("线程" + (threadNum+1) + "没拿到锁，结束");
+                    e.printStackTrace();
+                }
+            });
         }
+        Thread.sleep(60000);
+//        testRedissonService.testRedissonWriteLock();
+//        testRedissonService.testRedissonReadLock();
     }
 
     /**

@@ -5,7 +5,7 @@ public interface TestRedissonService {
     /**
      * 测试redisson锁机制(写锁)
      */
-    void testRedissonWriteLock() throws InterruptedException;
+    void testRedissonWriteLock(int num) throws InterruptedException;
 
     /**
      * 测试redisson锁机制(读锁)

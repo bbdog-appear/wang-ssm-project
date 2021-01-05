@@ -8,7 +8,7 @@
                            http://www.dangdang.com/schema/ddframe/job http://www.dangdang.com/schema/ddframe/job/job.xsd
                            http://www.dangdang.com/schema/ddframe/reg http://www.dangdang.com/schema/ddframe/reg/reg.xsd">
 
-    <!-- 配置作业注册中心 -->
+    <!-- 配置作业注册中心 server-lists为Zookeeper的地址 -->
     <reg:zookeeper id="zk-job-center" server-lists="localhost:2181" namespace="wang-ssm-project-job"
                    base-sleep-time-milliseconds="1000" max-sleep-time-milliseconds="3000" max-retries="3"/>
 
