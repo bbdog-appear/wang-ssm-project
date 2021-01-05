@@ -19,6 +19,8 @@ import java.util.Date;
 @ToString
 public class UserProductVO {
 
+    private String traceLogId;
+
     private Long id;
     private String productCode;
     private String productName;
