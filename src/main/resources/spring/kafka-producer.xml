@@ -4,6 +4,11 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
 
+    <!-- ps:对比新老kafka版本kafka0.11和kafka0.8的差异
+            1.在配置使用上，对接新的kafka0.11不再需要配置zk地址，仅需kafka服务器的地址即可，消费者消费的offset不再保存在zk上，减少了依赖成本
+            2.在可靠性上，0.11版本引入leader epoch机制替代原有的HW延迟更新机制，在防止消息丢失问题上有了很大优化
+            3.在消息格式上，kafka0.11保存了消息的发送时间，历史消息查询上更加精确-->
+
     <!-- 1、读取properties文件,配置多个properties配置文件 -->
     <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" scope="prototype">
         <property name="location" value="classpath:properties/application.properties"/>
@@ -14,11 +19,22 @@
         <constructor-arg>
             <map>
                 <entry key="bootstrap.servers" value="${kafka.producer.bootstrap.servers}" />
+                <!-- acks表示所有需同步返回确认的节点数，all或者-1表示分区全部备份节点均需响应，可靠性最高，但吞吐量会相对降低；
+                     1表示只需分区leader节点响应；
+                     0表示无需等待服务端响应；
+                     大部分业务建议配置1 -->
+                <entry key="acks" value="${kafka.producer.acks}" />
+                <!-- retries表示重试次数，如果配置重试请保证消费端具有业务上幂等，根据业务需求配置 -->
                 <entry key="retries" value="${kafka.producer.retries}" />
+                <!-- 发送消息请求的超时时间，建议3000 -->
+                <entry key="request.timeout.ms" value="3000" />
+                <!-- 如果发送方buffer满或者获取不到元数据时最大阻塞时间，建议3000 -->
+                <entry key="max.block.ms" value="3000" />
+                <!-- 发送每批消息大小，建议65536，单位bytes -->
                 <entry key="batch.size" value="${kafka.producer.batch.size}" />
+                <!-- 批量发送等待时间，建议5，单位ms -->
                 <entry key="linger.ms" value="${kafka.producer.linger.ms}" />
                 <entry key="buffer.memory" value="${kafka.producer.buffer.memory}" />
-                <entry key="acks" value="${kafka.producer.acks}" />
                 <entry key="key.serializer" value="${kafka.producer.key.serializer}" />
                 <entry key="value.serializer" value="${kafka.producer.value.serializer}"/>
             </map>
@@ -33,7 +49,9 @@
     <!-- 创建kafkaTemplate bean，使用的时候，只需要注入这个bean，即可使用template的send消息方法 -->
     <bean id="kafkaTemplate" class="org.springframework.kafka.core.KafkaTemplate">
         <constructor-arg ref="producerFactory"/>
+        <!-- autoFlush=false，异步发送kafka，防止kafka故障时阻塞业务线程 -->
         <constructor-arg name="autoFlush" value="true"/>
+        <!-- 队列名 -->
         <property name="defaultTopic" value="${kafka.topic.name.default}"/>
     </bean>
 

@@ -60,6 +60,7 @@
         <constructor-arg ref="consumerFactory"/>
         <constructor-arg ref="containerProperties"/>
         <!-- 并发数 -->
+        <!-- 多线程消费，每个消费者应用节点对该队列的消费线程数，该值乘以应用节点数一般等于队列分区数，建议不低于3 -->
         <property name="concurrency" value="${kafka.consumer.concurrency}"/>
     </bean>
 
