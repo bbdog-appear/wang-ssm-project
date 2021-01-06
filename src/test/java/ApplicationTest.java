@@ -1,5 +1,7 @@
 import com.wang.project.demo.service.TestLambdaService;
 import com.wang.project.demo.service.TestSimpleService;
+import com.wang.project.demo.service.TestTryCatchFinallyService;
+import com.wang.project.demo.vo.Goods;
 import com.wang.project.demo.vo.UserProductVO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -25,12 +27,15 @@ public class ApplicationTest {
 
     @Autowired
     private TestSimpleService testSimpleService;
+    @Autowired
+    private TestTryCatchFinallyService testTryCatchFinallyService;
 
     @Test
     public void testLambda(){
         UserProductVO userProductVO = new UserProductVO();
         userProductVO.setTraceLogId(UUID.randomUUID().toString());
         String result = testSimpleService.testSimple(userProductVO);
+        testTryCatchFinallyService.testTryCatchFinally(new Goods());
         log.info("结果是：{}", result);
     }
 

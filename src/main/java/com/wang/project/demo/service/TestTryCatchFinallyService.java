@@ -1,5 +1,7 @@
 package com.wang.project.demo.service;
 
+import com.wang.project.demo.vo.Goods;
+
 public interface TestTryCatchFinallyService {
 
     /**
@@ -8,7 +10,7 @@ public interface TestTryCatchFinallyService {
      * @param
      * @return
      **/
-    void testTryCatchFinally();
+    void testTryCatchFinally(Goods goods);
 
     /**
      * 测试try finally
