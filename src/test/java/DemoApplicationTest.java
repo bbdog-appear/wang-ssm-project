@@ -25,7 +25,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @Description 测试主类
+ * 测试主类
  * User:wangcheng Date:2020/4/26 13:36 ProjectName:DemoApplicationTest Version:1.0
  **/
 @RunWith(SpringJUnit4ClassRunner.class)

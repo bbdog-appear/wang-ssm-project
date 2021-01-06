@@ -12,7 +12,7 @@
                            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
                            http://www.ctrip.com/schema/apollo http://www.ctrip.com/schema/apollo/apollo.xsd
                            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd"
-                           default-lazy-init="true">
+       default-lazy-init="true">
 
     <!-- 配置aop切面(第一种配置方式)，注：此条不配置时，proxy-target-class和另一个参数默认为false，也就是默认的用jdk的
         动态代理。如果希望强制使用CGLIB代理，配置proxy-target-class=true，性能比jdk强-->
@@ -20,38 +20,5 @@
 
     <!-- 配置自动扫描 -->
     <context:component-scan base-package="com.wang.project.demo"/>
-
-    <!-- 指定配置文件的位置 -->
-<!--    <context:property-placeholder location="classpath:properties/application.properties"/>-->
-
-    <!-- Apollo配置标签，然后需要配置连接Apollo服务的jvm参数：(注意：20880也可以是Apollo服务的端口号)
-        -Dapp.id=wang-ssm-project
-        -Dapollo.meta=http://localhost:20880
-        -Dnev=FUNC
-     -->
-    <apollo:config namespaces="wang-ssm-project"/>
-
-    <!-- 引入数据源、sqlSessionFactory、transactionManager -->
-    <import resource="spring-datasource.xml"/>
-
-    <!-- 引入redis配置 -->
-    <import resource="spring-redis.xml"/>
-
-    <!-- 引入spring封装的线程池 -->
-    <import resource="threadPoolTaskExecutor.xml"/>
-
-    <!-- 引入kafka生产者、消费者 -->
-    <import resource="kafka-producer.xml"/>
-    <import resource="kafka-consumer.xml"/>
-
-    <!-- 引入rabbitMQ配置 -->
-    <import resource="spring-rabbitmq.xml"/>
-
-    <!-- 引入dubbo生产者、消费者 -->
-    <import resource="dubbo-provider.xml"/>
-    <import resource="dubbo-consumer.xml"/>
-
-    <!-- 引入elastic job分布式定时任务 -->
-    <import resource="elastic-job.xml"/>
 
 </beans>
