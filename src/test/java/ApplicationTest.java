@@ -35,7 +35,7 @@ public class ApplicationTest {
         UserProductVO userProductVO = new UserProductVO();
         userProductVO.setTraceLogId(UUID.randomUUID().toString());
         String result = testSimpleService.testSimple(userProductVO);
-        testTryCatchFinallyService.testTryCatchFinally(new Goods());
+//        testTryCatchFinallyService.testTryCatchFinally(new Goods());
         log.info("结果是：{}", result);
     }
 

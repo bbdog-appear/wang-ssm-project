@@ -6,10 +6,13 @@ import com.wang.project.demo.vo.UserProductVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.log4j.MDC;
 import org.apache.logging.log4j.ThreadContext;
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StopWatch;
@@ -36,6 +39,16 @@ public class LoggerAdvise {
     @Pointcut(value = "execution(* com.wang.project.demo.service.*.*Impl.*(..))")
     void servicePointCut(){
 //        log.info("所有的service实例");
+    }
+
+    /**
+     * 前置通知(两个通知的优先级待定)
+     *
+     * @param joinPoint 目标实现类
+     */
+    @Before(value = "com.wang.project.demo.service.support.LoggerAdvise.servicePointCut()")
+    public void before(JoinPoint joinPoint){
+        System.out.println("这是前置通知，参数：" + joinPoint);
     }
 
     /**
