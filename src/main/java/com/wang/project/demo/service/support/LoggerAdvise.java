@@ -4,6 +4,7 @@ import com.alibaba.dubbo.rpc.Result;
 import com.wang.project.demo.commons.CustomizeException;
 import com.wang.project.demo.vo.UserProductVO;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.log4j.MDC;
 import org.apache.logging.log4j.ThreadContext;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -45,7 +46,7 @@ public class LoggerAdvise {
      */
     @Around(value = "com.wang.project.demo.service.support.LoggerAdvise.servicePointCut()")
     public Object resultHandler(ProceedingJoinPoint joinPoint){
-        Result result = null;
+        String result = null;
         // 时钟，记录接口处理时间
         StopWatch clock = new StopWatch();
         String clazzName = joinPoint.getTarget().getClass().getSimpleName();
@@ -57,12 +58,14 @@ public class LoggerAdvise {
             if (!StringUtils.isEmpty(args)) {
                 Object objects = args[0];
                 if (objects instanceof UserProductVO) {
-                    ThreadContext.put("TRACE_LOG_ID", ((UserProductVO)objects).getTraceLogId());
+//                    //log4j2的追踪日志写法
+//                    ThreadContext.put("TRACE_LOG_ID", ((UserProductVO)objects).getTraceLogId());
+                    MDC.put("TRACE_LOG_ID", ((UserProductVO)objects).getTraceLogId());
                 }
             }
             log.info("call [{}][{}] PARAMETER:{}", clazzName, methodName, args);
             // 业务代码执行
-            result = (Result) joinPoint.proceed();
+            result = (String) joinPoint.proceed();
             clock.stop();
             log.info("call [{}][{}][{}ms][SUCCESS][0000] RESPONSE:{}",
                     clazzName, methodName, clock.getTotalTimeMillis(), result);

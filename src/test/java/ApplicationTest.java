@@ -1,7 +1,14 @@
+import com.wang.project.demo.service.TestLambdaService;
+import com.wang.project.demo.service.TestSimpleService;
+import com.wang.project.demo.vo.UserProductVO;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.util.UUID;
 
 /**
  * <p>
@@ -15,4 +22,16 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration(locations = {"classpath:spring/application-test.xml"})
 @Slf4j
 public class ApplicationTest {
+
+    @Autowired
+    private TestSimpleService testSimpleService;
+
+    @Test
+    public void testLambda(){
+        UserProductVO userProductVO = new UserProductVO();
+        userProductVO.setTraceLogId(UUID.randomUUID().toString());
+        String result = testSimpleService.testSimple(userProductVO);
+        log.info("结果是：{}", result);
+    }
+
 }
