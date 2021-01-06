@@ -14,8 +14,12 @@
                            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd"
        default-lazy-init="true">
 
-    <!-- 配置aop切面(第一种配置方式)，注：此条不配置时，proxy-target-class和另一个参数默认为false，也就是默认的用jdk的
-        动态代理。如果希望强制使用CGLIB代理，配置proxy-target-class=true，性能比jdk强-->
+    <!-- 配置aop切面(第一种配置方式)
+    注：不配置时，LoggerAdvise里的切面不生效(不执行)。
+        配置时：
+        两个参数proxy-target-class和另一个参数不配置，默认为false，即默认的用jdk的
+        动态代理。
+        如果希望强制使用CGLIB代理，配置proxy-target-class=true，性能比jdk强-->
     <aop:aspectj-autoproxy proxy-target-class="true"/>
 
     <!-- 配置自动扫描 -->
