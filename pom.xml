@@ -311,6 +311,14 @@
             <version>${spring.version}</version>
         </dependency>
 
+        <!-- 引入hikariCP数据库连接池 -->
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>3.3.0</version>
+        </dependency>
+
+
     </dependencies>
 
 </project>

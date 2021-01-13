@@ -16,7 +16,8 @@
                 <entry key="bootstrap.servers"          value="${kafka.consumer.bootstrap.servers}"/>
                 <!-- 指定消费组名 -->
                 <entry key="group.id"                   value="${kafka.consumer.group.id}"/>
-                <!-- 自动提交开关(待定结论:当为false时,需配置ackMode,另外这里的autoCommit和下面服务实现类中的autoCommit有什么关系?) -->
+                <!-- 自动提交开关(待定结论:当为false时,需配置ackMode,另外这里的autoCommit和下面服务实现类中的autoCommit有什么关系?)
+                    这里提交的是offset值-->
                 <entry key="enable.auto.commit"         value="${kafka.consumer.enable.auto.commit}" />
                 <entry key="session.timeout.ms"         value="${kafka.consumer.session.timeout.ms}" />
                 <entry key="auto.commit.interval.ms"    value="${kafka.consumer.auto.commit.interval.ms}" />
