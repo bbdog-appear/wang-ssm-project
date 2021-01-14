@@ -3,10 +3,10 @@ package com.wang.project.demo.service.impl;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.wang.project.demo.biz.handle.QueryUserProductHandle;
-import com.wang.project.demo.dao.TestDao;
-import com.wang.project.demo.dao.WcProductDao;
-import com.wang.project.demo.entity.User;
+import com.wang.project.demo.dao.mapper.shardingjdbc.WcProductMapper;
+import com.wang.project.demo.dao.mapper.shardingjdbc.WcUserMapper;
 import com.wang.project.demo.entity.WcProductEO;
+import com.wang.project.demo.entity.WcUserEO;
 import com.wang.project.demo.service.TestGuavaThreadPoolService;
 import com.wang.project.demo.util.GuavaThreadPool;
 import com.wang.project.demo.vo.UserProductVO;
@@ -38,9 +38,9 @@ import java.util.concurrent.TimeUnit;
 public class TestGuavaThreadPoolServiceImpl implements TestGuavaThreadPoolService {
 
     @Autowired
-    private WcProductDao wcProductDao;
+    private WcProductMapper wcProductMapper;
     @Autowired
-    private TestDao testDao;
+    private WcUserMapper wcUserMapper;
     @Autowired
     private GuavaThreadPool guavaThreadPool;
     @Autowired
@@ -74,12 +74,12 @@ public class TestGuavaThreadPoolServiceImpl implements TestGuavaThreadPoolServic
         // 查询产品信息
         ListenableFuture<List<WcProductEO>> productListenableFuture = guavaThreadPool.submitAndCallback(() -> {
             Thread.sleep(2000);
-            return wcProductDao.selectAllWcProductEOs();
+            return wcProductMapper.selectByShardDate("20200518");
         }, queryUserProductHandle.productInfoCallback(userProductVO));
         // 查询用户信息
-        ListenableFuture<List<User>> userListenableFuture = guavaThreadPool.submitAndCallback(() -> {
+        ListenableFuture<List<WcUserEO>> userListenableFuture = guavaThreadPool.submitAndCallback(() -> {
             Thread.sleep(3000);
-            return testDao.selectAllUser();
+            return wcUserMapper.selectByContractNo("1234567880");
         }, queryUserProductHandle.userInfoCallback(userProductVO));
         ListenableFuture listListenableFuture = Futures.allAsList(productListenableFuture, userListenableFuture);
 
@@ -107,15 +107,15 @@ public class TestGuavaThreadPoolServiceImpl implements TestGuavaThreadPoolServic
         // 普通线程池查询产品信息
         Future<List<WcProductEO>> submit1 = taskExecutor.submit(() -> {
             Thread.sleep(2000);
-            return wcProductDao.selectAllWcProductEOs();
+            return wcProductMapper.selectByShardDate("20200518");
         });
         // 普通线程池查询用户信息
-        Future<List<User>> submit2 = taskExecutor.submit(() -> {
+        Future<List<WcUserEO>> submit2 = taskExecutor.submit(() -> {
             Thread.sleep(3000);
-            return testDao.selectAllUser();
+            return wcUserMapper.selectByContractNo("1234567880");
         });
         WcProductEO wcProductEO = submit1.get().get(0);
-        User user = submit2.get().get(0);
+        WcUserEO user = submit2.get().get(0);
         System.out.println("================普通线程池获取的结果为：" + wcProductEO + user);
 
         // 普通线程池执行结束时间

@@ -1,8 +1,8 @@
 package com.wang.project.demo.biz.handle;
 
 import com.google.common.util.concurrent.FutureCallback;
-import com.wang.project.demo.entity.User;
 import com.wang.project.demo.entity.WcProductEO;
+import com.wang.project.demo.entity.WcUserEO;
 import com.wang.project.demo.vo.UserProductVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -51,10 +51,10 @@ public class QueryUserProductHandle {
      * @param userProductVO 用户产品VO
      * @return 用户回调类
      */
-    public FutureCallback<List<User>> userInfoCallback(UserProductVO userProductVO){
-//        return new FutureCallback<List<User>>() {
+    public FutureCallback<List<WcUserEO>> userInfoCallback(UserProductVO userProductVO){
+//        return new FutureCallback<List<WcUserEO>>() {
 //            @Override
-//            public void onSuccess(List<User> users) {
+//            public void onSuccess(List<WcUserEO> users) {
 //                userProductVO.setCode(users.get(0).getCode());
 //                userProductVO.setName(users.get(0).getName());
 //            }
@@ -71,7 +71,7 @@ public class QueryUserProductHandle {
 
 }
 
-class MyFutureCallback implements FutureCallback<List<User>>{
+class MyFutureCallback implements FutureCallback<List<WcUserEO>>{
 
     private UserProductVO userProductVO;
 
@@ -80,7 +80,7 @@ class MyFutureCallback implements FutureCallback<List<User>>{
     }
 
     @Override
-    public void onSuccess(List<User> users) {
+    public void onSuccess(List<WcUserEO> users) {
         userProductVO.setCode(users.get(0).getCode());
         userProductVO.setName(users.get(0).getName());
     }

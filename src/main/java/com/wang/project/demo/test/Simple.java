@@ -8,10 +8,6 @@ import org.springframework.context.annotation.Scope;
 import java.util.UUID;
 
 /**
- * @Description TODO
- * <p>
- * 1、TODO
- * <p>
  * User:wangcheng Date:2020/4/24 14:59 ProjectName:Simple Version:1.0
  **/
 //@Scope(value = "prototype")

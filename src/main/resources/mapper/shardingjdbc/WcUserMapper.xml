@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wang.project.demo.dao.mapper.shardingjdbc.WcUserMapper">
+
+    <resultMap id="baseResultMap" type="com.wang.project.demo.entity.WcUserEO">
+        <id     column="id"             property="id"           jdbcType="INTEGER"/>
+        <result column="code"           property="code"         jdbcType="VARCHAR"/>
+        <result column="name"           property="name"         jdbcType="VARCHAR"/>
+        <result column="insert_time"    property="insertTime"   jdbcType="TIMESTAMP"/>
+        <result column="contract_no"    property="contractNo"   jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="base_column_list">
+        `id`,
+        `code`,
+        `name`,
+        `insert_time`,
+        `contract_no`
+    </sql>
+
+    <insert id="insert" parameterType="com.wang.project.demo.entity.WcUserEO">
+        /* WcUserMapper.insert */
+        insert into wc_user
+        (`code`,`name`,`insert_time`,`contract_no`)
+        values
+        (#{code,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR},#{insertTime,jdbcType=TIMESTAMP},#{contractNo,jdbcType=VARCHAR})
+    </insert>
+
+    <select id="selectByContractNo" resultMap="baseResultMap">
+        /* WcUserMapper.selectByContractNo */
+        select
+        <include refid="base_column_list"/>
+        from wc_user
+        where
+        contract_no = #{contractNo,jdbcType=VARCHAR}
+    </select>
+
+</mapper>

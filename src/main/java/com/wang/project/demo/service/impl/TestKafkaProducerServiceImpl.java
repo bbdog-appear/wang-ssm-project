@@ -1,8 +1,8 @@
 package com.wang.project.demo.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
-import com.wang.project.demo.entity.User;
 import com.wang.project.demo.entity.WcProductEO;
+import com.wang.project.demo.entity.WcUserEO;
 import com.wang.project.demo.service.TestKafkaProducerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +11,8 @@ import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Component;
 import org.springframework.util.concurrent.ListenableFuture;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
-import java.util.List;
 
 /**
  * <p>
@@ -47,7 +45,7 @@ public class TestKafkaProducerServiceImpl implements TestKafkaProducerService {
         wcProductEO.setProductNum(6L);
         wcProductEO.setInsertTime(new Date());
         wcProductEO.setUpdateTime(new Date());
-        User user = new User();
+        WcUserEO user = new WcUserEO();
         user.setId(4L);
         user.setCode("10002004");
         user.setName("产品2用户4");

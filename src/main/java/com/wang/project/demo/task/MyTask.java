@@ -4,10 +4,6 @@ import java.util.Date;
 import java.util.TimerTask;
 
 /**
- * @Description TODO
- * <p>
- * 1、TODO
- * <p>
  * User:wangcheng Date:2020/5/18 14:39 ProjectName:MyTask Version:1.0
  **/
 public class MyTask extends TimerTask {

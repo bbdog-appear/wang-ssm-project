@@ -1,7 +1,7 @@
 package com.wang.project.demo.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
-import com.wang.project.demo.entity.User;
+import com.wang.project.demo.entity.WcUserEO;
 import com.wang.project.demo.service.TestRedisService;
 import com.wang.project.demo.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,22 +90,22 @@ public class TestRedisServiceImpl implements TestRedisService {
     @Override
     public void testRedisSetListObject() {
         String key = "listKey8";
-        List<User> userList = getUserList();
+        List<WcUserEO> userList = getUserList();
         long timeOut = 60*10;
         boolean result = redisUtil.set(key, userList, timeOut);
         System.out.println(result);
         String resultList = redisUtil.get(key);
-        List<User> users = JSONObject.parseArray(resultList, User.class);
+        List<WcUserEO> users = JSONObject.parseArray(resultList, WcUserEO.class);
         System.out.println(users);
     }
 
-    private List<User> getUserList(){
-        List<User> users = new ArrayList<>();
-        User user = new User();
+    private List<WcUserEO> getUserList(){
+        List<WcUserEO> users = new ArrayList<>();
+        WcUserEO user = new WcUserEO();
         user.setCode("wangcheng");
         user.setName("王成");
         user.setInsertTime(new Date());
-        User user2 = new User();
+        WcUserEO user2 = new WcUserEO();
         user2.setCode("wangcheng2");
         user2.setName("王成2");
         user2.setInsertTime(new Date());

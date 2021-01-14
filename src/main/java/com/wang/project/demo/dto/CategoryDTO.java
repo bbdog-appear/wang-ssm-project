@@ -7,13 +7,6 @@ import lombok.ToString;
 
 import java.util.List;
 
-/**
- * @ClassName CategoryDTO
- * @Description TODO
- * @Author c_wangcheng-007
- * @Date 2020/7/2/002 23:30
- * @Version 1.0
- **/
 @Getter
 @Setter
 @ToString

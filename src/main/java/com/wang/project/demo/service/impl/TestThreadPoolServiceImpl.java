@@ -13,10 +13,6 @@ import java.util.List;
 import java.util.concurrent.*;
 
 /**
- * @Description TODO
- * <p>
- * 1、TODO
- * <p>
  * User:wangcheng Date:2020/5/13 16:54 ProjectName:TestThreadPoolServiceImpl Version:1.0
  **/
 @Service

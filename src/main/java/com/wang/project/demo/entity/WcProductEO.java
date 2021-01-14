@@ -7,10 +7,6 @@ import lombok.ToString;
 import java.util.Date;
 import java.util.List;
 
-/**
- * @Description
- * User:wangcheng Date:2020/5/6 10:58 ProjectName:WcProductEO Version:1.0
- **/
 @Getter
 @Setter
 @ToString
@@ -24,6 +20,8 @@ public class WcProductEO {
     private Long productNum;
     private Date insertTime;
     private Date updateTime;
-    private List<User> userList;
+    private String shardDate;
+
+    private List<WcUserEO> userList;
 
 }

@@ -1,6 +1,6 @@
 package com.wang.project.demo.service.impl;
 
-import com.wang.project.demo.dao.WcProductDao;
+import com.wang.project.demo.dao.mapper.shardingjdbc.WcProductMapper;
 import com.wang.project.demo.entity.WcProductEO;
 import com.wang.project.demo.service.TestLambdaService;
 import com.wang.project.demo.vo.Goods;
@@ -10,27 +10,22 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
- * @Description TODO
- * <p>
- * 1、TODO
- * <p>
  * User:wangcheng Date:2020/5/18 16:36 ProjectName:TestLambdaServiceImpl Version:1.0
  **/
 @Service
 public class TestLambdaServiceImpl implements TestLambdaService {
 
     @Autowired
-    private WcProductDao wcProductDao;
+    private WcProductMapper wcProductMapper;
 
     @Override
     public void testLambda() {
         //获取产品列表
-        List<WcProductEO> wcProductEOS = wcProductDao.selectAllWcProductEOs();
+        List<WcProductEO> wcProductEOS = wcProductMapper.selectByShardDate("20200518");
 
         //过滤出产品名为薯片的产品id
 //        List<Long> productIds = wcProductEOS.stream().filter(

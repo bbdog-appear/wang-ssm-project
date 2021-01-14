@@ -10,10 +10,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import java.util.*;
 
 /**
- * @Description TODO
- * <p>
- * 1、TODO
- * <p>
  * User:wangcheng Date:2020/4/22 15:55 ProjectName:TestBean Version:1.0
  **/
 public class TestBean {

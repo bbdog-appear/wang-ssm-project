@@ -12,10 +12,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
- * @Description TODO
- * <p>
- * 1、TODO
- * <p>
  * User:wangcheng Date:2020/5/28 10:49 ProjectName:WorkTest Version:1.0
  **/
 public class WorkTest {

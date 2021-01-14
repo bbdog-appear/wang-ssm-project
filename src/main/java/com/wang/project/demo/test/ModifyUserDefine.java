@@ -4,10 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * @Description TODO
- * <p>
- * 1、TODO
- * <p>
  * User:wangcheng Date:2020/6/2 10:16 ProjectName:ModifyUserDefine Version:1.0
  **/
 @Getter

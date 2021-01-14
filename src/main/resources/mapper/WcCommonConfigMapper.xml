@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wang.project.demo.dao.mapper.WcCommonConfigMapper">
+
+    <resultMap id="baseResultMap" type="com.wang.project.demo.entity.WcCommonConfigEO">
+        <id     column="id"             property="id"           jdbcType="INTEGER"/>
+        <result column="common_type"    property="commonType"   jdbcType="VARCHAR"/>
+        <result column="common_key"     property="commonKey"    jdbcType="VARCHAR"/>
+        <result column="common_value"   property="commonValue"  jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="base_column_list">
+        `id`,
+        `common_type`,
+        `common_key`,
+        `common_value`
+    </sql>
+    
+    <insert id="insert" parameterType="com.wang.project.demo.entity.WcCommonConfigEO" >
+        /* WcCommonConfigMapper.insert */
+        insert into wc_common_config
+        (`common_type`,`common_key`,`common_value`)
+        values
+        (#{commonType,jdbcType=VARCHAR},#{commonKey,jdbcType=VARCHAR},#{commonValue,jdbcType=VARCHAR})
+    </insert>
+
+    <select id="selectByCommonType" resultMap="baseResultMap">
+        /* WcCommonConfigMapper.selectByCommonType */
+        select
+        <include refid="base_column_list"/>
+        from wc_common_config
+        where
+        common_type = #{commonType,jdbcType=VARCHAR}
+    </select>
+
+</mapper>

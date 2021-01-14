@@ -1,10 +1,8 @@
 package com.wang.project.demo.service.impl;
 import java.util.*;
 
-import com.alibaba.fastjson.JSONObject;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.wang.project.demo.entity.User;
 import com.wang.project.demo.entity.WcProductEO;
+import com.wang.project.demo.entity.WcUserEO;
 import com.wang.project.demo.service.TestReflectService;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,11 +43,11 @@ public class TestReflectServiceImpl implements TestReflectService {
         wcProductEO.setProductCode("10001");
         wcProductEO.setInsertTime(new Date());
 
-        List<User> userList = new ArrayList<>();
-        User user1 = new User();
+        List<WcUserEO> userList = new ArrayList<>();
+        WcUserEO user1 = new WcUserEO();
         user1.setCode("10001001");
         user1.setName("cheng10001001");
-        User user2 = new User();
+        WcUserEO user2 = new WcUserEO();
         user2.setCode("10001002");
         user2.setName("cheng10001002");
         userList.add(user1);

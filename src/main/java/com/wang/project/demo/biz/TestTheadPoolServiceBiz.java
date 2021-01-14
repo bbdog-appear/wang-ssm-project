@@ -1,8 +1,8 @@
 package com.wang.project.demo.biz;
 
-import com.wang.project.demo.dao.WcProductDao;
-import com.wang.project.demo.entity.User;
+import com.wang.project.demo.dao.mapper.shardingjdbc.WcProductMapper;
 import com.wang.project.demo.entity.WcProductEO;
+import com.wang.project.demo.entity.WcUserEO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -14,10 +14,6 @@ import java.util.Map;
 import java.util.concurrent.*;
 
 /**
- * @Description TODO
- * <p>
- * 1、TODO
- * <p>
  * User:wangcheng Date:2020/5/13 17:30 ProjectName:TestTheadPoolServiceBiz Version:1.0
  **/
 @Component
@@ -34,7 +30,7 @@ public class TestTheadPoolServiceBiz {
 //    private static ThreadPoolExecutor theadPoolExecutor;
 
     @Autowired
-    private WcProductDao wcProductDao;
+    private WcProductMapper wcProductMapper;
 
     /**
      * @author wangcheng
@@ -51,7 +47,7 @@ public class TestTheadPoolServiceBiz {
 //                String name = Thread.currentThread().getName();
 //                Long startTime = System.currentTimeMillis();
 //                log.info("线程：线程号\"" + id + "\"，线程名\"" + name + "\"开始跑，开始的毫秒数：" + startTime + "。这是第" + threadNum +"个线程");
-//                wcProductDao.insertWcProductEO(wcProductEO);
+//                wcProductMapper.insert(wcProductEO);
 //                log.info("第" + threadNum +"个线程执行结束，耗时：" + String.valueOf(System.currentTimeMillis() - startTime) + "毫秒");
 //                try {
 //                    barrier.await();
@@ -66,7 +62,7 @@ public class TestTheadPoolServiceBiz {
             String name = Thread.currentThread().getName();
             Long startTime = System.currentTimeMillis();
             log.info("线程：线程号\"" + id + "\"，线程名\"" + name + "\"开始跑，开始的毫秒数：" + startTime + "。这是第" + threadNum +"个线程");
-            wcProductDao.insertWcProductEO(wcProductEO);
+            wcProductMapper.insert(wcProductEO);
             log.info("第" + threadNum +"个线程执行结束，耗时：" + (System.currentTimeMillis() - startTime) + "毫秒");
             try {
                 barrier.await();
@@ -89,11 +85,11 @@ public class TestTheadPoolServiceBiz {
         }
 
         // 第四种写法，匿名内部类，有返回值
-        Future<List<User>> result = theadPoolExecutor.submit(new Callable<List<User>>() {
+        Future<List<WcUserEO>> result = theadPoolExecutor.submit(new Callable<List<WcUserEO>>() {
             @Override
-            public List<User> call() throws Exception {
-                List<User> users = new ArrayList<>();
-                users.add(new User());
+            public List<WcUserEO> call() throws Exception {
+                List<WcUserEO> users = new ArrayList<>();
+                users.add(new WcUserEO());
                 return users;
             }
         });
@@ -101,10 +97,10 @@ public class TestTheadPoolServiceBiz {
         // 第五种方法，定义一个类实现Runnable接口
         Future<?> submit1 = theadPoolExecutor.submit(new MyThreadRunTest());
         // 第六种方法，定义一个类实现callable<>接口
-        Future<List<User>> submit2 = theadPoolExecutor.submit(new MyThreadCallTest());
+        Future<List<WcUserEO>> submit2 = theadPoolExecutor.submit(new MyThreadCallTest());
         try {
             Object o = submit1.get();
-            List<User> users = submit2.get();
+            List<WcUserEO> users = submit2.get();
         } catch (Exception e) {
             System.out.println("异常" + e);
         }
@@ -122,7 +118,7 @@ public class TestTheadPoolServiceBiz {
 //            10, 20, 30, TimeUnit.SECONDS,
 //            new ArrayBlockingQueue<Runnable>(20), new ThreadPoolExecutor.AbortPolicy());
 //    }
-
+//
 //    public ThreadPoolExecutor getTheadPoolExecutor() {
 //        return theadPoolExecutor;
 //    }
@@ -137,17 +133,17 @@ class MyThreadRunTest implements Runnable{
 
     @Override
     public void run() {
-        List<User> users = new ArrayList<>();
-        users.add(new User());
+        List<WcUserEO> users = new ArrayList<>();
+        users.add(new WcUserEO());
     }
 }
 
-class MyThreadCallTest implements Callable<List<User>>{
+class MyThreadCallTest implements Callable<List<WcUserEO>>{
 
     @Override
-    public List<User> call() throws Exception {
-        List<User> users = new ArrayList<>();
-        users.add(new User());
+    public List<WcUserEO> call() throws Exception {
+        List<WcUserEO> users = new ArrayList<>();
+        users.add(new WcUserEO());
         return users;
     }
 }

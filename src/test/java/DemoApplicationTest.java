@@ -1,6 +1,6 @@
 import com.wang.project.demo.config.CreateBeanConfig;
-import com.wang.project.demo.entity.User;
 import com.wang.project.demo.entity.WcProductEO;
+import com.wang.project.demo.entity.WcUserEO;
 import com.wang.project.demo.service.*;
 import com.wang.project.demo.test.*;
 import lombok.extern.slf4j.Slf4j;
@@ -307,7 +307,7 @@ public class DemoApplicationTest {
     @Test
     public void testAddUser(){
         String logId = UUID.randomUUID().toString();
-        User user = new User();
+        WcUserEO user = new WcUserEO();
         user.setCode("123");
         user.setName("wangcheng");
         user.setInsertTime(new Date());

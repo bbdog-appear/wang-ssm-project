@@ -1,12 +1,12 @@
 package com.wang.project.demo.service;
 
-import com.wang.project.demo.entity.User;
+import com.wang.project.demo.entity.WcUserEO;
 
 public interface TestService {
 
-    void addUser(User user);
+    void addUser(WcUserEO wcUserEO);
 
-    void testObjectToFun(User user);
+    void testObjectToFun(WcUserEO wcUserEO);
 
     void testObjectFun();
 

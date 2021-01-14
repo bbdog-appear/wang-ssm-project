@@ -1,15 +1,13 @@
 package com.wang.project.demo.service.impl;
 
-import com.wang.project.demo.entity.User;
+import com.wang.project.demo.entity.WcUserEO;
 import com.wang.project.demo.service.TestRedisMapService;
 import com.wang.project.demo.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @Description 测试redis map结构
@@ -30,7 +28,7 @@ public class TestRedisMapServiceImpl implements TestRedisMapService {
     @Override
     public void testAddRedisMap() {
 
-        User user = new User();
+        WcUserEO user = new WcUserEO();
         user.setCode("chengcheng");
         user.setName("成成");
         user.setInsertTime(new Date());

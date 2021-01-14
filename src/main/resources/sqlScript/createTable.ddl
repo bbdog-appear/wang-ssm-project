@@ -19,3 +19,12 @@ CREATE TABLE `wc_user_9` (
   `CONTRACT_NO` varchar(32) NOT NULL COMMENT '客户号(分表键)',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8 COMMENT='用户表';
+
+-- 创建配置表，单表，不分表
+CREATE TABLE `wc_common_config` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `common_type` varchar(32) DEFAULT NULL COMMENT '类型',
+  `common_key` varchar(32) DEFAULT NULL COMMENT 'key',
+  `common_value` varchar(32) DEFAULT NULL COMMENT '值',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='配置表';
