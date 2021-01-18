@@ -20,6 +20,19 @@ import java.util.TreeSet;
  * <p>
  *      wc_product表分表策略
  *      RangeShardingAlgorithm可以搜索某段时间范围内的，例：20210101 ~ 20210331
+ *
+ *      Q&A:
+ *      1、PreciseShardingAlgorithm和RangeShardingAlgorithm的作用？
+ *      PreciseShardingAlgorithm是必选的，用于处理=和IN的分片
+ *      RangeShardingAlgorithm是可选的，用于处理BETWEEN AND分片，如果不配置RangeShardingAlgorithm，SQL中的BETWEEN AND将按照全库路由处理
+ *
+ *      2、PreciseShardingValue或RangeShardingValue的值怎么得到的？
+ *      其实不是直接根据Mapper类中的参数获取的，比如(String shardDate)。而是根据mapper.xml中的sql语句，
+ *      shard_date between #{startShardDate} and #{endShardDate}，然后根据@Param("startShardDate")找到对应参数的值再计算。
+ *      例如：范围分片算法中Mapper类中两个参数，startShardDate,endShardDate，运行时，配置文件中shardingSqlSessionFactory中配置的
+ *      扫描mapper.xml文件，找到sql语句，确认是between and，拿到对应的开始结束两个值。然后再找shardingDataSource中引入的分片算法，
+ *      把这两个参数传进来用来计算表的范围。比如计算出是wc_product_202012、wc_product_202101两个表，那么查询出的结果，会自动封装
+ *      到List中返回。
  * </p>
  *
  * @author wangcheng
@@ -53,7 +66,7 @@ public class WcProductTableShardingAlgorithm implements PreciseShardingAlgorithm
     /**
      * 自定义范围分片算法
      *
-     * @param collection collection 配置中actual-data-nodes表名前缀集合
+     * @param collection collection 配置中actual-data-nodes表名前缀集合，此表就一个：wc_product_
      * @param rangeShardingValue 配置中的sharding-column的范围(运行中获取)，比如此分片键[20210101,20210331]，表示查询这段时间范围内的结果。
      * @return 计算出的目标表集合，比如[wc_product_202101, wc_product_202102, wc_product_202103]
      */

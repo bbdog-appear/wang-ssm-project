@@ -56,15 +56,15 @@
         shard_date = #{shardDate,jdbcType=VARCHAR}
     </select>
 
-    <select id="selectByInsertTimeAndShard" resultMap="baseResultMap">
-        /* WcProductMapper.selectByInsertTimeAndShard */
+    <select id="selectByShardDateRange" resultMap="baseResultMap">
+        /* WcProductMapper.selectByShardDateRange */
         select
         <include refid="base_column_list"/>
         from wc_product
         where
-        shard_date = #{shardDate,jdbcType=VARCHAR}
+        shard_date between #{startShardDate,jdbcType=VARCHAR} and #{endShardDate,jdbcType=VARCHAR}
         and
-        insert_time <![CDATA[ >= ]]> #{insertTime,jdbcType=TIMESTAMP}
+        insert_time <![CDATA[ <= ]]> now()
     </select>
 
 </mapper>

@@ -30,13 +30,13 @@ public interface WcProductMapper {
     List<WcProductEO> selectByShardDate(@Param("shardDate") String shardDate);
 
     /**
-     * 根据分表日期+插入时间查询
+     * 根据分表日期范围查询
      *
-     * @param insertTime 插入时间
-     * @param shardDate 分表日期
+     * @param startShardDate 分表开始时间
+     * @param endShardDate 分表结束时间
      * @return 结果
      */
-    List<WcProductEO> selectByInsertTimeAndShard(@Param("insertTime") String insertTime,
-                                                 @Param("shardDate") String shardDate);
+    List<WcProductEO> selectByShardDateRange(@Param("startShardDate") String startShardDate,
+                                             @Param("endShardDate") String endShardDate);
 
 }

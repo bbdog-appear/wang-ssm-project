@@ -20,6 +20,10 @@ public class WcProductEO {
     private Long productNum;
     private Date insertTime;
     private Date updateTime;
+
+    /**
+     * 格式：yyyyMMdd
+     */
     private String shardDate;
 
     private List<WcUserEO> userList;

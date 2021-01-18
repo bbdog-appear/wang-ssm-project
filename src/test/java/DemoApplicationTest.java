@@ -29,7 +29,7 @@ import java.util.concurrent.TimeUnit;
  * User:wangcheng Date:2020/4/26 13:36 ProjectName:DemoApplicationTest Version:1.0
  **/
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:spring/application.xml"})
+@ContextConfiguration(locations = {"classpath:spring/application-test.xml"})
 @Slf4j
 public class DemoApplicationTest {
 
@@ -292,11 +292,12 @@ public class DemoApplicationTest {
     @Test
     public void testAddWcProductEO(){
         WcProductEO wcProductEO = new WcProductEO();
-        wcProductEO.setProductCode("13579");
-        wcProductEO.setProductName("牙膏");
+        wcProductEO.setProductCode("202101181234567890");
+        wcProductEO.setProductName("方便面");
         wcProductEO.setProductNum(5L);
         wcProductEO.setInsertTime(new Date());
         wcProductEO.setUpdateTime(new Date());
+        wcProductEO.setShardDate("20210118");
         try {
             wcProductService.addWcProductEO(wcProductEO);
         }catch (Exception e){

@@ -1,4 +1,4 @@
-package com.wang.project.demo.dao.mapper;
+package com.wang.project.demo.dao.mapper.single;
 
 import com.wang.project.demo.entity.WcCommonConfigEO;
 import org.apache.ibatis.annotations.Param;

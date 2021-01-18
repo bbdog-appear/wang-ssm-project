@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:p="http://www.springframework.org/schema/p"
-       xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:sharding="http://shardingjdbc.io/schema/shardingjdbc/sharding"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
-                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
-                           http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
                            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
-                           http://shardingjdbc.io/schema/shardingjdbc/sharding http://shardingjdbc.io/schema/shardingjdbc/sharding/spring-sharding.xsd">
+                           http://shardingjdbc.io/schema/shardingjdbc/sharding http://shardingjdbc.io/schema/shardingjdbc/sharding/sharding.xsd"
+       default-lazy-init="true">
 
     <!-- 读取properties文件,配置多个properties配置文件 -->
     <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" scope="prototype">
         <property name="location" value="classpath:properties/application.properties"/>
+        <!-- 为了解决配置sharding-jdbc时占位符${0..9}与spring的Property占位符冲突 -->
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
     </bean>
 
     <!-- dbcp Datasource -->
@@ -47,13 +45,17 @@
         <property name="dataSource" ref="dataSource" />
         <property name="configLocation" value="classpath:mybatisConfig.xml"/>
         <!-- 自动扫描mapping.xml文件 -->
-        <property name="mapperLocations" value="classpath:mapper/*Mapper.xml"/>
+        <property name="mapperLocations" value="classpath:mapper/single/*Mapper.xml"/>
     </bean>
 
     <!-- 自动扫描和注册Mapper接口 basePackage是用来指定Mapper接口文件所在的基包， 在这个基包或其所有子包下面的Mapper接口都将被搜索到。
             多个基包之间可以使用逗号或者分号进行分隔 -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.wang.project.demo.dao.mapper"/>
+        <!-- 注意：配置多个数据源时，扫描mapper文件有一定讲究，因为扫描basePackage时，由于这里先加载，
+              因此先扫了...mapper，包含了下面配置扫描sharding-jdbc的mapper.shardingjdbc。所以这里先对mapper文件
+              做了映射，导致出了问题，报错：mybatis的BindingException：Invalid bound statement (not found)。
+              解决方案：可以配置basePackage：...mapper.*Mapper或者再加个文件夹如：...mapper.noshardingjdbc-->
+        <property name="basePackage" value="com.wang.project.demo.dao.mapper.single"/>
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
     </bean>
 
@@ -65,8 +67,10 @@
 
 
     <!-- 配置sharding-jdbc -->
+    <!-- StandardShardingStrategy只支持单分片键(一次计算出一个表)，提供PreciseShardingAlgorithm和RangeShardingAlgorithm两个分片算法 -->
     <sharding:standard-strategy id="wcProductTableShardingAlgorithm" sharding-column="SHARD_DATE"
-                                precise-algorithm-class="com.wang.project.demo.dao.algorithm.WcProductTableShardingAlgorithm"/>
+                                precise-algorithm-class="com.wang.project.demo.dao.algorithm.WcProductTableShardingAlgorithm"
+                                range-algorithm-class="com.wang.project.demo.dao.algorithm.WcProductTableShardingAlgorithm"/>
     <sharding:standard-strategy id="wcUserTableShardingAlgorithm" sharding-column="CONTRACT_NO"
                                 precise-algorithm-class="com.wang.project.demo.dao.algorithm.WcUserTableShardingAlgorithm"/>
     <!-- sharding-jdbc数据源 -->
@@ -77,7 +81,7 @@
                                      table-strategy-ref="wcProductTableShardingAlgorithm"/>
                 <!-- 多张表[wc_user_0,wc_user_1,...,wc_user_9] -->
                 <sharding:table-rule logic-table="wc_user" actual-data-nodes="dataSource.wc_user_${0..9}"
-                                     table-strategy-ref="wcProductTableShardingAlgorithm"/>
+                                     table-strategy-ref="wcUserTableShardingAlgorithm"/>
             </sharding:table-rules>
         </sharding:sharding-rule>
         <sharding:props>

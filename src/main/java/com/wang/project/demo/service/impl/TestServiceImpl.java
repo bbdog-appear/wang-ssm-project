@@ -1,6 +1,8 @@
 package com.wang.project.demo.service.impl;
 
+import com.wang.project.demo.dao.mapper.single.WcCommonConfigMapper;
 import com.wang.project.demo.dao.mapper.shardingjdbc.WcUserMapper;
+import com.wang.project.demo.entity.WcCommonConfigEO;
 import com.wang.project.demo.entity.WcProductEO;
 import com.wang.project.demo.entity.WcUserEO;
 import com.wang.project.demo.service.TestService;
@@ -27,6 +29,8 @@ public class TestServiceImpl implements TestService {
     private WcUserMapper wcUserMapper;
     @Autowired
     private WcProductService wcProductService;
+    @Autowired
+    private WcCommonConfigMapper wcCommonConfigMapper;
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void addUser(WcUserEO wcUserEO) {
@@ -106,4 +110,20 @@ public class TestServiceImpl implements TestService {
         wcProductEO.setUpdateTime(new Date());
         return wcProductEO;
     }
+
+    @Override
+    public void addUserEO(WcUserEO wcUserEO) {
+        wcUserMapper.insert(wcUserEO);
+    }
+
+    @Override
+    public List<WcUserEO> queryByContractNo(String contractNo){
+        return wcUserMapper.selectByContractNo(contractNo);
+    }
+
+    @Override
+    public void addCommonConfig(WcCommonConfigEO wcCommonConfigEO) {
+        wcCommonConfigMapper.insert(wcCommonConfigEO);
+    }
+
 }

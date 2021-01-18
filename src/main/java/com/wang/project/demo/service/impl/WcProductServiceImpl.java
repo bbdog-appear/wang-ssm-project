@@ -3,10 +3,14 @@ package com.wang.project.demo.service.impl;
 import com.wang.project.demo.dao.mapper.shardingjdbc.WcProductMapper;
 import com.wang.project.demo.entity.WcProductEO;
 import com.wang.project.demo.service.WcProductService;
+import org.apache.ibatis.session.ExecutorType;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * User:wangcheng Date:2020/5/6 11:03 ProjectName:WcProductServiceImpl Version:1.0
@@ -15,9 +19,12 @@ import java.util.Date;
 public class WcProductServiceImpl implements WcProductService{
     @Autowired
     private WcProductMapper wcProductMapper;
+    @Autowired
+    private SqlSessionFactory shardingSqlSessionFactory;
 
 //    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void addWcProductEO(WcProductEO wcProductEO) {
+
         wcProductMapper.insert(wcProductEO);
 //        modifyWcProductEOById(getWcProductEO());
 //        throw new RuntimeException("自己抛出的运行时异常");
@@ -39,6 +46,25 @@ public class WcProductServiceImpl implements WcProductService{
         wcProductEO.setUpdateTime(new Date());
         wcProductEO.setShardDate("20200506");
         return wcProductEO;
+    }
+
+    @Override
+    public void batchAdd(List<WcProductEO> wcProductEOList) {
+        try (SqlSession sqlSession = shardingSqlSessionFactory.openSession(ExecutorType.BATCH, false)) {
+            WcProductMapper mapper = sqlSession.getMapper(WcProductMapper.class);
+            wcProductEOList.forEach(mapper::insert);
+            sqlSession.commit();
+        }
+    }
+
+    @Override
+    public List<WcProductEO> queryByShardDate(String shardDate) {
+        return wcProductMapper.selectByShardDate(shardDate);
+    }
+
+    @Override
+    public List<WcProductEO> queryRangeSharding(String startShardDate, String endShardDate) {
+        return wcProductMapper.selectByShardDateRange(startShardDate, endShardDate);
     }
 
 }

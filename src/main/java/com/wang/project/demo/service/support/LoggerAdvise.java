@@ -59,7 +59,7 @@ public class LoggerAdvise {
      */
     @Around(value = "com.wang.project.demo.service.support.LoggerAdvise.servicePointCut()")
     public Object resultHandler(ProceedingJoinPoint joinPoint){
-        String result = null;
+        Object result = null;
         // 时钟，记录接口处理时间
         StopWatch clock = new StopWatch();
         String clazzName = joinPoint.getTarget().getClass().getSimpleName();
@@ -78,7 +78,7 @@ public class LoggerAdvise {
             }
             log.info("call [{}][{}] PARAMETER:{}", clazzName, methodName, args);
             // 业务代码执行
-            result = (String) joinPoint.proceed();
+            result = joinPoint.proceed();
             clock.stop();
             log.info("call [{}][{}][{}ms][SUCCESS][0000] RESPONSE:{}",
                     clazzName, methodName, clock.getTotalTimeMillis(), result);
