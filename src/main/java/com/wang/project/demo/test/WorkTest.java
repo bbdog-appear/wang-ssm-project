@@ -5,10 +5,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
 import java.util.*;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.Future;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
 /**
@@ -25,7 +22,36 @@ public class WorkTest {
 //        test2();
 //        testCallable();
 //        testOriginalThread();
-        test4();
+//        test4();
+        test5();
+    }
+
+    /**
+     * 测试hashMap源码：
+     * 1.当节点为null时，会初始化一个数组节点 Node<K,V>[] table，大小为16，其中阈值为12=16*0.75
+     * 2.当第一组值存入时，先对key取一个hash值(经过运算更加散列)，然后再用(16-1) & hash值获取数组下标位置，如9，
+     * 如果这个位置为null，则new一个Node节点{hash,key,value,nextNode}，给table[9]=Node的位置装入这个新节点。size+1
+     * 3.当第二组值存入时，同样的操作...，如果这时经过hash算法计算出数组下标位置也等于9。接着
+     * 第一种情况：判断9的位置key的hash值等于现在这个hash值且(两个key的地址相同或值相同)，则把原来的value值覆盖为新的value值
+     * 第二种情况：key不相同，只是hash算法计算出的结果一致。那么for循环，找原来的节点Node1的next是否为空，如果为空，则new一个
+     * 新的Node2节点，将Node1.next=Node2;如果不为空，就找Node1.next的next节点是否为空。这样就在9的位置组成了一个链表。
+     * 4.当这个链表的长度大于等于8，就转为红黑树。
+     * 5.然后如果数组节点 Node<K,V>[] table里的 元素个数 超过阈值12的话，就会扩容。
+     * 6.扩容是初始化一个新的数组节点 Node<K,V>[] table，大小翻倍变成32，接着再put值。
+     */
+    private static void test5(){
+        Map<String, Object> hashMap = new HashMap<>();
+        Map<String, Object> concurrentHashMap = new ConcurrentHashMap<>();
+        for (int i = 0; i < 17; i++) {
+            String key = "goods"+i;
+            String value = "13567"+i;
+            hashMap.put(key, value);
+        }
+        String key = "goods2";
+        String value = "这是good2的覆盖值";
+        hashMap.put(key, value);
+        System.out.println(hashMap);
+
     }
 
     private static void test4(){
