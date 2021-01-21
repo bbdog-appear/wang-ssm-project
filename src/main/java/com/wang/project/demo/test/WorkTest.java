@@ -23,7 +23,34 @@ public class WorkTest {
 //        testCallable();
 //        testOriginalThread();
 //        test4();
-        test5();
+//        testHashMapSourceCode();
+        testConcurrentHashMapSourceCode();
+    }
+
+    /**
+     * 测试ConcurrentHashMap源码：
+     * 其中线程安全的实现为，(f = tabAt(tab, i = (n - 1) & hash)) == null，计算出数组下标的位置
+     * 后，判断这个桶里元素是不是为null，这里是用cas原子操作，保证线程安全，即(判断这个位置为空，再放入元素)
+     * 做成了原子操作，代码为：U.compareAndSwapObject(tab, ((long)i << ASHIFT) + ABASE, c, v);用的是
+     * sun.misc.Unsafe类下的native方法，比较初始值为null，然后当前值也为null，代表相同，则放入元素，再返回true，
+     * break跳出循环，第一个线程结束。第二个线程比较初始值为null，但是当前的值如果不为空，则不放入元素，返回false，
+     * 这时通过for (Node<K,V>[] tab = table;;)进入下一次循环，也就是自旋的过程，
+     * 由于数组节点用volatile修饰：volatile Node<K,V>[] table;所以其实第一个线程改完之后，第二个线程就立马能读取
+     * 最新值，即读取主存中是有元素的并赋给初始值，那么初始值不为空，然后当前值也不为空，比价相同了，则放入元素，并返回true。
+     *
+     * 其中是先用这个方法：(Node<K,V>)U.getObjectVolatile(tab, ((long)i << ASHIFT) + ABASE);查询是否为null
+     */
+    private static void testConcurrentHashMapSourceCode(){
+        Map<String, Object> concurrentHashMap = new ConcurrentHashMap<>();
+        for (int i = 0; i < 18; i++) {
+            String key = "goods"+i;
+            String value = "777777"+i;
+            concurrentHashMap.put(key, value);
+        }
+        String key = "goods2";
+        String value = "这是good2的覆盖值";
+        concurrentHashMap.put(key, value);
+        System.out.println(concurrentHashMap);
     }
 
     /**
@@ -39,9 +66,8 @@ public class WorkTest {
      * 5.然后如果数组节点 Node<K,V>[] table里的 元素个数 超过阈值12的话，就会扩容。
      * 6.扩容是初始化一个新的数组节点 Node<K,V>[] table，大小翻倍变成32，接着再put值。
      */
-    private static void test5(){
+    private static void testHashMapSourceCode(){
         Map<String, Object> hashMap = new HashMap<>();
-        Map<String, Object> concurrentHashMap = new ConcurrentHashMap<>();
         for (int i = 0; i < 17; i++) {
             String key = "goods"+i;
             String value = "13567"+i;
@@ -51,7 +77,6 @@ public class WorkTest {
         String value = "这是good2的覆盖值";
         hashMap.put(key, value);
         System.out.println(hashMap);
-
     }
 
     private static void test4(){
