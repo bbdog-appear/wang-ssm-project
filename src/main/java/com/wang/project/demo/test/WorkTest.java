@@ -6,6 +6,8 @@ import java.time.LocalTime;
 import java.time.Month;
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 
 /**
@@ -24,7 +26,37 @@ public class WorkTest {
 //        testOriginalThread();
 //        test4();
 //        testHashMapSourceCode();
-        testConcurrentHashMapSourceCode();
+//        testConcurrentHashMapSourceCode();
+        testReentrantLockSourceCode();
+    }
+
+    /**
+     * 测试ReentrantLock源码：https://zhuanlan.zhihu.com/p/249147493
+     * 一、lock()方法：注意如果线程获取不到锁，并不是自旋，而是放入等待队列里挂起，直到被唤醒。
+     *      1.第一个线程，开始通过cas判断compareAndSetState(0, 1);即unsafe.compareAndSwapInt(this, stateOffset, expect, update);
+     * 比较并替换，开始的时候，volatile int state;它的值为0，然后预期值为0，修改值为1，那么比较内存值state=0等于预期值0，则更新内存变量
+     * state的值为1，并返回true。这时第二个线程，因为volatile修饰的变量更改后，内存值会立马更新为1，并且线程2会读取到最新的state值为1。
+     * 和预期值0比较，不相等。返回false。
+     *      2.第二个线程获取不到锁，则进入else：acquire(1);这时候会先tryAcquire(arg);如果state=0，则再尝试获取一次比较修改将state值改为1，
+     * 如果state!=0且当前线程和之前线程一样，则就重入(state++)，如果被其他线程占有锁则返回false，并且执行addWaiter()，将当前线程加入AQS双向链表队列。
+     * 首先判断队列是否为空，不为空时则将封装好的 Node 利用 CAS 写入队尾，如果出现并发写入失败就需要调用 enq(node);来写入了。其中enq(node)相当于自旋。
+     * acquireQueued()就是将当前线程挂起，调用parkAndCheckInterrupt(){LockSupport.park(this); return Thread.interrupted();}，这是利用
+     * LockSupport的part方法来挂起当前线程的，直到被唤醒。
+     *      3.注意：在等待队列里的线程在被唤醒时，准备cas再次尝试获取锁时，这时
+     * 非公平锁：如果同时还有另一个线程进来尝试获取，那么有可能会让这个线程抢先获取;
+     * 公平锁：如果同时还有另一个线程进来尝试获取，当它发现自己不是在队首的话，就会排到队尾，由队首的线程获取到锁。
+     *
+     * 二、unlock()方法：释放时候，state--，通过state==0判断锁是否完全被释放。成功释放锁的话，唤起一个被挂起的线程。
+     *      1.tryRelease(1);其中Thread.currentThread() != getExclusiveOwnerThread()代表如果不是当前线程去释放锁，则抛异常。如果是当前
+     * 线程，则将state=0，返回true。
+     *      2.通过Node h = head; unparkSuccessor(h);唤醒等待队列里被挂起的线程。这是利用LockSupport.unpark(s.thread);来唤醒线程，并返回true。
+     */
+    private static void testReentrantLockSourceCode(){
+        Lock reentrantLock = new ReentrantLock();
+        reentrantLock.lock();
+        reentrantLock.unlock();
+        boolean b = reentrantLock.tryLock();
+        System.out.println(b);
     }
 
     /**
