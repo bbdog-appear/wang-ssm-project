@@ -37,9 +37,9 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class TestGuavaThreadPoolServiceImpl implements TestGuavaThreadPoolService {
 
-    @Autowired
+    @Autowired(required = false)
     private WcProductMapper wcProductMapper;
-    @Autowired
+    @Autowired(required = false)
     private WcUserMapper wcUserMapper;
     @Autowired
     private GuavaThreadPool guavaThreadPool;

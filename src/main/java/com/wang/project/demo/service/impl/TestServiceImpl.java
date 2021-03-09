@@ -25,11 +25,11 @@ import java.util.List;
 @Slf4j
 public class TestServiceImpl implements TestService {
 
-    @Autowired
+    @Autowired(required = false)
     private WcUserMapper wcUserMapper;
-    @Autowired
+    @Autowired(required = false)
     private WcProductService wcProductService;
-    @Autowired
+    @Autowired(required = false)
     private WcCommonConfigMapper wcCommonConfigMapper;
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)

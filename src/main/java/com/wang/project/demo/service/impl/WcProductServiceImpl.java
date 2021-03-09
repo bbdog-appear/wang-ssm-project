@@ -17,9 +17,9 @@ import java.util.List;
  **/
 @Service
 public class WcProductServiceImpl implements WcProductService{
-    @Autowired
+    @Autowired(required = false)
     private WcProductMapper wcProductMapper;
-    @Autowired
+    @Autowired(required = false)
     private SqlSessionFactory shardingSqlSessionFactory;
 
 //    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)

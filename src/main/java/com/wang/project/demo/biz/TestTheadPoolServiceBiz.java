@@ -29,7 +29,7 @@ public class TestTheadPoolServiceBiz {
 
 //    private static ThreadPoolExecutor theadPoolExecutor;
 
-    @Autowired
+    @Autowired(required = false)
     private WcProductMapper wcProductMapper;
 
     /**

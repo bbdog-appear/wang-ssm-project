@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @Service
 public class TestLambdaServiceImpl implements TestLambdaService {
 
-    @Autowired
+    @Autowired(required = false)
     private WcProductMapper wcProductMapper;
 
     @Override
