@@ -10,7 +10,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * <p>
- *      创建bean，测试提交代码
+ *      创建bean
  * <p>
  * User:wangcheng Date:2020/5/7 11:18 ProjectName:CreateBeanConfig Version:1.0
  **/
