@@ -1,8 +1,10 @@
+import com.alibaba.fastjson.JSONObject;
 import com.tencentcloudapi.common.exception.TencentCloudSDKException;
 import com.tencentcloudapi.ocr.v20181119.OcrClient;
 import com.tencentcloudapi.ocr.v20181119.models.GeneralBasicOCRRequest;
 import com.tencentcloudapi.ocr.v20181119.models.GeneralBasicOCRResponse;
 import com.wang.project.demo.config.OcrClientConfig;
+import com.wang.project.demo.dto.ocr.OcrResultDTO;
 import com.wang.project.demo.entity.WcCommonConfigEO;
 import com.wang.project.demo.entity.WcProductEO;
 import com.wang.project.demo.entity.WcUserEO;
@@ -157,7 +159,8 @@ public class ApplicationTest {
         req.setImageUrl("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic3.16pic.com%2F00%2F00%2F13%2F16pic_13772_b.jpg&refer=http%3A%2F%2Fpic3.16pic.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1617873512&t=ce78bc7423a07a3cc7ec34cad09d5f61");
         GeneralBasicOCRResponse resp = ocrClient.GeneralBasicOCR(req);
         String result = GeneralBasicOCRResponse.toJsonString(resp);
-        log.info("=====结果是：{}", result);
+        OcrResultDTO ocrResultDTO = JSONObject.parseObject(result, OcrResultDTO.class);
+        log.info("=====结果是：{}", ocrResultDTO);
     }
 
 }
