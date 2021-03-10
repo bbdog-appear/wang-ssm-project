@@ -29,7 +29,7 @@ public class WorkTestV2 {
         try{
 
             Credential cred = new Credential(
-                    "AKIDQcdOiHggV6SYQ2pMSN1PbaGJGoi4k8nw", "5GI6rU1GmGX1GLkywhDXzJRLRLPGsDRu");
+                    "to_be_determined", "to_be_determined");
 
             HttpProfile httpProfile = new HttpProfile();
             httpProfile.setEndpoint("ocr.tencentcloudapi.com");
