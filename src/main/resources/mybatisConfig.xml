@@ -6,5 +6,7 @@
         <setting name="mapUnderscoreToCamelCase" value="true"/>
         <!--使用列标签替换列别名 默认未true-->
         <setting name="useColumnLabel" value="true" />
+        <!-- sql打印到控制台 -->
+        <setting name="logImpl" value="STDOUT_LOGGING" />
     </settings>
 </configuration>
